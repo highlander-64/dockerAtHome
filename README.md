@@ -67,6 +67,23 @@ Host *
 
 ## Git
 
+### Set your user information
+
+Add your real name and email address manually via command line
+
+```bash
+git config --global user.name "FIRST_NAME LAST_NAME"
+git config --global user.email "MY_NAME@example.com"
+```
+
+or edit your .gitconfig file, usually stored in your home directory
+
+```bash
+[user]
+	name = "FIRST_NAME LAST_NAME"
+	email = "MY_NAME@example.com"
+```
+
 ### Using dedicated private key for github
 
 Copy private key into ~/.ssh/
