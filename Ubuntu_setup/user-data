@@ -1,0 +1,40 @@
+#cloud-config
+autoinstall:
+  version: 1
+
+  refresh-installer:
+    update: true
+    channel: latest/edge
+
+  updates: all 
+
+  source:
+    id: ubuntu-server-minimal
+
+  keyboard:
+    layout: de
+  locale: de_DE.UTF-8
+  timezone: Europe/Berlin
+
+  ssh:
+    install-server: true
+    allow-pw: false
+
+  user-data:
+    users:
+      - name: ansible
+        gecos: 'Ansible User'
+        ssh_authorized_keys:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQClaElngshv+kf03Ksb+YvyXQJLGS/zDdbfU7YLEiFsCXOb4W2GbstT2gEQo4WPmpyXCTqC2HYffhEssF9INPKIrohJ2kDTntszScukUH0fY4DvA2r52gcGUxuN43xmmvBny8DJ/P+5wa4fZOrhewneFNMCl/O05vZsw6C7uiCGsp9dAXv5MaLcgL3olTwOHLp9cYIRm+uMTxvQupUnSHgttCdpqE4SLRjVolXEIx+cFs206dARnM1oK2oJnCV7vXwmwZY/fLK/Eh1QRdEy0oqpnbNGf10U8KVegblmUmst5yRL1jm1AwOBPf1ehotmRHZYpnsiVSIKn2r9YEbl6rJJBeC/lpUUj5lfejCAmMwrigBtgEXo957OuizdbIkfgTaG39K5d9MzAiC96Nkz8pXFb4ZC9h817pvZBqMQGc8WQSOHq5RfSFE+l2o5PnOP9NzS+iXpLtyYPMLXXWazhGpoKwc7Fv28tSYOok4tGc2yftBCv8T2wbc1aU/i7Xp4clJ0ntL57bGNqABlHz5dOmamrL7XCt3OChZNH37JYDypfLHhqaUwcih1brl/eJX3Jvfs+g8i1g0z4F+1JzYc6H+Nrubzlwp0PmxuAfu/xaj2bzaEreaiaIYqoxByDoBDCzB5KOld3ma7XlNQ0QTs849GQWkSvQ8dnRXN0DrTZOSpBQ== ansible@raspberrypi
+        lock_passwd: true
+        groups: [adm, cdrom, dip, lxd, plugdev, sudo]
+        shell: /bin/bash
+        sudo: ALL=(ALL) NOPASSWD:ALL
+      - name: mario
+        gecos: 'Ubuntu User'
+        ssh_authorized_keys:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDb0F7Blv2YFOEht6idtKi6dohtGi+x7lC259HT+JSggd5YYol+Zd78GTNZNGwj+vLs+pVJ52JPaBqFyPkxzJFsb/1QJHYYwO7zbCgSod27PwUJXBZIUKOUDhT66VG6G5Sr23pwOq+wn6jtj4uARYv35bbQbEnpYZX9wn3Yi880KBxpUJx4ulcfTw2P27fkKp19PWxBZl9AsjyyfR7+OaRT1ZBwWtO2/jbVNIQRioPBIXfiAqrmjIv+cTTuE4o4QNExv9bS2EM3/3QCFTokdoGbLAbyptt6o+eydQPPIIWLteb04nSmaanwB5IRvCtNq2HKJmcxIIhfO8AcHadd9BOy6vLsgV6XFLA89dYNgP7PDBxxNLxV3WOzYom7ykIyuyyGJOD7JrP/1mrUI88Vw8OtxQN04fHmQ2C5f4VYZuh8spnnhad9ZeNaAKQY++a8V1HgQlnrTLQOPPyH4j5HXf5BrOsm/tsLnS/1UHf+xb+b2ZIDwit04e0Tfb0YwbxPFW5oAxu80qQynShFGHA2MFGP+/rzoAYblzKhmYSemG6/hYPKftsYs9yr1CNTwgQn6OSnWBDAdUWl/QJJi36I9SGJzPzHModjnNVeWyJzyvShmX1fRVdjZHa7isiMd2BqnMt6ffpcPvV6kv3i+7QUqnp1Y+QlWyKz0N7WRc5dFPmLZQ== lafontana@web.de
+        lock_passwd: true
+        groups: [adm, cdrom, dip, lxd, plugdev, sudo]
+        shell: /bin/bash
+        sudo: ALL=(ALL) NOPASSWD:ALL 

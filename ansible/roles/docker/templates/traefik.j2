@@ -1,0 +1,53 @@
+#######################################
+# Traefik - Reverse proxy
+# installed via ansible {{ ansible_date_time['date'] }}
+#######################################
+
+networks:
+  traefik_default:
+    name: traefik_default
+
+services:
+  reverse-proxy:
+    image: traefik:v3.3.4
+    labels:
+      - "container_group=ReverseProxy"
+      # Enable traefik for this container
+      - traefik.enable=true
+      # Enable prometheus metrics with PathPrefix
+      # Unsecure configuration, don't use it in public environment
+      - traefik.http.routers.metrics.entryPoints=web
+      - traefik.http.routers.metrics.rule=Host(`{{ main.hostname }}`) && PathPrefix(`/traefik/metrics`)
+      - traefik.http.routers.metrics.middlewares=metrics-stripprefix
+      - traefik.http.routers.metrics.service=prometheus@internal
+      - traefik.http.middlewares.metrics-stripprefix.stripprefix.prefixes=/traefik
+      - traefik.http.services.metricsservice.loadbalancer.server.port=8082
+      # Enable traefik dashboard and api
+      # Unsecure configuration, don't use it in public environment
+      - traefik.http.routers.dashboard.entryPoints=web
+      - traefik.http.routers.dashboard.rule=Host(`{{ main.hostname }}`) && (PathPrefix(`/traefik/dashboard`) || PathPrefix(`/api`))
+      - traefik.http.routers.dashboard.middlewares=dashboard-stripprefix
+      - traefik.http.routers.dashboard.service=api@internal
+      - traefik.http.middlewares.dashboard-stripprefix.stripprefix.prefixes=/traefik
+    command:
+      - --api=true
+      - --api.dashboard=true
+      - --metrics.prometheus=true
+      - --metrics.prometheus.entryPoint=metrics
+      - --log.level=Debug
+      - --providers.docker=true
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      - --providers.docker.network=traefik_default
+      - --providers.docker.exposedByDefault=false
+      - --providers.file.directory=/certs
+      - --providers.file.watch=true
+      - --entryPoints.web.address=:80
+      - --entryPoints.metrics.address=:8082
+
+    restart: always
+    networks:
+      - traefik_default
+    ports:
+      - "80:80" # The HTTP port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events

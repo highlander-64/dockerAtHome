@@ -1,0 +1,19 @@
+---
+# tasks file for setup
+- name: Install traefik
+  include_tasks: traefik.yml
+
+- name: Install fritzbox exporter
+  include_tasks: fritzbox_exporter.yml
+
+- name: Install monitor clients
+  include_tasks: monitor_clients.yml
+
+- name: Install monitor toolset
+  include_tasks: monitor.yml
+
+- name: Install mealie
+  include_tasks: mealie.yml
+
+- name: Install cops
+  include_tasks: cops.yml

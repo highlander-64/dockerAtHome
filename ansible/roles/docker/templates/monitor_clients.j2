@@ -1,0 +1,61 @@
+#######################################
+# cAdvisor - metrics collector for containers
+# Node-Exporter - metrics collector for nodes
+# installed via ansible {{ ansible_date_time['date'] }}
+#######################################
+
+networks:
+  traefik_default:
+    name: traefik_default
+    external: true
+
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.2  # former version v0.47.0
+    command:
+      - "--url_base_prefix=/cadvisor"
+    environment:
+      - CADVISOR_HEALTHCHECK_URL=http://localhost:8080/cadvisor/healthz
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cadvisor.entrypoints=web
+      - traefik.http.routers.cadvisor.rule=host(`{{ main.hostname }}`) && PathPrefix(`/cadvisor`)
+      - traefik.http.routers.cadvisor.priority=20
+      - traefik.http.routers.cadvisor.service=cadvisor
+      - traefik.http.services.cadvisor.loadbalancer.server.port=8080
+    networks:
+      - traefik_default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    restart: always
+
+  node-exporter:
+    image: prom/node-exporter:v1.9.1  # former version v1.5.0
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.node-exporter.entrypoints=web
+      - traefik.http.routers.node-exporter.rule=host(`{{ main.hostname }}`) && PathPrefix(`/node-exporter`)
+    #  - traefik.http.routers.node-exporter.middlewares=node-exporter-stripprefix
+    #  - traefik.http.middlewares.node-exporter-stripprefix.stripprefix.prefixes=/node-exporter
+      - traefik.http.services.node-exporter.loadbalancer.server.port=9100
+    networks:
+      - traefik_default
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro,rslave
+      - /etc/hostname:/etc/nodename
+    command:
+      - '--path.sysfs=/host/sys'
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--no-collector.textfile'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--no-collector.ipvs'
+      - '--web.telemetry-path=/node-exporter/metrics'
+    restart: always

@@ -1,0 +1,22 @@
+#######################################
+# fritzbox-exporter - Fritz!Box Upnp statistics exporter for prometheus
+# installed via ansible {{ ansible_date_time['date'] }}
+#######################################
+
+networks:
+  traefik_default:
+    name: traefik_default
+
+services:
+    fritzbox_exporter:
+      image: ghcr.io/sberk42/fritzbox_exporter/fritzbox_exporter:latest
+      restart: unless-stopped
+      ports:
+        - "9042:9042"
+      environment:
+        USERNAME: {{fritzbox_exporter.user}}
+        PASSWORD: {{fritzbox_exporter.password}}
+        GATEWAY_URL: {{fritzbox_exporter.gateway}}
+        LISTEN_ADDRESS: 0.0.0.0:9042
+      networks:
+        - traefik_default

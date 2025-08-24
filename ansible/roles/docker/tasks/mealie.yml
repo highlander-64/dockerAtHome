@@ -1,0 +1,46 @@
+---
+# task to setup mealie
+- name: Check, if docker-compose file exists
+  stat:
+    path: "{{ main['docker-compose-files-path'] }}mealie/docker-compose.yaml"
+  register: docker_compose
+
+- name: Create mealie directory
+  file:
+    path: "{{ main['docker-compose-files-path'] }}mealie"
+    state: directory
+    owner: docker
+    group: docker
+  when: not docker_compose.stat.exists
+
+- name: Check, if mealie data folder exists
+  stat:
+    path: "{{ main['docker-data-path'] }}mealie-data"
+  register: mealie_data
+
+- name: Create mealie data directory
+  file:
+    path: "{{ main['docker-data-path'] }}mealie-data"
+    state: directory
+    owner: docker
+    group: docker
+  when: not mealie_data.stat.exists
+
+- name: Stop mealie container
+  command: docker compose down
+  args:
+    chdir: "{{ main['docker-compose-files-path'] }}mealie"
+  when: docker_compose.stat.exists
+
+- name: Copy mealie compose file
+  template:
+    src: mealie.j2
+    dest: "{{ main['docker-compose-files-path'] }}mealie/docker-compose.yaml"
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Start mealie container
+  command: docker compose up -d
+  args:
+    chdir: "{{ main['docker-compose-files-path'] }}mealie"

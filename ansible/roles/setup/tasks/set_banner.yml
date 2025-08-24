@@ -1,0 +1,21 @@
+---
+# task for base_setup add banner text
+  - name: install figlet
+    apt:
+      name: figlet
+      state: present
+      force_apt_get: yes
+      update_cache: yes
+
+  - name: set additional banner file
+    template:
+      src: 20-docker.j2
+      dest: /etc/update-motd.d/20-docker
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: remove help text
+    file:
+      path: /etc/update-motd.d/10-help-text
+      state: absent

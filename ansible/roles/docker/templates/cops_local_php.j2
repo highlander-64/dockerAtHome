@@ -1,0 +1,37 @@
+<?php
+    if (!isset($config)) {
+        $config = array();
+    }
+
+    /*
+     * The directory containing calibre's metadata.db file, with sub-directories
+     * containing all the formats.
+     * BEWARE : it has to end with a /
+     * You can enable multiple database with this notation instead of a simple string :
+     * $config['calibre_directory'] = array ("My database name" => "/home/directory/calibre1/", "My other database name" => "/home/directory/calibre2/");
+     */
+    $config['calibre_directory'] = array ("Schwanenbibliothek" => "/books/Cygnus Press/", "Kochen" => "/books/Kochen/", "Modellbahn" => "/books/Modellbahn/", "Zeitschriften" => "/books/Zeitschriften/", "Perry Rhodan" => "/books/Perry Rhodan/", "John Sinclair" => "/books/John Sinclair/");
+    /*
+     * SPECIFIC TO NGINX
+     * The internal directory set in nginx config file
+     * Leave empty if you don't know what you're doing
+     */
+
+    $config['calibre_internal_directory'] = '';
+
+    /*
+     * Catalog's title
+     */
+    $config['cops_title_default'] = "Schwanenbibliothek";
+
+    /*
+     * Full URL prefix (with trailing /)
+     * useful where a full URL is required, COPS is behind a proxy or the script name shows the wrong place
+     * Older e-readers like Mantano, Aldiko and Marvin may require it for Opensearch too.
+     * e.g.
+     * $config['cops_full_url'] = '/cops/';
+     * $config['cops_full_url'] = 'http://localhost/cops/';
+     * $config['cops_full_url'] = 'http://192.168.1.xxx/cops/';
+     * $config['cops_full_url'] = 'https://www.domainname.com/cops/';
+     */
+    $config['cops_full_url'] = 'http://{{ main.hostname }}/cops/';

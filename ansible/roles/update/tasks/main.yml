@@ -1,0 +1,3 @@
+---
+# tasks file for setup
+- include_tasks: update_os.yml

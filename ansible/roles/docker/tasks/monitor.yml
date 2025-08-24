@@ -1,0 +1,58 @@
+---
+# task to setup monitor tollset with Grafana and Prometheus
+- name: Check, if docker-compose file exists
+  stat:
+    path: "{{ main['docker-compose-files-path'] }}monitor/docker-compose.yaml"
+  register: docker_compose
+
+- name: Create monitor directory
+  file:
+    path: "{{ main['docker-compose-files-path'] }}monitor"
+    state: directory
+    owner: docker
+    group: docker
+  when: not docker_compose.stat.exists
+
+- name: Check, if monitor data folder exists
+  stat:
+    path: "{{ main['docker-data-path'] }}monitor"
+  register: monitor_data
+
+- name: Create monitor data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: docker
+    group: docker
+  loop:
+    - "{{ main['docker-data-path'] }}monitor"
+    - "{{ main['docker-data-path'] }}monitor/grafana"
+    - "{{ main['docker-data-path'] }}monitor/prometheus"
+  when: not monitor_data.stat.exists
+
+- name: Stop monitor container
+  command: docker compose down
+  args:
+    chdir: "{{ main['docker-compose-files-path'] }}monitor"
+  when: docker_compose.stat.exists
+
+- name: Copy monitor compose file
+  template:
+    src: monitor.j2
+    dest: "{{ main['docker-compose-files-path'] }}monitor/docker-compose.yaml"
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Copy prometheus config file
+  template:
+    src: prometheus.j2
+    dest: "{{ main['docker-data-path'] }}monitor/prometheus.yml"
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Start monitor container
+  command: docker compose up -d
+  args:
+    chdir: "{{ main['docker-compose-files-path'] }}monitor"

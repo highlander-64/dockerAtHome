@@ -1,0 +1,36 @@
+#######################################
+# cops - small calibre server
+# installed via ansible {{ ansible_date_time['date'] }}
+#######################################
+
+networks:
+  traefik_default:
+    name: traefik_default
+    external: true
+
+services:
+  cops:
+    image: linuxserver/cops:version-3.6.1  # former version version-2.5.0
+    pull_policy: always
+    container_name: cops
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=Europe/London
+    volumes:
+      - ./local.php:/config/config/local.php
+      - /mnt/calibre:/books
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cops.entryPoints=web
+      - traefik.http.routers.cops.rule=host(`{{ main.hostname }}`) && PathPrefix(`/cops`)
+      - traefik.http.routers.cops.service=cops
+      - traefik.http.routers.cops.middlewares=cops-stripprefix
+      - traefik.http.middlewares.cops-stripprefix.stripprefix.prefixes=/cops
+#      - traefik.http.middlewares.cops-stripprefix.stripprefix.forceslash=true
+      - traefik.http.services.cops.loadbalancer.server.port=80
+    ports:
+      - 8081:80
+    restart: unless-stopped
+    networks:
+      - traefik_default

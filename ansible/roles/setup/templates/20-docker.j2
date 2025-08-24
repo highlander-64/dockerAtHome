@@ -1,0 +1,20 @@
+#!/bin/bash
+echo
+figlet -f banner.flf '{{ inventory_hostname }}' -w 100
+echo -e "\n\e[47m\e[31mAttention:\e[49m" ; df -hl -x squashfs | egrep "([89][0-9]|100)%" || echo "no"; echo -ne "\e[39m\n"
+iplist=$(hostname -I)
+echo -e "\nIP address: ${iplist%% *}\n"
+if [ $(systemctl show -p SubState docker | cut -d'=' -f2) == 'running' ];
+  then
+    echo "Docker:             $(docker --version)"
+    echo "Docker-Compose:     $(docker-compose --version)"
+    echo "Running container:  $(docker ps -q | wc -l)"
+   else
+    echo "Docker is not installed/running"
+fi
+if ansible --version >/dev/null 2>&1;
+  then
+    echo "Ansible version:    $(ansible --version)"
+  else
+    echo "Ansible is not installed."
+fi

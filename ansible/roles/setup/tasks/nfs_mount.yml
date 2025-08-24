@@ -1,0 +1,21 @@
+---
+# task for nfs mount
+  - name: install nfs tools
+    apt:
+      name: nfs-common
+      state: present
+      force_apt_get: yes
+      update_cache: yes
+# Create mount directory
+  - name: Ensure calibre directory exists
+    file:
+      dest: "/mnt/calibre"
+      state: directory
+# Mount calibre directory from Synology
+  - name: Mount share from nfs server
+#    become: yes
+    ansible.posix.mount:
+      src: "{{ nfs_server }}:/volume1/calibre"
+      path: /mnt/calibre
+      state: mounted
+      fstype: nfs

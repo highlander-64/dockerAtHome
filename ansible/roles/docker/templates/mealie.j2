@@ -1,0 +1,41 @@
+#######################################
+# Mealie - recipe manager, meal planner and shopping list
+# installed via ansible {{ ansible_date_time['date'] }}
+#######################################
+
+networks:
+  traefik_default:
+    name: traefik_default
+    external: true
+
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v3.1.1 # former v2.8.0
+    container_name: mealie
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mealie.entrypoints=web
+      - traefik.http.routers.mealie.rule=host(`{{ main.hostname }}`) && PathPrefix(`/mealie`)
+      - traefik.http.routers.mealie.middlewares=mealie-stripprefix
+      - traefik.http.routers.mealie.service=mealie
+      - traefik.http.middlewares.mealie-stripprefix.stripprefix.prefixes="`/mealie`"
+#      - traefik.http.middlewares.mealie-stripprefix.stripprefix.forceslash="true"
+      - traefik.http.services.mealie.loadbalancer.server.port=9000
+    ports:
+        - "9925:9000" # 
+    deploy:
+      resources:
+        limits:
+          memory: 1000M # 
+    volumes:
+      - {{ main['docker-data-path'] }}mealie-data:/app/data/
+    environment:
+      # Set Backend ENV Variables Here
+      ALLOW_SIGNUP: "false"
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Berlin
+      BASE_URL: http://{{ main.hostname }}
+    networks:
+      - traefik_default

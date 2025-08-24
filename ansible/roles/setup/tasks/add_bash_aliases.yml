@@ -1,0 +1,20 @@
+---
+# Get all user accounts
+- name: Get all user accounts
+  getent:
+    database: passwd
+
+# Copy bash_aliases for users on Raspberry PI
+- name: Add bash aliases
+  template:
+    src: bash_aliases.j2
+    dest: /home/{{ item.key }}/.bash_aliases
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: 0644
+  loop: "{{ ansible_facts.getent_passwd | dict2items }}"
+  when:
+  - item.value.1|int > 999
+  - item.value.1|int < 65534
+  loop_control:
+    label: "{{ item.key }}"

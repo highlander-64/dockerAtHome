@@ -1,0 +1,15 @@
+---
+# tasks file for setup
+- name: Install Docker
+  include_tasks: setup_docker.yml
+  when: "'docker' in group_names"
+- name: Set banner
+  include_tasks: set_banner.yml
+- name: Set hostnames
+  include_tasks: set_hostname.yml
+- name: Add bash aliases
+  include_tasks: add_bash_aliases.yml
+  when: "'ansible' in group_names"
+- name: Setup nfs
+  include_tasks: nfs_mount.yml
+  when: "'docker' in group_names"
