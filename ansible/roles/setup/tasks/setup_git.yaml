@@ -1,0 +1,8 @@
+---
+  - name: set gitconfig file
+    template:
+      src: 20-docker.j2
+      dest: /etc/update-motd.d/20-docker
+      owner: root
+      group: root
+      mode: '0755'
