@@ -14,7 +14,7 @@ nfs-server - IP address of nfs server
 
 ## Example Playbook
 
-ansible-playbook playbooks/setup.yml --check
+ansible-playbook playbooks/setup_system.yml --check
 
 ## License
 

@@ -13,3 +13,6 @@
 - name: Setup nfs
   include_tasks: nfs_mount.yml
   when: "'docker' in group_names"
+- name: Setup git
+  include_tasks: setup_git.yml
+  when: "'ansible' in group_names"

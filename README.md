@@ -80,8 +80,8 @@ or edit your .gitconfig file, usually stored in your home directory
 
 ```bash
 [user]
-	name = "FIRST_NAME LAST_NAME"
-	email = "MY_NAME@example.com"
+  name = "FIRST_NAME LAST_NAME"
+  email = "MY_NAME@example.com"
 ```
 
 ### Using dedicated private key for github
