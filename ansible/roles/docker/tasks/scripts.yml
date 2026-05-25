@@ -1,7 +1,7 @@
 ---
   - name: find files to copy
     find: 
-      paths: /scripts
+      paths: "{{ role_path }}/files/scripts"
       recurse: true
       patterns: "*.sh"
     register: file_to_copy
