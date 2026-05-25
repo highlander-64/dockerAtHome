@@ -3,6 +3,7 @@
 main:
   hostname: jarvis.fritz.box
   docker_id: 1002:100
+  docker-path: /srv/docker/
   docker-compose-files-path: /srv/docker/docker/
   docker-data-path: /srv/docker/data/
 

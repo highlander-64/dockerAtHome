@@ -1,0 +1,8 @@
+---
+  - name: copy docker-control.sh file, which can start and stop all containers
+    copy:
+      src: docker-control.sh
+      dest: /srv/docker/
+      owner: docker
+      group: docker
+      mode: '0770'

@@ -13,7 +13,7 @@
     group: docker
   when: not docker_compose.stat.exists
 
-- name: Stop cops container
+- name: Stop wud container
   command: docker compose down
   args:
     chdir: "{{ main['docker-compose-files-path'] }}wud"

@@ -1,0 +1,15 @@
+---
+  - name: find files to copy
+    find: 
+      paths: /scripts
+      recurse: true
+      patterns: "*.sh"
+      register: file_to_copy
+
+  - name: copy scripts
+    copy: 
+      src: "{{ item.path }}" 
+      dest: "{{ main['docker-path'] }}{{ item.path | basename }}"
+      owner: root
+      mode: 0775
+    loop: "{{ files_to_copy.files }}"
