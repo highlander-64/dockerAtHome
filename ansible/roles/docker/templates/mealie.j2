@@ -13,6 +13,8 @@ services:
     image: ghcr.io/mealie-recipes/mealie:v3.1.1 # former v2.8.0
     container_name: mealie
     restart: always
+    user:
+      {{ main.docker_id }}
     labels:
       - traefik.enable=true
       - traefik.http.routers.mealie.entrypoints=web
