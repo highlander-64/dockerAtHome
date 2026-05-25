@@ -23,7 +23,7 @@
   - name: Ensure backup directory exists
     file:
       dest: "/mnt/backup"
-      chmod: 0775
+      mode: 0775
       state: directory
 # Mount backup directory from Synology
   - name: Mount share from nfs server
