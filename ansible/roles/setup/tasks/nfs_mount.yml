@@ -24,11 +24,11 @@
     file:
       dest: "/mnt/backup"
       state: directory
-# Mount calibre directory from Synology
+# Mount backup directory from Synology
   - name: Mount share from nfs server
 #    become: yes
     ansible.posix.mount:
       src: "{{ nfs_server }}:/volume1/backup"
-      path: /mnt/calibre
+      path: /mnt/backup
       state: mounted
       fstype: nfs
