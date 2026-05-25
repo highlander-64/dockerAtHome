@@ -11,6 +11,7 @@
     copy: 
       src: "{{ item.path }}" 
       dest: "{{ main['docker-path'] }}{{ item.path | basename }}"
-      owner: root
+      owner: docker
+      group: docker
       mode: 0775
     loop: "{{ files_to_copy.files }}"
