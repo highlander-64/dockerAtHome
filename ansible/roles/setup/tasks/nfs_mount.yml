@@ -20,9 +20,11 @@
       state: mounted
       fstype: nfs
 # Create mount directory for backup
-  - name: Ensure calibre directory exists
+  - name: Ensure backup directory exists
     file:
       dest: "/mnt/backup"
+      owner: docker
+      group: docker
       state: directory
 # Mount backup directory from Synology
   - name: Mount share from nfs server
