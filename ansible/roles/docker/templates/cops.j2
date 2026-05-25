@@ -10,8 +10,7 @@ networks:
 
 services:
   cops:
-    image: linuxserver/cops:version-3.6.1  # former version version-2.5.0
-    pull_policy: always
+    image: linuxserver/cops:{{ docker.cops }}
     container_name: cops
     environment:
       - PUID=1027

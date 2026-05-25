@@ -17,3 +17,6 @@
 
 - name: Install cops
   include_tasks: cops.yml
+
+- name: Install wud
+  include_tasks: wud.yml

@@ -1,0 +1,33 @@
+---
+# task to setup cops
+- name: Check, if docker-compose file exists
+  stat:
+    path: "{{ main['docker-compose-files-path'] }}wud/docker-compose.yaml"
+  register: docker_compose
+
+- name: Create wud directory
+  file:
+    path: "{{ main['docker-compose-files-path'] }}wud"
+    state: directory
+    owner: docker
+    group: docker
+  when: not docker_compose.stat.exists
+
+- name: Stop cops container
+  command: docker compose down
+  args:
+    chdir: "{{ main['docker-compose-files-path'] }}wud"
+  when: docker_compose.stat.exists
+
+- name: Copy wud compose file
+  template:
+    src: wud.j2
+    dest: "{{ main['docker-compose-files-path'] }}wud/docker-compose.yaml"
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Start wud container
+  command: docker compose up -d
+  args:
+    chdir: "{{ main['docker-compose-files-path'] }}wud"
