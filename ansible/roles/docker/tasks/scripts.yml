@@ -4,7 +4,7 @@
       paths: /scripts
       recurse: true
       patterns: "*.sh"
-      register: file_to_copy
+    register: file_to_copy
 
   - name: copy scripts
     copy: 
