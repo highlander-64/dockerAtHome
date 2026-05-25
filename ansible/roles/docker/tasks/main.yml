@@ -1,5 +1,8 @@
 ---
 # tasks file for setup
+- name: Install docker scripts
+  include_tasks: scripts.yml
+
 - name: Install traefik
   include_tasks: traefik.yml
 
