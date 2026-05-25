@@ -4,6 +4,7 @@
       paths: "{{ role_path }}/files/scripts/"
       recurse: true
       patterns: "*.sh"
+    delegate_to: localhost
     register: file_to_copy
 
   - name: copy scripts
