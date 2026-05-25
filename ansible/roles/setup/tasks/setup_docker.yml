@@ -1,10 +1,11 @@
 ---
-# Install docker prerequisites
+# Install docker prerequisites and rsync for backup
 - name: Install docker prerequisites and update message of the day packages
   apt:
     pkg:
       - ca-certificates
       - curl
+      - rsync
     state: latest
     update_cache: true
 

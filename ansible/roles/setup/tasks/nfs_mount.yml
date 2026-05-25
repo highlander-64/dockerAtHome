@@ -6,7 +6,7 @@
       state: present
       force_apt_get: yes
       update_cache: yes
-# Create mount directory
+# Create mount directory for calibre
   - name: Ensure calibre directory exists
     file:
       dest: "/mnt/calibre"
@@ -16,6 +16,19 @@
 #    become: yes
     ansible.posix.mount:
       src: "{{ nfs_server }}:/volume1/calibre"
+      path: /mnt/calibre
+      state: mounted
+      fstype: nfs
+# Create mount directory for backup
+  - name: Ensure calibre directory exists
+    file:
+      dest: "/mnt/backup"
+      state: directory
+# Mount calibre directory from Synology
+  - name: Mount share from nfs server
+#    become: yes
+    ansible.posix.mount:
+      src: "{{ nfs_server }}:/volume1/backup"
       path: /mnt/calibre
       state: mounted
       fstype: nfs
