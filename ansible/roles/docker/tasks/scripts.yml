@@ -1,11 +1,11 @@
 ---
   - name: find files to copy
     find: 
-      paths: "{{ role_path }}/files/scripts/"
+      paths: "{{ role_path }}/files/scripts"
       recurse: true
       patterns: "*.sh"
     delegate_to: localhost
-    register: file_to_copy
+    register: files_to_copy
 
   - name: copy scripts
     copy: 
