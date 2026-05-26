@@ -1,7 +1,6 @@
 ---
 # vars file for docker
 
-# Variables for docker data backup
 backup:
   backup_path: /mnt/backup/docker
   backup_filename: docker-backup.sh
