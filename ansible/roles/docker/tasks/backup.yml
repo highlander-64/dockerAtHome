@@ -18,7 +18,7 @@
 
   - name: Copy backup script file
     template:
-      src: docker-backup.j2
+      src: docker_backup.j2
       dest: "{{ main['docker-path'] }}{{ backup.backup_filename }}"
       owner: docker
       group: docker
@@ -26,8 +26,8 @@
       
   - name: Copy restore script file
     template:
-      src: docker-restore.j2
-      dest: "{{ main['docker-path'] }}{{ backup.restore-filename}}"
+      src: docker_restore.j2
+      dest: "{{ main['docker-path'] }}{{ backup.restore_filename}}"
       owner: docker
       group: docker
       mode: '0775'
