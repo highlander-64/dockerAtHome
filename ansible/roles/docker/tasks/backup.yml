@@ -35,7 +35,7 @@
   - name: Create systemd service unit for backup
     template:
       src: systemd-service.j2
-      dest: "/etc/systemd/system/{{ main.docker-systemd-name }}.service"
+      dest: "/etc/systemd/system/{{ backup.systemd-name }}.service"
       owner: root
       group: root
       mode: "0644"
@@ -44,7 +44,7 @@
   - name: Create systemd timer unit for backup
     template:
       src: systemd-timer.j2
-      dest: "/etc/systemd/system/{{ main.docker-systemd-name }}.timer"
+      dest: "/etc/systemd/system/{{ backup.systemd-name }}.timer"
       owner: root
       group: root
       mode: "0644"
@@ -52,7 +52,7 @@
 
   - name: Enable and start timer for backup
     ansible.builtin.systemd:
-      name: "{{ main.docker-systemd-name }}.timer"
+      name: "{{ backup.systemd-name }}.timer"
       enabled: true
       state: started
       daemon_reload: true
