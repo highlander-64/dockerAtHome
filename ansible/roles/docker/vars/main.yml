@@ -9,7 +9,7 @@ main:
   docker-data-path: /srv/docker/data/
 
 backup:
-  backup-path: /mnt/backup/docker
+  backup_path: /mnt/backup/docker
   backup_filename: docker-backup.sh
   restore_filename: docker-restore.sh
   systemd_name: docker-data-backup
