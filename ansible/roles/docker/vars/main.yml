@@ -10,14 +10,12 @@ main:
 
 backup:
   backup-path: /mnt/backup/docker
-  backup-filename: docker-backup.sh
+  backup_filename: docker-backup.sh
   restore-filename: docker-restore.sh
   systemd-name: docker-data-backup
   systemd-time: "03:30:00"
 
 # Set version for each docker compose file
-docker:
-  wud: 8.2.2
   cops: version-4.3.3
   fritzbox_exporter: latest
   mealie: v3.19.0

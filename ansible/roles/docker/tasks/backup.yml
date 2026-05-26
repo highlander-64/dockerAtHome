@@ -19,7 +19,7 @@
   - name: Copy backup script file
     template:
       src: docker-backup.j2
-      dest: "{{ main['docker-path'] }}{{ backup.backup-filename }}"
+      dest: "{{ main['docker-path'] }}{{ backup.backup_filename }}"
       owner: docker
       group: docker
       mode: '0775'
