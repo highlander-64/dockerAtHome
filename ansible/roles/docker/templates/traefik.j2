@@ -9,7 +9,7 @@ networks:
 
 services:
   reverse-proxy:
-    image: traefik:v3.3.4
+    image: traefik:{{ docker.traefik }}
     labels:
       - "container_group=ReverseProxy"
       # Enable traefik for this container

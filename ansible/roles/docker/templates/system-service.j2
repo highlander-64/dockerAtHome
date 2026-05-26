@@ -1,0 +1,12 @@
+[Unit]
+Description=Nightly job - {{ backup.systemd-name }}
+After=network.targets
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart={{ main.docker-path }}/{{ backup.backup-filename }}
+WorkingDirectory={{ main.docker-path }}
+StandardOutput=journal
+StandardError=journal

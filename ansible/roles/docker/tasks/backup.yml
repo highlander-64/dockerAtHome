@@ -1,0 +1,58 @@
+---
+  - name: find files to copy
+    find: 
+      paths: "{{ role_path }}/files/scripts"
+      recurse: true
+      patterns: "*.sh"
+    delegate_to: localhost
+    register: files_to_copy
+
+  - name: copy scripts
+    copy: 
+      src: "{{ item.path }}" 
+      dest: "{{ main['docker-path'] }}{{ item.path | basename }}"
+      owner: docker
+      group: docker
+      mode: 0775
+    loop: "{{ files_to_copy.files }}"
+
+  - name: Copy backup script file
+    template:
+      src: docker-backup.j2
+      dest: "{{ main['docker-path'] }}{{ backup.backup-filename }}"
+      owner: docker
+      group: docker
+      mode: '0775'
+      
+  - name: Copy restore script file
+    template:
+      src: docker-restore.j2
+      dest: "{{ main['docker-path'] }}{{ backup.restore-filename}}"
+      owner: docker
+      group: docker
+      mode: '0775'
+
+  - name: Create systemd service unit for backup
+    template:
+      src: systemd-service.j2
+      dest: "/etc/systemd/system/{{ main.docker-systemd-name }}.service"
+      owner: root
+      group: root
+      mode: "0644"
+    notify: Reload systemd
+
+  - name: Create systemd timer unit for backup
+    template:
+      src: systemd-timer.j2
+      dest: "/etc/systemd/system/{{ main.docker-systemd-name }}.timer"
+      owner: root
+      group: root
+      mode: "0644"
+    notify: Reload systemd
+
+  - name: Enable and start timer for backup
+    ansible.builtin.systemd:
+      name: "{{ main.docker-systemd-name }}.timer"
+      enabled: true
+      state: started
+      daemon_reload: true
