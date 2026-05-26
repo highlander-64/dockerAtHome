@@ -1,2 +1,4 @@
 ---
 # vars file for update
+main:
+  docker_path: /srv/docker/
