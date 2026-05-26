@@ -21,7 +21,7 @@ docker:
   fritzbox_exporter: latest
   mealie: v3.19.0
   cadvisor: v0.55.1
-  node-exporter: v1.11.1
+  node_exporter: v1.11.1
   grafana: 13.1.0-25893932881-ubuntu
   prometheus: v3.12.0-rc.0-distroless
   traefik: v3.7.1
