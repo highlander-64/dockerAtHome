@@ -1,0 +1,9 @@
+# Group vars file for all docker machines
+
+main:
+  hostname: jarvis.fritz.box
+  docker_id: 1002
+  docker_group: 100
+  docker_path: /srv/docker/
+  docker_compose_files_path: /srv/docker/docker/
+  docker_data_path: /srv/docker/data/
