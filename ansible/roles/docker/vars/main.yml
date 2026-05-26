@@ -16,6 +16,7 @@ backup:
   systemd_time: "03:30:00"
 
 # Set version for each docker compose file
+docker:
   cops: version-4.3.3
   fritzbox_exporter: latest
   mealie: v3.19.0
