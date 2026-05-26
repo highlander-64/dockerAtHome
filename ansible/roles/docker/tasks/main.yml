@@ -1,5 +1,8 @@
 ---
 # tasks file for setup
+- name: Install scripts and systemd for backup
+  include_tasks: backup.yml
+
 - name: Install traefik
   include_tasks: traefik.yml
 

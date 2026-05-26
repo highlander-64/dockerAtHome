@@ -1,2 +1,6 @@
 ---
 # tasks file for docker
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true

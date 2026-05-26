@@ -2,19 +2,30 @@
 # vars file for docker
 main:
   hostname: jarvis.fritz.box
-  docker_id: 1002:100
-  docker-compose-files-path: /srv/docker/docker/
-  docker-data-path: /srv/docker/data/
+  docker_id: 1002
+  docker_group: 100
+  docker_path: /srv/docker/
+  docker_compose_files_path: /srv/docker/docker/
+  docker_data_path: /srv/docker/data/
 
+backup:
+  backup_path: /mnt/backup/docker
+  backup_filename: docker-backup.sh
+  restore_filename: docker-restore.sh
+  systemd_name: docker-data-backup
+  systemd_time: "03:30:00"
+
+# Set version for each docker compose file
 docker:
-  wud: 8.2.2
   cops: version-4.3.3
-  fritzbox_exporter:
-  mealie:
-  cadvisor:
-  node-exporter:
-  grafana:
-  prometheus:
+  fritzbox_exporter: latest
+  mealie: v3.19.0
+  cadvisor: v0.55.1
+  node_exporter: v1.11.1
+  grafana: 13.1.0-25893932881-ubuntu
+  prometheus: v3.12.0-rc.0-distroless
+  traefik: v3.7.1
+  wud: 8.2.2
 
 fritzbox_exporter:
   user: monitor

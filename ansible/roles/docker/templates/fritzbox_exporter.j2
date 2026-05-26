@@ -6,10 +6,11 @@
 networks:
   traefik_default:
     name: traefik_default
+    external: true
 
 services:
     fritzbox_exporter:
-      image: ghcr.io/sberk42/fritzbox_exporter/fritzbox_exporter:latest
+      image: ghcr.io/sberk42/fritzbox_exporter/fritzbox_exporter:{{ docker.fritzbox_exporter }}
       restart: unless-stopped
       ports:
         - "9042:9042"

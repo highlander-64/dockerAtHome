@@ -10,9 +10,11 @@ networks:
 
 services:
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:v3.1.1 # former v2.8.0
+    image: ghcr.io/mealie-recipes/mealie:{{ docker.mealie }}
     container_name: mealie
     restart: always
+    user:
+      {{ main.docker_id }}:{{ main.docker_group }}
     labels:
       - traefik.enable=true
       - traefik.http.routers.mealie.entrypoints=web
@@ -29,12 +31,12 @@ services:
         limits:
           memory: 1000M # 
     volumes:
-      - {{ main['docker-data-path'] }}mealie-data:/app/data/
+      - {{ main.docker_data_path }}mealie-data:/app/data/
     environment:
       # Set Backend ENV Variables Here
       ALLOW_SIGNUP: "false"
-      PUID: 1000
-      PGID: 1000
+      PUID: {{ main.docker_id }}
+      PGID: {{ main.docker_group }}
       TZ: Europe/Berlin
       BASE_URL: http://{{ main.hostname }}
     networks:

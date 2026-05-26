@@ -72,3 +72,13 @@ scrape_configs:
         labels:
           node: 'jarvis'
           group: 'kds115'
+
+### WhatsUpDocker
+
+  - job_name: whatsupdocker
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['wud:3000']
+        labels:
+          node: 'jarvis'
+          group: 'kds115' 
