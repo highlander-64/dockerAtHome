@@ -12,8 +12,8 @@ backup:
   backup-path: /mnt/backup/docker
   backup_filename: docker-backup.sh
   restore_filename: docker-restore.sh
-  systemd-name: docker-data-backup
-  systemd-time: "03:30:00"
+  systemd_name: docker-data-backup
+  systemd_time: "03:30:00"
 
 # Set version for each docker compose file
   cops: version-4.3.3

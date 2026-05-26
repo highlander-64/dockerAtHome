@@ -1,8 +1,8 @@
 [Unit]
-Description= Timer for {{ backup.systemd-name }}
+Description= Timer for {{ backup.systemd_name }}
 
 [Timer]
-OnCalendar={{ backup.systemd-time}}
+OnCalendar={{ backup.systemd_time}}
 RandomizedDelaySec=300
 Persistant=true
 
