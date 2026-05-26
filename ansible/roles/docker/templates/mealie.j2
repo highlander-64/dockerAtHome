@@ -31,7 +31,7 @@ services:
         limits:
           memory: 1000M # 
     volumes:
-      - {{ main['docker-data-path'] }}mealie-data:/app/data/
+      - {{ main.docker_data_path }}mealie-data:/app/data/
     environment:
       # Set Backend ENV Variables Here
       ALLOW_SIGNUP: "false"

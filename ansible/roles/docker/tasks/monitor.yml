@@ -2,12 +2,12 @@
 # task to setup monitor tollset with Grafana and Prometheus
 - name: Check, if docker-compose file exists
   stat:
-    path: "{{ main['docker-compose-files-path'] }}monitor/docker-compose.yaml"
+    path: "{{ main.docker_compose_files_path }}monitor/docker-compose.yaml"
   register: docker_compose
 
 - name: Create monitor directory
   file:
-    path: "{{ main['docker-compose-files-path'] }}monitor"
+    path: "{{ main.docker_compose_files_path }}monitor"
     state: directory
     owner: docker
     group: docker
@@ -15,7 +15,7 @@
 
 - name: Check, if monitor data folder exists
   stat:
-    path: "{{ main['docker-data-path'] }}monitor"
+    path: "{{ main.docker_data_path }}monitor"
   register: monitor_data
 
 - name: Create monitor data directory
@@ -25,21 +25,21 @@
     owner: docker
     group: docker
   loop:
-    - "{{ main['docker-data-path'] }}monitor"
-    - "{{ main['docker-data-path'] }}monitor/grafana"
-    - "{{ main['docker-data-path'] }}monitor/prometheus"
+    - "{{ main.docker_data_path }}monitor"
+    - "{{ main.docker_data_path }}monitor/grafana"
+    - "{{ main.docker_data_path }}monitor/prometheus"
   when: not monitor_data.stat.exists
 
 - name: Stop monitor container
   command: docker compose down
   args:
-    chdir: "{{ main['docker-compose-files-path'] }}monitor"
+    chdir: "{{ main.docker_compose_files_path }}monitor"
   when: docker_compose.stat.exists
 
 - name: Copy monitor compose file
   template:
     src: monitor.j2
-    dest: "{{ main['docker-compose-files-path'] }}monitor/docker-compose.yaml"
+    dest: "{{ main.docker_compose_files_path }}monitor/docker-compose.yaml"
     owner: docker
     group: docker
     mode: '0644'
@@ -47,7 +47,7 @@
 - name: Copy prometheus config file
   template:
     src: prometheus.j2
-    dest: "{{ main['docker-data-path'] }}monitor/prometheus.yml"
+    dest: "{{ main.docker_data_path }}monitor/prometheus.yml"
     owner: docker
     group: docker
     mode: '0644'
@@ -55,4 +55,4 @@
 - name: Start monitor container
   command: docker compose up -d
   args:
-    chdir: "{{ main['docker-compose-files-path'] }}monitor"
+    chdir: "{{ main.docker_compose_files_path }}monitor"
