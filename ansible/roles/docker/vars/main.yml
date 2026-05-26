@@ -10,8 +10,8 @@ main:
 
 backup:
   backup-path: /mnt/backup/docker
-  backup-filename=docker-backup.sh
-  restore-filename=docker-restore.sh
+  backup-filename: docker-backup.sh
+  restore-filename: docker-restore.sh
   systemd-name: docker-data-backup
   systemd-time: "03:30:00"
 
