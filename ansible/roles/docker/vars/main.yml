@@ -12,6 +12,7 @@ backup:
 docker:
   cops: version-4.3.3
   fritzbox_exporter: latest
+  homeassistant: stable
   mealie: v3.19.0
   cadvisor: v0.55.1
   node_exporter: v1.11.1

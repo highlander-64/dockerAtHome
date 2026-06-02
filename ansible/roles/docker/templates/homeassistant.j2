@@ -1,0 +1,24 @@
+#######################################
+# Home Assistant - Open source home automation that puts local control and privacy first
+# installed via ansible {{ ansible_date_time['date'] }}
+#######################################
+
+networks:
+  traefik_default:
+    name: traefik_default
+    external: true
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:{{ docker.homeassistant }}
+    pull_policy: always
+    volumes:
+      - /srv/docker/data/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 8123:8123
+    networks:
+      - traefik_default

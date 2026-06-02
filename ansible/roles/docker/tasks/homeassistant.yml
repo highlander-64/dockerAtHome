@@ -1,0 +1,46 @@
+---
+# task to setup homeassistant
+- name: Check, if docker-compose file exists
+  stat:
+    path: "{{ main.docker_compose_files_path }}homeassistant/docker-compose.yaml"
+  register: docker_compose
+
+- name: Create homeassistant directory
+  file:
+    path: "{{ main.docker_compose_files_path }}homeassistant"
+    state: directory
+    owner: docker
+    group: docker
+  when: not docker_compose.stat.exists
+
+- name: Check, if homeassistant data folder exists
+  stat:
+    path: "{{ main.docker_data_path }}homeassistant"
+  register: homeassistant_data
+
+- name: Create homeassistant data directory
+  file:
+    path: "{{ main.docker_data_path }}homeassistant"
+    state: directory
+    owner: docker
+    group: docker
+  when: not homeassistant_data.stat.exists
+
+- name: Stop homeassistant container
+  command: docker compose down
+  args:
+    chdir: "{{ main.docker_compose_files_path }}homeassistant"
+  when: docker_compose.stat.exists
+
+- name: Copy homeassistant compose file
+  template:
+    src: homeassistant.j2
+    dest: "{{ main.docker_compose_files_path }}homeassistant/docker-compose.yaml"
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Start homeassistant container
+  command: docker compose up -d
+  args:
+    chdir: "{{ main.docker_compose_files_path }}homeassistant"
