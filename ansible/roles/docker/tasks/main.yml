@@ -23,3 +23,6 @@
 
 - name: Install wud
   include_tasks: wud.yml
+
+- name: Install homeassistant
+  include_tasks: homeassistant.yml
