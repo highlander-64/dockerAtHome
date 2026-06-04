@@ -44,3 +44,38 @@
   command: docker compose up -d
   args:
     chdir: "{{ main.docker_compose_files_path }}homeassistant"
+
+- name: Check, if hacs for home assistant is installed.
+  stat:
+    path: "{{ main.docker_data_path }}homeassistant/custom_components/hacs"
+  register: hacs_data
+
+- name: Install hacs
+  when: not hacs_data.stat.exists
+  block:
+
+  - name: Copy install script
+    ansible.builtin.copy:
+      src: "{{ role_path }}/files/hacs/hacs_install.sh"
+      dest: "{{ main.docker_data_path }}homeassistant/hacs_install.sh"
+      owner: root
+      group: root
+      mode: '0775'
+  
+  - name: Run hacs install script within container
+    community.docker.docker_container_exec:
+      container: homeassistant
+      command: /bin/bash /config/hacs_install.sh
+    register: script_output
+  
+  - name: Show script output
+    ansible.builtin.debug:
+      var: script_output.stdout
+
+  - name: Restart home assistant container
+    command: "{{ item }}"
+    args:
+      chdir: "{{ main.docker_compose_files_path }}homeassistant"
+    with_items:
+      - "docker compose down"
+      - "docker compose up -d"

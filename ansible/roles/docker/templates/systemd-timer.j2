@@ -4,7 +4,7 @@ Description= Timer for {{ backup.systemd_name }}
 [Timer]
 OnCalendar={{ backup.systemd_time}}
 RandomizedDelaySec=300
-Persistant=true
+Persistent=true
 
 [Install]
 WantedBy=timers.target
