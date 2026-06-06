@@ -1,21 +1,12 @@
 ---
-  - name: find files to copy
-    find: 
-      paths: "{{ role_path }}/files/scripts"
-      recurse: true
-      patterns: "*.sh"
-    delegate_to: localhost
-    register: files_to_copy
-
-  - name: copy scripts
-    copy: 
-      src: "{{ item.path }}" 
-      dest: "{{ main.docker_path }}{{ item.path | basename }}"
+  - name: Copy docker control script file
+    template:
+      src: docker_control.j2
+      dest: "{{ main.docker_path }}{{ backup.control_filename }}"
       owner: docker
       group: docker
-      mode: 0775
-    loop: "{{ files_to_copy.files }}"
-
+      mode: '0775'  
+  
   - name: Copy backup script file
     template:
       src: docker_backup.j2

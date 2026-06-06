@@ -5,6 +5,7 @@ backup:
   backup_path: /mnt/backup/docker
   backup_filename: docker-backup.sh
   restore_filename: docker-restore.sh
+  control_filename: docker-backup-control.sh
   systemd_name: docker-data-backup
   systemd_time: "03:30:00"
 
