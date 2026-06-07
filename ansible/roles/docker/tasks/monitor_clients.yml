@@ -2,12 +2,12 @@
 # task to setup monitor clients like cAdvisor and node-exporter
 - name: Check, if docker-compose file exists
   stat:
-    path: "{{ mydocker.compose_files_path }}monitor_clients/docker-compose.yaml"
+    path: "{{ dockerall.compose_files_path }}monitor_clients/docker-compose.yaml"
   register: docker_compose
 
 - name: Create monitor_clients directory
   file:
-    path: "{{ mydocker.compose_files_path }}monitor_clients"
+    path: "{{ dockerall.compose_files_path }}monitor_clients"
     state: directory
     owner: docker
     group: docker
@@ -16,13 +16,13 @@
 - name: Stop monitor_clients container
   command: docker compose down
   args:
-    chdir: "{{ mydocker.compose_files_path }}monitor_clients"
+    chdir: "{{ dockerall.compose_files_path }}monitor_clients"
   when: docker_compose.stat.exists
 
 - name: Copy monitor_clients compose file
   template:
     src: monitor_clients.j2
-    dest: "{{ mydocker.compose_files_path }}monitor_clients/docker-compose.yaml"
+    dest: "{{ dockerall.compose_files_path }}monitor_clients/docker-compose.yaml"
     owner: docker
     group: docker
     mode: '0644'
@@ -30,4 +30,4 @@
 - name: Start monitor_clients container
   command: docker compose up -d
   args:
-    chdir: "{{ mydocker.compose_files_path }}monitor_clients"
+    chdir: "{{ dockerall.compose_files_path }}monitor_clients"

@@ -4,17 +4,17 @@
 #######################################
 
 networks:
-  {{ mydocker.external_network }}:
-    name: {{ mydocker.external_network }}
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
     external: true
 
 services:
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:{{ mydocker.mealie }}
+    image: ghcr.io/mealie-recipes/mealie:{{ docker.mealie }}
     container_name: mealie
     restart: always
     user:
-      {{ mydocker.id }}:{{ mydocker.group }}
+      {{ docker.id }}:{{ docker.group }}
     labels:
       - traefik.enable=true
       - traefik.http.routers.mealie.entrypoints=web
@@ -31,13 +31,13 @@ services:
         limits:
           memory: 1000M # 
     volumes:
-      - {{ mydocker.data_path }}mealie-data:/app/data/
+      - {{ dockerall.data_path }}mealie-data:/app/data/
     environment:
       # Set Backend ENV Variables Here
       ALLOW_SIGNUP: "false"
-      PUID: {{ mydocker.id }}
-      PGID: {{ mydocker.group }}
+      PUID: {{ docker.id }}
+      PGID: {{ docker.group }}
       TZ: Europe/Berlin
       BASE_URL: http://{{ main.hostname }}
     networks:
-      - {{ mydocker.external_network }}
+      - {{ dockerall.external_network }}

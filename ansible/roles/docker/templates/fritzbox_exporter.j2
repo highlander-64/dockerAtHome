@@ -4,13 +4,13 @@
 #######################################
 
 networks:
-  {{ mydocker.external_network }}:
-    name: {{ mydocker.external_network }}
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
     external: true
 
 services:
     fritzbox_exporter:
-      image: ghcr.io/sberk42/fritzbox_exporter:{{ mydocker.fritzbox_exporter }}
+      image: ghcr.io/sberk42/fritzbox_exporter:{{ docker.fritzbox_exporter }}
       restart: unless-stopped
       ports:
         - "9042:9042"
@@ -20,4 +20,4 @@ services:
         GATEWAY_URL: {{fritzbox_exporter.gateway}}
         LISTEN_ADDRESS: 0.0.0.0:9042
       networks:
-        - {{ mydocker.external_network }}
+        - {{ dockerall.external_network }}

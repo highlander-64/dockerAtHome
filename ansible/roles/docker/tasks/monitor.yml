@@ -2,12 +2,12 @@
 # task to setup monitor tollset with Grafana and Prometheus
 - name: Check, if docker-compose file exists
   stat:
-    path: "{{ mydocker.compose_files_path }}monitor/docker-compose.yaml"
+    path: "{{ dockerall.compose_files_path }}monitor/docker-compose.yaml"
   register: docker_compose
 
 - name: Create monitor directory
   file:
-    path: "{{ mydocker.compose_files_path }}monitor"
+    path: "{{ dockerall.compose_files_path }}monitor"
     state: directory
     owner: docker
     group: docker
@@ -15,7 +15,7 @@
 
 - name: Check, if monitor data folder exists
   stat:
-    path: "{{ mydocker.data_path }}monitor"
+    path: "{{ dockerall.data_path }}monitor"
   register: monitor_data
 
 - name: Create monitor data directory
@@ -25,21 +25,21 @@
     owner: docker
     group: docker
   loop:
-    - "{{ mydocker.data_path }}monitor"
-    - "{{ mydocker.data_path }}monitor/grafana"
-    - "{{ mydocker.data_path }}monitor/prometheus"
+    - "{{ dockerall.data_path }}monitor"
+    - "{{ dockerall.data_path }}monitor/grafana"
+    - "{{ dockerall.data_path }}monitor/prometheus"
   when: not monitor_data.stat.exists
 
 - name: Stop monitor container
   command: docker compose down
   args:
-    chdir: "{{ mydocker.compose_files_path }}monitor"
+    chdir: "{{ dockerall.compose_files_path }}monitor"
   when: docker_compose.stat.exists
 
 - name: Copy monitor compose file
   template:
     src: monitor.j2
-    dest: "{{ mydocker.compose_files_path }}monitor/docker-compose.yaml"
+    dest: "{{ dockerall.compose_files_path }}monitor/docker-compose.yaml"
     owner: docker
     group: docker
     mode: '0644'
@@ -47,7 +47,7 @@
 - name: Copy prometheus config file
   template:
     src: prometheus.j2
-    dest: "{{ mydocker.data_path }}monitor/prometheus.yml"
+    dest: "{{ dockerall.data_path }}monitor/prometheus.yml"
     owner: docker
     group: docker
     mode: '0644'
@@ -55,4 +55,4 @@
 - name: Start monitor container
   command: docker compose up -d
   args:
-    chdir: "{{ mydocker.compose_files_path }}monitor"
+    chdir: "{{ dockerall.compose_files_path }}monitor"

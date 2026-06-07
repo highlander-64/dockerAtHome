@@ -4,17 +4,17 @@
 #######################################
 
 networks:
-  {{ mydocker.external_network }}:
-    name: {{ mydocker.external_network }}
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
     external: true
-  {{ mydocker.internal_network}}:
-    name: {{ mydocker.internal_network}}
+  {{ dockerall.internal_network}}:
+    name: {{ dockerall.internal_network}}
     external: true
 
 services:
   # Security Proxy for docker socket
   docker-socket-proxy:
-    image: tecnativa/docker-socket-proxy:latest
+    image: tecnativa/docker-socket-proxy:{{ docker.socket_proxy }}
     container_name: docker-socket-proxy
     restart: unless-stopped
     volumes:
@@ -33,10 +33,10 @@ services:
       - IMAGES=1
       - PING=1
     networks:
-      - {{ mydocker.internal_network}}
+      - {{ dockerall.internal_network}}
 
   reverse-proxy:
-    image: traefik:{{ mydocker.traefik }}
+    image: traefik:{{ docker.traefik }}
     labels:
       # Enable traefik for this container
       - traefik.enable=true
@@ -63,7 +63,7 @@ services:
       - --log.level=Debug
       - --providers.docker=true
       - --providers.docker.endpoint=tcp://docker-socket.proxy:2375
-      - --providers.docker.network={{ mydocker.internal_network }}
+      - --providers.docker.network={{ dockerall.internal_network }}
       - --providers.docker.exposedByDefault=false
       - --providers.file.directory=/certs
       - --providers.file.watch=true
@@ -72,8 +72,8 @@ services:
 
     restart: always
     networks:
-      - {{ mydocker.external_network }}
-      - {{ mydocker.internal_network }}
+      - {{ dockerall.external_network }}
+      - {{ dockerall.internal_network }}
     ports:
       - "80:80" # The HTTP port
 #    volumes:

@@ -5,13 +5,13 @@
 #######################################
 
 networks:
-  {{ mydocker.external_network }}:
-    name: {{ mydocker.external_network }}
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
     external: true
 
 services:
   grafana:
-    image: grafana/grafana:{{ mydocker.grafana }}
+    image: grafana/grafana:{{ docker.grafana }}
     restart: always
     labels:
       - traefik.enable=true
@@ -21,9 +21,9 @@ services:
       - traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/monitor
       - traefik.http.services.grafana.loadbalancer.server.port=3000
     networks:
-      - {{ mydocker.external_network }}
+      - {{ dockerall.external_network }}
     user:
-      {{ mydocker.id }}:{{ mydocker.group }}
+      {{ docker.id }}:{{ docker.group }}
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
@@ -37,7 +37,7 @@ services:
       - /srv/docker/data/monitor/grafana:/var/lib/grafana
 
   prometheus:
-    image: prom/prometheus:{{ mydocker.prometheus }}
+    image: prom/prometheus:{{ dockerall.prometheus }}
     restart: always
     labels:
       - traefik.enable=true
@@ -45,7 +45,7 @@ services:
       - traefik.http.routers.prometheus.rule=host(`{{ main.hostname }}`)  && PathPrefix(`/prometheus`)
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
     networks:
-      - {{ mydocker.external_network }}
+      - {{ dockerall.external_network }}
     command:
       - '--config.file=/etc/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -55,5 +55,5 @@ services:
       - /srv/docker/data/monitor/prometheus:/prometheus
       - /srv/docker/data/monitor/prometheus.yml:/etc/prometheus.yml
     user:
-      {{ mydocker.id }}:{{ mydocker.group }}
+      {{ docker.id }}:{{ docker.group }}
 

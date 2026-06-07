@@ -5,13 +5,13 @@
 #######################################
 
 networks:
-  {{ mydocker.external_network }}:
-    name: {{ mydocker.external_network }}
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
     external: true
 
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:{{ mydocker.cadvisor }}
+    image: gcr.io/cadvisor/cadvisor:{{ docker.cadvisor }}
     command:
       - "--url_base_prefix=/cadvisor"
     environment:
@@ -24,7 +24,7 @@ services:
       - traefik.http.routers.cadvisor.service=cadvisor
       - traefik.http.services.cadvisor.loadbalancer.server.port=8080
     networks:
-      - {{ mydocker.external_network }}
+      - {{ dockerall.external_network }}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro
@@ -35,7 +35,7 @@ services:
     restart: always
 
   node-exporter:
-    image: prom/node-exporter:{{ mydocker.node_exporter }}
+    image: prom/node-exporter:{{ docker.node_exporter }}
     labels:
       - traefik.enable=true
       - traefik.http.routers.node-exporter.entrypoints=web
@@ -44,7 +44,7 @@ services:
     #  - traefik.http.middlewares.node-exporter-stripprefix.stripprefix.prefixes=/node-exporter
       - traefik.http.services.node-exporter.loadbalancer.server.port=9100
     networks:
-      - {{ mydocker.external_network }}
+      - {{ dockerall.external_network }}
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro

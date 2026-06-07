@@ -1,12 +1,12 @@
 # Create docker networks
 - name: Create docker external network
   docker_network:
-    name: "{{ mydocker.external_network }}"
+    name: "{{ dockerall.external_network }}"
     state: present
     driver: bridge
 
 - name: Create docker internal network
   docker_network:
-    name: "{{ mydocker.internal_network }}"
+    name: "{{ dockerall.internal_network }}"
     state: present
     driver: bridge
