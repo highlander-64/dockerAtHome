@@ -4,16 +4,16 @@
 #######################################
 
 networks:
-  {{ docker.external_network }}:
-    name: {{ docker.external_network }}
+  {{ mydocker.external_network }}:
+    name: {{ mydocker.external_network }}
     external: true
-  {{ docker.internal_network}}:
-    name: {{ docker.internal_network}}
+  {{ mydocker.internal_network}}:
+    name: {{ mydocker.internal_network}}
     external: true
 
 services:
   wud:
-    image: getwud/wud:{{ docker.wud }}
+    image: getwud/wud:{{ mydocker.wud }}
     pull_policy: always
     container_name: wud
 #    volumes:
@@ -38,5 +38,5 @@ services:
       - 3000:3000
     restart: unless-stopped
     networks:
-      - {{ docker.external_network }}
-      - {{ docker.internal_network }}
+      - {{ mydocker.external_network }}
+      - {{ mydocker.internal_network }}

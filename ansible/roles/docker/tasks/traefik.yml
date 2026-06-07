@@ -2,12 +2,12 @@
 # task to setup traefik
 - name: Check, if docker-compose file exists
   stat:
-    path: "{{ docker.compose_files_path }}traefik/docker-compose.yaml"
+    path: "{{ mydocker.compose_files_path }}traefik/docker-compose.yaml"
   register: docker_compose
 
 - name: Create traefik directory
   file:
-    path: "{{ docker.compose_files_path }}traefik"
+    path: "{{ mydocker.compose_files_path }}traefik"
     state: directory
     owner: docker
     group: docker
@@ -16,13 +16,13 @@
 - name: Stop traefik container
   command: docker compose down
   args:
-    chdir: "{{ docker.compose_files_path }}traefik"
+    chdir: "{{ mydocker.compose_files_path }}traefik"
   when: docker_compose.stat.exists
 
 - name: Copy traefik compose file
   template:
     src: traefik.j2
-    dest: "{{ docker.compose_files_path }}traefik/docker-compose.yaml"
+    dest: "{{ mydocker.compose_files_path }}traefik/docker-compose.yaml"
     owner: docker
     group: docker
     mode: '0644'
@@ -30,4 +30,4 @@
 - name: Start traefik container
   command: docker compose up -d
   args:
-    chdir: "{{ docker.compose_files_path }}traefik"
+    chdir: "{{ mydocker.compose_files_path }}traefik"

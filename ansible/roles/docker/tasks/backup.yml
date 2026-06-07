@@ -2,7 +2,7 @@
   - name: Copy docker control script file
     template:
       src: docker_control.j2
-      dest: "{{ docker.path }}{{ backup.control_filename }}"
+      dest: "{{ mydocker.path }}{{ backup.control_filename }}"
       owner: docker
       group: docker
       mode: '0775'  
@@ -10,7 +10,7 @@
   - name: Copy backup script file
     template:
       src: docker_backup.j2
-      dest: "{{ docker.path }}{{ backup.backup_filename }}"
+      dest: "{{ mydocker.path }}{{ backup.backup_filename }}"
       owner: docker
       group: docker
       mode: '0775'
@@ -18,7 +18,7 @@
   - name: Copy restore script file
     template:
       src: docker_restore.j2
-      dest: "{{ docker.path }}{{ backup.restore_filename}}"
+      dest: "{{ mydocker.path }}{{ backup.restore_filename}}"
       owner: docker
       group: docker
       mode: '0775'

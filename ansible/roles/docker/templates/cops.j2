@@ -4,17 +4,17 @@
 #######################################
 
 networks:
-  {{ docker.external_network }}:
-    name: {{ docker.external_network }}
+  {{ mydocker.external_network }}:
+    name: {{ mydocker.external_network }}
     external: true
 
 services:
   cops:
-    image: linuxserver/cops:{{ docker.cops }}
+    image: linuxserver/cops:{{ mydocker.cops }}
     container_name: cops
     environment:
       - PUID=1027
-      - PGID={{ docker.group }}
+      - PGID={{ mydocker.group }}
       - TZ=Europe/London
     volumes:
       - ./local.php:/config/config/local.php
@@ -32,4 +32,4 @@ services:
       - 8081:80
     restart: unless-stopped
     networks:
-      - {{ docker.external_network }}
+      - {{ mydocker.external_network }}

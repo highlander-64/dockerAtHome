@@ -2,12 +2,12 @@
 # task to setup fritzbox-exporter
 - name: Check, if docker-compose file exists
   stat:
-    path: "{{ docker.compose_files_path }}fritzbox_exporter/docker-compose.yaml"
+    path: "{{ mydocker.compose_files_path }}fritzbox_exporter/docker-compose.yaml"
   register: docker_compose
 
 - name: Create fritzbox_exporter directory
   file:
-    path: "{{ docker.compose_files_path }}fritzbox_exporter"
+    path: "{{ mydocker.compose_files_path }}fritzbox_exporter"
     state: directory
     owner: docker
     group: docker
@@ -16,13 +16,13 @@
 - name: Stop fritzbox_exporter container
   command: docker compose down
   args:
-    chdir: "{{ docker.compose_files_path }}fritzbox_exporter"
+    chdir: "{{ mydocker.compose_files_path }}fritzbox_exporter"
   when: docker_compose.stat.exists
 
 - name: Copy fritzbox_exporter compose file
   template:
     src: fritzbox_exporter.j2
-    dest: "{{ docker.compose_files_path }}fritzbox_exporter/docker-compose.yaml"
+    dest: "{{ mydocker.compose_files_path }}fritzbox_exporter/docker-compose.yaml"
     owner: docker
     group: docker
     mode: '0644'
@@ -30,4 +30,4 @@
 - name: Start fritzbox_exporter container
   command: docker compose up -d
   args:
-    chdir: "{{ docker.compose_files_path }}fritzbox_exporter"
+    chdir: "{{ mydocker.compose_files_path }}fritzbox_exporter"

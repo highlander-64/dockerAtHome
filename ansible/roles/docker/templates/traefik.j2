@@ -4,11 +4,11 @@
 #######################################
 
 networks:
-  {{ docker.external_network }}:
-    name: {{ docker.external_network }}
+  {{ mydocker.external_network }}:
+    name: {{ mydocker.external_network }}
     external: true
-  {{ docker.internal_network}}:
-    name: {{ docker.internal_network}}
+  {{ mydocker.internal_network}}:
+    name: {{ mydocker.internal_network}}
     external: true
 
 services:
@@ -33,10 +33,10 @@ services:
       - IMAGES=1
       - PING=1
     networks:
-      - {{ docker.internal_network}}
+      - {{ mydocker.internal_network}}
 
   reverse-proxy:
-    image: traefik:{{ docker.traefik }}
+    image: traefik:{{ mydocker.traefik }}
     labels:
       # Enable traefik for this container
       - traefik.enable=true
@@ -63,7 +63,7 @@ services:
       - --log.level=Debug
       - --providers.docker=true
       - --providers.docker.endpoint=tcp://docker-socket.proxy:2375
-      - --providers.docker.network={{ docker.internal_network }}
+      - --providers.docker.network={{ mydocker.internal_network }}
       - --providers.docker.exposedByDefault=false
       - --providers.file.directory=/certs
       - --providers.file.watch=true
@@ -72,8 +72,8 @@ services:
 
     restart: always
     networks:
-      - {{ docker.external_network }}
-      - {{ docker.internal_network }}
+      - {{ mydocker.external_network }}
+      - {{ mydocker.internal_network }}
     ports:
       - "80:80" # The HTTP port
 #    volumes:

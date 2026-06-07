@@ -3,13 +3,13 @@
 # installed via ansible {{ ansible_date_time['date'] }}
 #######################################
 # network_mode: host enable autscan for devices
-# If you select the {{ docker.external_network }} network, you have to configure every device manually
+# If you select the {{ mydocker.external_network }} network, you have to configure every device manually
 #######################################
 
 services:
   homeassistant:
     container_name: homeassistant
-    image: ghcr.io/home-assistant/home-assistant:{{ docker.homeassistant }}
+    image: ghcr.io/home-assistant/home-assistant:{{ mydocker.homeassistant }}
     pull_policy: always
     volumes:
       - /srv/docker/data/homeassistant:/config
