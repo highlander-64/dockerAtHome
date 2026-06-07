@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Source directory containing Docker data to back up.
-SOURCE={{ main.docker_data_path }}
+SOURCE={{ docker.data_path }}
 # Destination directory where the rsync backup will be stored.
 TARGET={{ backup.backup_path}}
 # Resolve the script directory to find docker-control.sh reliably.

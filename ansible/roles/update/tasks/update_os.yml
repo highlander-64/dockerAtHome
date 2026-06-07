@@ -14,7 +14,7 @@
 - name: Stop all containers
   ansible.builtin.script:
     cmd: ./docker-control.sh stop
-    chdir: "{{ main.docker_path }}"
+    chdir: "{{ docker.path }}"
   when: reboot_required_file.stat.exists
 
 - name: Reboot if kernel updated
@@ -30,5 +30,5 @@
 - name: Start all containers
   ansible.builtin.script:
     cmd: ./docker-control.sh start
-    chdir: "{{ main.docker_path }}"
+    chdir: "{{ docker.path }}"
   when: reboot_required_file.stat.exists

@@ -14,7 +14,7 @@ services:
     container_name: mealie
     restart: always
     user:
-      {{ main.docker_id }}:{{ main.docker_group }}
+      {{ docker.id }}:{{ docker.group }}
     labels:
       - traefik.enable=true
       - traefik.http.routers.mealie.entrypoints=web
@@ -31,12 +31,12 @@ services:
         limits:
           memory: 1000M # 
     volumes:
-      - {{ main.docker_data_path }}mealie-data:/app/data/
+      - {{ docker.data_path }}mealie-data:/app/data/
     environment:
       # Set Backend ENV Variables Here
       ALLOW_SIGNUP: "false"
-      PUID: {{ main.docker_id }}
-      PGID: {{ main.docker_group }}
+      PUID: {{ docker.id }}
+      PGID: {{ docker.group }}
       TZ: Europe/Berlin
       BASE_URL: http://{{ main.hostname }}
     networks:
