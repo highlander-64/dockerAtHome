@@ -1,0 +1,36 @@
+networks:
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
+    external: true
+  {{ dockerall.internal_network}}:
+    name: {{ dockerall.internal_network}}
+    external: true
+
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    ports:
+      - 3030:3000
+    volumes:
+      - {{ dockerall.data_path }}gethomepage-data:/app/config # Make sure your local config directory exists
+      - {{ dockerall.data_path }}gethomepage-data/images:/app/public/images
+      - {{ dockerall.data_path }}gethomepage-data:/app/public/icons
+        #- /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations, see alternative methods
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: {{ main.hostname }}:3030 # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
+      PUID: {{ dockerall.id }}
+      PGID: {{ dockerall.group }}
+    labels:
+    # Subpath with traefik is currently not working, may with a future release
+#      - traefik.enable=true
+#      - traefik.http.routers.homepage.entrypoints=web
+#      - traefik.http.routers.homepage.rule=host(`{{ main.hostname }}`) && PathPrefix(`/home`)
+#      - traefik.http.routers.hompepage.middlewares=homepage-stripprefix
+#      - traefik.http.routers.homepage.service=homepage
+#      - traefik.http.middlewares.homepage-stripprefix.stripprefix.prefixes="`/home`"
+#      - traefik.http.middlewares.homepage-stripprefix.stripprefix.forceslash="true"
+#      - traefik.http.services.homepage.loadbalancer.server.port=3000
+    networks:
+      - {{ dockerall.external_network }}
+      - {{ dockerall.internal_network }}

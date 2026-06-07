@@ -1,5 +1,5 @@
 ---
-# task to setup monitor tollset with Grafana and Prometheus
+# task to setup monitor toolset with Grafana and Prometheus
 - name: Check, if docker-compose file exists
   stat:
     path: "{{ dockerall.compose_files_path }}monitor/docker-compose.yaml"
