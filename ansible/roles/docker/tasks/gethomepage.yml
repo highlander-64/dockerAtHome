@@ -46,8 +46,8 @@
 
 - name: Copy gethomepage config files
   template:
-    src: {{ item.template}}
-    dest: {{ item.dest }}
+    src: "{{ item.template }}"
+    dest: "{{ item.dest }}"
     owner: docker
     group: docker
     mode: '0644'
