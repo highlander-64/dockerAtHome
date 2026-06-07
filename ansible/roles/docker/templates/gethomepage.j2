@@ -31,6 +31,11 @@ services:
 #      - traefik.http.middlewares.homepage-stripprefix.stripprefix.prefixes="`/home`"
 #      - traefik.http.middlewares.homepage-stripprefix.stripprefix.forceslash="true"
 #      - traefik.http.services.homepage.loadbalancer.server.port=3000
+    # Gethomepage settings
+      - homepage.group=Haus
+      - homepage.name=Startseite
+      - homepage.icon=homepage.png
+      - homepage.href="{{ main.hostname }}:3030"
     networks:
       - {{ dockerall.external_network }}
       - {{ dockerall.internal_network }}

@@ -24,7 +24,7 @@ services:
       - WUD_WATCHER_PROXY_PORT=2375      
 
 # Currently, wud doesn't support subpaths, traefik redirect is not working
-#    labels:
+    labels:
 #      - traefik.enable=true
 #      - traefik.http.routers.wud.entryPoints=web
 #      - traefik.http.routers.wud.rule=host(`{{ main.hostname }}`) && PathPrefix(`/wud`)
@@ -33,6 +33,14 @@ services:
 #      - traefik.http.middlewares.wud-stripprefix.stripprefix.prefixes=/wud
 #      - traefik.http.middlewares.wud-stripprefix.stripprefix.forceslash=true
 #      - traefik.http.services.wud.loadbalancer.server.port=3000
+      - homepage.group=Werkzeug
+      - homepage.name=What's up Docker
+      - homepage.icon=whats-up-docker.png
+      - homepage.href="{{ main.hostname }}:3000"
+      - homepage.description=Der Docker Wächter
+      - homepage.showStats=true
+      - homepage.widget.type=whatsupdocker
+      - homepage.widget.url="{{ main.hostname }}:3000"
 
     ports:
       - 3000:3000
