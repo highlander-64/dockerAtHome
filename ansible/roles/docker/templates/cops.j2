@@ -14,7 +14,7 @@ services:
     container_name: cops
     environment:
       - PUID=1027
-      - PGID={{ docker.group }}
+      - PGID={{ dockerall.group }}
       - TZ=Europe/London
     volumes:
       - ./local.php:/config/config/local.php

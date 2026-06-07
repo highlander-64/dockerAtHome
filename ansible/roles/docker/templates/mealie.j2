@@ -14,7 +14,7 @@ services:
     container_name: mealie
     restart: always
     user:
-      {{ docker.id }}:{{ docker.group }}
+      {{ dockerall.id }}:{{ dockerall.group }}
     labels:
       - traefik.enable=true
       - traefik.http.routers.mealie.entrypoints=web
@@ -35,8 +35,8 @@ services:
     environment:
       # Set Backend ENV Variables Here
       ALLOW_SIGNUP: "false"
-      PUID: {{ docker.id }}
-      PGID: {{ docker.group }}
+      PUID: {{ dockerall.id }}
+      PGID: {{ dockerall.group }}
       TZ: Europe/Berlin
       BASE_URL: http://{{ main.hostname }}
     networks:

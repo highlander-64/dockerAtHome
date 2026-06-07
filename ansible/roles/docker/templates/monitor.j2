@@ -23,7 +23,7 @@ services:
     networks:
       - {{ dockerall.external_network }}
     user:
-      {{ docker.id }}:{{ docker.group }}
+      {{ dockerall.id }}:{{ dockerall.group }}
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
@@ -55,5 +55,5 @@ services:
       - /srv/docker/data/monitor/prometheus:/prometheus
       - /srv/docker/data/monitor/prometheus.yml:/etc/prometheus.yml
     user:
-      {{ docker.id }}:{{ docker.group }}
+      {{ dockerall.id }}:{{ dockerall.group }}
 
