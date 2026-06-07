@@ -30,3 +30,6 @@
 
 - name: Install homeassistant
   include_tasks: homeassistant.yml
+
+- name: Install gethomepage
+  include_tasks: gethomepage.yml
