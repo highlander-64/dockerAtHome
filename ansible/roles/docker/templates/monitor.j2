@@ -37,7 +37,7 @@ services:
       - /srv/docker/data/monitor/grafana:/var/lib/grafana
 
   prometheus:
-    image: prom/prometheus:{{ dockerall.prometheus }}
+    image: prom/prometheus:{{ docker.prometheus }}
     restart: always
     labels:
       - traefik.enable=true
