@@ -36,6 +36,7 @@ services:
       - homepage.name=Startseite
       - homepage.icon=homepage.png
       - homepage.href="{{ main.hostname }}:3030"
+      - homepage.description=Diese Seite
     networks:
       - {{ dockerall.external_network }}
       - {{ dockerall.internal_network }}
