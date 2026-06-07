@@ -38,10 +38,10 @@ fritzbox_exporter:
 gethomepage:
   config_files:
     - template: gethomepage-settings.j2
-      dest: "{{ dockerall.data_path }}gethomepage/settings.yaml"
+      dest: "{{ dockerall.data_path }}gethomepage-data/settings.yaml"
     - template: gethomepage-docker.j2
-      dest: "{{ dockerall.data_path }}gethomepage/docker.yaml"
+      dest: "{{ dockerall.data_path }}gethomepage-data/docker.yaml"
     - template: gethomepage-services.j2
-      dest: "{{ dockerall.data_path }}gethomepage/services.yaml"
+      dest: "{{ dockerall.data_path }}gethomepage-data/services.yaml"
     - template: gethomepage-widgets.j2
-      dest: "{{ dockerall.data_path }}gethomepage/widgets.yaml"
+      dest: "{{ dockerall.data_path }}gethomepage-data/widgets.yaml"

@@ -15,7 +15,7 @@ services:
     volumes:
       - {{ dockerall.data_path }}gethomepage-data:/app/config # Make sure your local config directory exists
       - {{ dockerall.data_path }}gethomepage-data/images:/app/public/images
-      - {{ dockerall.data_path }}gethomepage-data:/app/public/icons
+      - {{ dockerall.data_path }}gethomepage-data/icons:/app/public/icons
         #- /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations, see alternative methods
     environment:
       HOMEPAGE_ALLOWED_HOSTS: {{ main.hostname }}:3030 # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts

@@ -15,7 +15,7 @@
 
 - name: Check, if gethomepage data folder exists
   stat:
-    path: "{{ dockerall.data_path }}gethomepage"
+    path: "{{ dockerall.data_path }}gethomepage-data"
   register: gethomepage_data
 
 - name: Create gethomepage data directory
@@ -25,9 +25,9 @@
     owner: docker
     group: docker
   loop:
-    - "{{ dockerall.data_path }}gethomepage"
-    - "{{ dockerall.data_path }}gethomepage/images"
-    - "{{ dockerall.data_path }}gethomepage/icons"
+    - "{{ dockerall.data_path }}gethomepage-data"
+    - "{{ dockerall.data_path }}gethomepage-data/images"
+    - "{{ dockerall.data_path }}gethomepage-data/icons"
   when: not gethomepage_data.stat.exists
 
 - name: Stop gethomepage container
