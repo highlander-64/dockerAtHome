@@ -2,8 +2,12 @@
 
 main:
   hostname: jarvis.fritz.box
-  docker_id: 1002
-  docker_group: 100
-  docker_path: /srv/docker/
-  docker_compose_files_path: /srv/docker/docker/
-  docker_data_path: /srv/docker/data/
+
+dockerall:
+  id: 1002
+  group: 100
+  path: /srv/docker/
+  compose_files_path: /srv/docker/docker/
+  data_path: /srv/docker/data/
+  internal_network: traefik_internal
+  external_network: traefik_external

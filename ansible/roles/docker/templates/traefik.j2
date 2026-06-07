@@ -4,14 +4,40 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
+    external: true
+  {{ dockerall.internal_network}}:
+    name: {{ dockerall.internal_network}}
+    external: true
 
 services:
+  # Security Proxy for docker socket
+  docker-socket-proxy:
+    image: tecnativa/docker-socket-proxy:{{ docker.socket_proxy }}
+    container_name: docker-socket-proxy
+    restart: unless-stopped
+    volumes:
+      # Readonly access to docker socket
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 2375:2375
+    tmpfs:
+      - /run
+    environment:
+      - CONFIGS=1
+      - CONTAINERS=1
+      - EVENTS=1
+      - NETWORKS=1
+      - SERVICES=1
+      - IMAGES=1
+      - PING=1
+    networks:
+      - {{ dockerall.internal_network}}
+
   reverse-proxy:
     image: traefik:{{ docker.traefik }}
     labels:
-      - "container_group=ReverseProxy"
       # Enable traefik for this container
       - traefik.enable=true
       # Enable prometheus metrics with PathPrefix
@@ -36,8 +62,8 @@ services:
       - --metrics.prometheus.entryPoint=metrics
       - --log.level=Debug
       - --providers.docker=true
-      - --providers.docker.endpoint=unix:///var/run/docker.sock
-      - --providers.docker.network=traefik_default
+      - --providers.docker.endpoint=tcp://docker-socket.proxy:2375
+      - --providers.docker.network={{ dockerall.internal_network }}
       - --providers.docker.exposedByDefault=false
       - --providers.file.directory=/certs
       - --providers.file.watch=true
@@ -46,8 +72,9 @@ services:
 
     restart: always
     networks:
-      - traefik_default
+      - {{ dockerall.external_network }}
+      - {{ dockerall.internal_network }}
     ports:
       - "80:80" # The HTTP port
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events

@@ -1,4 +1,8 @@
 ---
+# Create docker networks
+- name: Create docker external network
+  include_tasks: docker_network.yml
+
 # tasks file for setup
 - name: Install scripts and systemd for backup
   include_tasks: backup.yml
@@ -26,3 +30,6 @@
 
 - name: Install homeassistant
   include_tasks: homeassistant.yml
+
+- name: Install gethomepage
+  include_tasks: gethomepage.yml

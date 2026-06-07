@@ -4,8 +4,11 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
+    external: true
+  {{ dockerall.internal_network}}:
+    name: {{ dockerall.internal_network}}
     external: true
 
 services:
@@ -13,21 +16,35 @@ services:
     image: getwud/wud:{{ docker.wud }}
     pull_policy: always
     container_name: wud
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WUD_WATCHER_LOCAL_DISABLE=true
+      - WUD_WATCHER_PROXY_HOST=docker-socket-proxy
+      - WUD_WATCHER_PROXY_PORT=2375      
 
 # Currently, wud doesn't support subpaths, traefik redirect is not working
-#    labels:
+    labels:
 #      - traefik.enable=true
-#      - traefik.http.routers.cops.entryPoints=web
-#      - traefik.http.routers.cops.rule=host(`{{ main.hostname }}`) && PathPrefix(`/cops`)
-#      - traefik.http.routers.cops.service=cops
-#      - traefik.http.routers.cops.middlewares=cops-stripprefix
-#      - traefik.http.middlewares.cops-stripprefix.stripprefix.prefixes=/cops
-#      - traefik.http.middlewares.cops-stripprefix.stripprefix.forceslash=true
-#      - traefik.http.services.cops.loadbalancer.server.port=80
+#      - traefik.http.routers.wud.entryPoints=web
+#      - traefik.http.routers.wud.rule=host(`{{ main.hostname }}`) && PathPrefix(`/wud`)
+#      - traefik.http.routers.wud.service=wud
+#      - traefik.http.routers.wud.middlewares=wud-stripprefix
+#      - traefik.http.middlewares.wud-stripprefix.stripprefix.prefixes=/wud
+#      - traefik.http.middlewares.wud-stripprefix.stripprefix.forceslash=true
+#      - traefik.http.services.wud.loadbalancer.server.port=3000
+      - homepage.group=Werkzeug
+      - homepage.name=What's up Docker
+      - homepage.icon=whats-up-docker.png
+      - homepage.href=http://{{ main.hostname }}:3000
+      - homepage.description=Der Docker Wächter
+      - homepage.showStats=true
+      - homepage.widget.type=whatsupdocker
+      - homepage.widget.url=http://{{ main.hostname }}:3000
+
     ports:
       - 3000:3000
     restart: unless-stopped
     networks:
-      - traefik_default
+      - {{ dockerall.external_network }}
+      - {{ dockerall.internal_network }}

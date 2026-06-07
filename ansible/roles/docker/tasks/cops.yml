@@ -2,12 +2,12 @@
 # task to setup cops
 - name: Check, if docker-compose file exists
   stat:
-    path: "{{ main.docker_compose_files_path }}cops/docker-compose.yaml"
+    path: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml"
   register: docker_compose
 
 - name: Create cops directory
   file:
-    path: "{{ main.docker_compose_files_path }}cops"
+    path: "{{ dockerall.compose_files_path }}cops"
     state: directory
     owner: docker
     group: docker
@@ -16,13 +16,13 @@
 - name: Stop cops container
   command: docker compose down
   args:
-    chdir: "{{ main.docker_compose_files_path }}cops"
+    chdir: "{{ dockerall.compose_files_path }}cops"
   when: docker_compose.stat.exists
 
 - name: Copy cops compose file
   template:
     src: cops.j2
-    dest: "{{ main.docker_compose_files_path }}cops/docker-compose.yaml"
+    dest: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml"
     owner: docker
     group: docker
     mode: '0644'
@@ -30,7 +30,7 @@
 - name: Copy cops local.php file
   template:
     src: cops_local_php.j2
-    dest: "{{ main.docker_compose_files_path }}cops/local.php"
+    dest: "{{ dockerall.compose_files_path }}cops/local.php"
     owner: docker
     group: docker
     mode: '0644'
@@ -38,4 +38,4 @@
 - name: Start cops container
   command: docker compose up -d
   args:
-    chdir: "{{ main.docker_compose_files_path }}cops"
+    chdir: "{{ dockerall.compose_files_path }}cops"

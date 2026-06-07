@@ -2,12 +2,21 @@
 set -euo pipefail
 
 # Source directory containing Docker data to back up.
-SOURCE={{ main.docker_data_path }}
+SOURCE={{ dockerall.data_path }}
 # Destination directory where the rsync backup will be stored.
 TARGET={{ backup.backup_path}}
 # Resolve the script directory to find docker-control.sh reliably.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOCKER_CONTROL_SCRIPT="$SCRIPT_DIR/docker-control.sh"
+
+# Logger function to output to both console and system logger
+log() {
+  local level="$1"
+  shift
+  local message="$*"
+  echo "[$level] $message"
+  logger -t "docker-backup" -p "daemon.$level" "$message"
+}
 
 usage() {
   cat <<EOF
@@ -23,7 +32,7 @@ EOF
 require_command() {
   # Ensure a required command is available on the system.
   command -v "$1" >/dev/null 2>&1 || {
-    echo "[ERROR] Required command '$1' not found." >&2
+    log err "Required command '$1' not found."
     exit 2
   }
 }
@@ -31,7 +40,7 @@ require_command() {
 cleanup() {
   # If containers were stopped by this script, restart them on exit.
   if [[ "$CONTAINERS_STOPPED" == "yes" ]]; then
-    echo "[INFO] Restarting containers after backup..."
+    log info "Restarting containers after backup..."
     "$DOCKER_CONTROL_SCRIPT" start
   fi
 }
@@ -47,23 +56,23 @@ require_command rsync
 
 # Verify the docker-control helper script is executable.
 if [[ ! -x "$DOCKER_CONTROL_SCRIPT" ]]; then
-  echo "[ERROR] Cannot execute docker-control script: $DOCKER_CONTROL_SCRIPT" >&2
+  log err "Cannot execute docker-control script: $DOCKER_CONTROL_SCRIPT"
   exit 3
 fi
 
 CONTAINERS_STOPPED="no"
 
-echo "[INFO] Stopping containers for backup..."
+log info "Stopping containers for backup..."
 # Stop all Docker containers before taking the backup.
 "$DOCKER_CONTROL_SCRIPT" stop
 CONTAINERS_STOPPED="yes"
 
-echo "[INFO] Ensuring backup destination exists: $TARGET"
+log info "Ensuring backup destination exists: $TARGET"
 # Create the target directory if it does not exist.
 mkdir -p "$TARGET"
 
-echo "[INFO] Starting rsync backup from $SOURCE to $TARGET"
+log info "Starting rsync backup from $SOURCE to $TARGET"
 # Perform the backup with archive mode, preserve metadata, and delete stale files.
 rsync -aHAX --delete --stats --human-readable "$SOURCE"/ "$TARGET"/
 
-echo "[INFO] Backup completed successfully."
+log info "Backup completed successfully."

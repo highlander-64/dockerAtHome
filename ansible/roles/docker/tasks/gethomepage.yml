@@ -1,0 +1,59 @@
+---
+# task to setup gethomepage
+- name: Check, if docker-compose file exists
+  stat:
+    path: "{{ dockerall.compose_files_path }}gethomepage/docker-compose.yaml"
+  register: docker_compose
+
+- name: Create gethomepage directory
+  file:
+    path: "{{ dockerall.compose_files_path }}gethomepage"
+    state: directory
+    owner: docker
+    group: docker
+  when: not docker_compose.stat.exists
+
+- name: Check, if gethomepage data folder exists
+  stat:
+    path: "{{ dockerall.data_path }}gethomepage-data"
+  register: gethomepage_data
+
+- name: Create gethomepage data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: docker
+    group: docker
+  loop:
+    - "{{ dockerall.data_path }}gethomepage-data"
+    - "{{ dockerall.data_path }}gethomepage-data/images"
+    - "{{ dockerall.data_path }}gethomepage-data/icons"
+  when: not gethomepage_data.stat.exists
+
+- name: Stop gethomepage container
+  command: docker compose down
+  args:
+    chdir: "{{ dockerall.compose_files_path }}gethomepage"
+  when: docker_compose.stat.exists
+
+- name: Copy gethomepage compose file
+  template:
+    src: gethomepage.j2
+    dest: "{{ dockerall.compose_files_path }}gethomepage/docker-compose.yaml"
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Copy gethomepage config files
+  template:
+    src: "{{ item.template }}"
+    dest: "{{ item.dest }}"
+    owner: docker
+    group: docker
+    mode: '0644'
+  loop: "{{ gethomepage.config_files }}"
+
+- name: Start gethomepage container
+  command: docker compose up -d
+  args:
+    chdir: "{{ dockerall.compose_files_path }}gethomepage"

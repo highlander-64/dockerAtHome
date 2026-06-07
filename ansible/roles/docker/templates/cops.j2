@@ -4,8 +4,8 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
     external: true
 
 services:
@@ -14,7 +14,7 @@ services:
     container_name: cops
     environment:
       - PUID=1027
-      - PGID={{ main.docker_group }}
+      - PGID={{ dockerall.group }}
       - TZ=Europe/London
     volumes:
       - ./local.php:/config/config/local.php
@@ -32,4 +32,4 @@ services:
       - 8081:80
     restart: unless-stopped
     networks:
-      - traefik_default
+      - {{ dockerall.external_network }}

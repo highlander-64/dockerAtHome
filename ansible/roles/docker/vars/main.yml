@@ -5,6 +5,7 @@ backup:
   backup_path: /mnt/backup/docker
   backup_filename: docker-backup.sh
   restore_filename: docker-restore.sh
+  control_filename: docker-backup-control.sh
   systemd_name: docker-data-backup
   systemd_time: "03:30:00"
 
@@ -20,6 +21,8 @@ docker:
   prometheus: v3.12.0
   traefik: v3.7.1
   wud: 8.2.2
+  socket_proxy: v0.4.2
+  gethomepage: v1.13.1
 
 fritzbox_exporter:
   user: monitor
@@ -31,3 +34,14 @@ fritzbox_exporter:
           3132663961663537340a383132333265376637343139343235343762316464663365323230333164
           66383562396135316637633730633639646332663366336266633736356638613335
   gateway: http://192.168.10.1:49000
+
+gethomepage:
+  config_files:
+    - template: gethomepage-settings.j2
+      dest: "{{ dockerall.data_path }}gethomepage-data/settings.yaml"
+    - template: gethomepage-docker.j2
+      dest: "{{ dockerall.data_path }}gethomepage-data/docker.yaml"
+    - template: gethomepage-services.j2
+      dest: "{{ dockerall.data_path }}gethomepage-data/services.yaml"
+    - template: gethomepage-widgets.j2
+      dest: "{{ dockerall.data_path }}gethomepage-data/widgets.yaml"

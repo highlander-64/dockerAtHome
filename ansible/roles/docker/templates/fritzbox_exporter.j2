@@ -4,8 +4,8 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
     external: true
 
 services:
@@ -20,4 +20,4 @@ services:
         GATEWAY_URL: {{fritzbox_exporter.gateway}}
         LISTEN_ADDRESS: 0.0.0.0:9042
       networks:
-        - traefik_default
+        - {{ dockerall.external_network }}
