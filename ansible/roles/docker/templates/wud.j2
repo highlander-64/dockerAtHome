@@ -4,8 +4,11 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ docker.external_network }}:
+    name: {{ docker.external_network }}
+    external: true
+  {{ docker.internal_network}}:
+    name: {{ docker.internal_network}}
     external: true
 
 services:
@@ -13,21 +16,27 @@ services:
     image: getwud/wud:{{ docker.wud }}
     pull_policy: always
     container_name: wud
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WUD_WATCHER_LOCAL_DISABLE=true
+      - WUD_WATCHER_PROXY_HOST=docker-socket-proxy
+      - WUD_WATCHER_PROXY_PORT=2375      
 
 # Currently, wud doesn't support subpaths, traefik redirect is not working
 #    labels:
 #      - traefik.enable=true
-#      - traefik.http.routers.cops.entryPoints=web
-#      - traefik.http.routers.cops.rule=host(`{{ main.hostname }}`) && PathPrefix(`/cops`)
-#      - traefik.http.routers.cops.service=cops
-#      - traefik.http.routers.cops.middlewares=cops-stripprefix
-#      - traefik.http.middlewares.cops-stripprefix.stripprefix.prefixes=/cops
-#      - traefik.http.middlewares.cops-stripprefix.stripprefix.forceslash=true
-#      - traefik.http.services.cops.loadbalancer.server.port=80
+#      - traefik.http.routers.wud.entryPoints=web
+#      - traefik.http.routers.wud.rule=host(`{{ main.hostname }}`) && PathPrefix(`/wud`)
+#      - traefik.http.routers.wud.service=wud
+#      - traefik.http.routers.wud.middlewares=wud-stripprefix
+#      - traefik.http.middlewares.wud-stripprefix.stripprefix.prefixes=/wud
+#      - traefik.http.middlewares.wud-stripprefix.stripprefix.forceslash=true
+#      - traefik.http.services.wud.loadbalancer.server.port=3000
+
     ports:
       - 3000:3000
     restart: unless-stopped
     networks:
-      - traefik_default
+      - {{ docker.external_network }}
+      - {{ docker.internal_network }}

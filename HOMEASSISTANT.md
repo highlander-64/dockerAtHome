@@ -19,4 +19,4 @@ Run the ansible playbook and home assistant will be deployed.
 
 ## Note about network_mode
 
-Host networking gives Home Assistant direct access to the host network stack (multicast/DNS/UPnP/zeroconf) and local hardware (e.g., Zigbee/Z‑Wave USB sticks). Many integrations rely on multicast discovery or raw socket access that does not work reliably behind an overlay network like traefik_default. Using `network_mode: host` preserves discovery and device access without complex proxy or extra network setup.
+Host networking gives Home Assistant direct access to the host network stack (multicast/DNS/UPnP/zeroconf) and local hardware (e.g., Zigbee/Z‑Wave USB sticks). Many integrations rely on multicast discovery or raw socket access that does not work reliably behind an overlay network like {{ docker.external_network }}. Using `network_mode: host` preserves discovery and device access without complex proxy or extra network setup.

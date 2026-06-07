@@ -5,8 +5,8 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ docker.external_network }}:
+    name: {{ docker.external_network }}
     external: true
 
 services:
@@ -21,7 +21,7 @@ services:
       - traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/monitor
       - traefik.http.services.grafana.loadbalancer.server.port=3000
     networks:
-      - traefik_default
+      - {{ docker.external_network }}
     user:
       {{ docker.id }}:{{ docker.group }}
     environment:
@@ -45,7 +45,7 @@ services:
       - traefik.http.routers.prometheus.rule=host(`{{ main.hostname }}`)  && PathPrefix(`/prometheus`)
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
     networks:
-      - traefik_default
+      - {{ docker.external_network }}
     command:
       - '--config.file=/etc/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'

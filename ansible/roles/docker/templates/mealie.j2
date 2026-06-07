@@ -4,8 +4,8 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ docker.external_network }}:
+    name: {{ docker.external_network }}
     external: true
 
 services:
@@ -40,4 +40,4 @@ services:
       TZ: Europe/Berlin
       BASE_URL: http://{{ main.hostname }}
     networks:
-      - traefik_default
+      - {{ docker.external_network }}

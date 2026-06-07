@@ -4,8 +4,8 @@
 #######################################
 
 networks:
-  traefik_default:
-    name: traefik_default
+  {{ docker.external_network }}:
+    name: {{ docker.external_network }}
     external: true
 
 services:
@@ -32,4 +32,4 @@ services:
       - 8081:80
     restart: unless-stopped
     networks:
-      - traefik_default
+      - {{ docker.external_network }}
