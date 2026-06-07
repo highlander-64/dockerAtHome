@@ -17,3 +17,10 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
+    labels:
+      - homepage.group=Haus
+      - hompepage.icon=homeassistant.png
+      - homepage.name=Home Assistant
+      - homepage.href=http://{{ main.hostname }}:8123
+      - homepage.description=Der ulitmative Smart Home Assistent
+      - homepage.showStats=false

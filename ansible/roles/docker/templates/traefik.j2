@@ -55,6 +55,12 @@ services:
       - traefik.http.routers.dashboard.middlewares=dashboard-stripprefix
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.middlewares.dashboard-stripprefix.stripprefix.prefixes=/traefik
+      - homepage.group=Administration
+      - hompepage.icon=traefik.png
+      - homepage.name=traefik
+      - homepage.href=http://{{ main.hostname }}/traefik/dashboard/
+      - homepage.description=Reverse proxy
+      - homepage.showStats=false
     command:
       - --api=true
       - --api.dashboard=true
@@ -62,7 +68,7 @@ services:
       - --metrics.prometheus.entryPoint=metrics
       - --log.level=Debug
       - --providers.docker=true
-      - --providers.docker.endpoint=tcp://docker-socket.proxy:2375
+      - --providers.docker.endpoint=tcp://docker-socket-proxy:2375
       - --providers.docker.network={{ dockerall.internal_network }}
       - --providers.docker.exposedByDefault=false
       - --providers.file.directory=/certs
