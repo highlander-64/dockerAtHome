@@ -21,6 +21,7 @@ docker:
   prometheus: v3.12.0
   traefik: v3.7.1
   wud: 8.2.2
+  socket_proxy: latest
 
 fritzbox_exporter:
   user: monitor

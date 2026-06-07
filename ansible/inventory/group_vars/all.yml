@@ -3,7 +3,7 @@
 main:
   hostname: jarvis.fritz.box
 
-mydocker:
+dockerall:
   id: 1002
   group: 100
   path: /srv/docker/
