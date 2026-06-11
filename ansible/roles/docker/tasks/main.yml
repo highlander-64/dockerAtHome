@@ -33,3 +33,6 @@
 
 - name: Install gethomepage
   include_tasks: gethomepage.yml
+
+- name: Install jellyfin
+  include_tasks: jellyfin.yml

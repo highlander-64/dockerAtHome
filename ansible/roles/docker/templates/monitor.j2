@@ -21,7 +21,7 @@ services:
       - traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/monitor
       - traefik.http.services.grafana.loadbalancer.server.port=3000
       - homepage.group=Werkzeug
-      - hompepage.icon=grafana.png
+      - homepage.icon=grafana.png
       - homepage.name=Grafana
       - homepage.href=http://{{ main.hostname }}/monitor
       - homepage.description=Monitoring
@@ -51,7 +51,7 @@ services:
       - traefik.http.routers.prometheus.rule=host(`{{ main.hostname }}`)  && PathPrefix(`/prometheus`)
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
       - homepage.group=Administration
-      - hompepage.icon=prometheus.png
+      - homepage.icon=prometheus.png
       - homepage.name=Prometheus
       - homepage.href=http://{{ main.hostname }}/prometheus
       - homepage.description=Metrics collector

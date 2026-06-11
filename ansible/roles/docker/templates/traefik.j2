@@ -56,7 +56,7 @@ services:
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.middlewares.dashboard-stripprefix.stripprefix.prefixes=/traefik
       - homepage.group=Administration
-      - hompepage.icon=traefik.png
+      - homepage.icon=traefik.png
       - homepage.name=Traefik
       - homepage.href=http://{{ main.hostname }}/traefik/dashboard/
       - homepage.description=Reverse proxy

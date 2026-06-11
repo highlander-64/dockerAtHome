@@ -16,3 +16,11 @@
     format:
       dateStyle: short
       timeStyle: short
+
+- openmeteo:
+    label: {{ secret_gethomepage.town }}
+    timezone: Europe/Berlin
+    units: metric
+    latitude: {{ secret_gethomepage.latitude }}
+    longitude: {{ secret_gethomepage.longitude }}
+    cache: 5

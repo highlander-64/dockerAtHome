@@ -33,3 +33,31 @@
       path: /mnt/backup
       state: mounted
       fstype: nfs
+# Create mount directory for video
+  - name: Ensure video directory exists
+    file:
+      dest: "/mnt/media/video"
+      mode: 0775
+      state: directory
+# Mount video directory from Synology
+  - name: Mount share from nfs server
+#    become: yes
+    ansible.posix.mount:
+      src: "{{ nfs_server }}:/volume1/video"
+      path: /mnt/media/video
+      state: mounted
+      fstype: nfs
+# Create mount directory for music
+  - name: Ensure music directory exists
+    file:
+      dest: "/mnt/media/music"
+      mode: 0775
+      state: directory
+# Mount music directory from Synology
+  - name: Mount share from nfs server
+#    become: yes
+    ansible.posix.mount:
+      src: "{{ nfs_server }}:/volume1/music"
+      path: /mnt/media/music
+      state: mounted
+      fstype: nfs
