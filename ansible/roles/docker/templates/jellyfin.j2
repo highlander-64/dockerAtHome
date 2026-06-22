@@ -22,18 +22,19 @@ services:
       - {{ dockerall.data_path }}jellyfin-data/cache:/cache
       - /mnt/media:/media
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.jellyfin.entryPoints=web
-      - traefik.http.routers.jellyfin.rule=host(`{{ main.hostname }}`) && PathPrefix(`/jellyfin`)
-      - traefik.http.routers.jellyfin.service=jellyfin
-      - traefik.http.routers.jellyfin.middlewares=jellyfin-stripprefix
-      - traefik.http.middlewares.jellyfin-stripprefix.stripprefix.prefixes=/jellyfin
+# Traefik configuration removed. It works fine with browsers, but not with applications.
+#      - traefik.enable=true
+#      - traefik.http.routers.jellyfin.entryPoints=web
+#      - traefik.http.routers.jellyfin.rule=host(`{{ main.hostname }}`) && PathPrefix(`/jellyfin`)
+#      - traefik.http.routers.jellyfin.service=jellyfin
+#      - traefik.http.routers.jellyfin.middlewares=jellyfin-stripprefix
+#      - traefik.http.middlewares.jellyfin-stripprefix.stripprefix.prefixes=/jellyfin
 #      - traefik.http.middlewares.jellyfin-stripprefix.stripprefix.forceslash=true
-      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
+#      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
       - homepage.group=Unterhaltung
       - homepage.icon=jellyfin.png 
       - homepage.name=JellyFin
-      - homepage.href=http://{{ main.hostname }}/jellyfin
+      - homepage.href=http://{{ main.hostname }}:8096
       - homepage.description=Die Mediathek
       - homepage.showStats=false
     ports:
