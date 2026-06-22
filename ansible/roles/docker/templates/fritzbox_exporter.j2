@@ -16,7 +16,7 @@ services:
         - "9042:9042"
       environment:
         USERNAME: {{fritzbox_exporter.user}}
-        PASSWORD: {{fritzbox_exporter.password}}
+        PASSWORD: {{secret_fritzbox_exporter.password}}
         GATEWAY_URL: {{fritzbox_exporter.gateway}}
         LISTEN_ADDRESS: 0.0.0.0:9042
       networks:

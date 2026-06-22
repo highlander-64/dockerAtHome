@@ -1,0 +1,46 @@
+---
+# task to setup jellyfin
+- name: Check, if docker-compose file exists
+  stat:
+    path: "{{ dockerall.compose_files_path }}jellyfin/docker-compose.yaml"
+  register: docker_compose
+
+- name: Create jellyfin directory
+  file:
+    path: "{{ dockerall.compose_files_path }}jellyfin"
+    state: directory
+    owner: docker
+    group: docker
+  when: not docker_compose.stat.exists
+
+- name: Check, if jellyfin data folder exists
+  stat:
+    path: "{{ dockerall.data_path }}jellyfin-data"
+  register: jellyfin_data
+
+- name: Create jellyfin data directory
+  file:
+    path: "{{ dockerall.data_path }}jellyfin-data"
+    state: directory
+    owner: docker
+    group: docker
+  when: not jellyfin_data.stat.exists
+
+- name: Stop jellyfin container
+  command: docker compose down
+  args:
+    chdir: "{{ dockerall.compose_files_path }}jellyfin"
+  when: docker_compose.stat.exists
+
+- name: Copy jellyfin compose file
+  template:
+    src: jellyfin.j2
+    dest: "{{ dockerall.compose_files_path }}jellyfin/docker-compose.yaml"
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Start jellyfin container
+  command: docker compose up -d
+  args:
+    chdir: "{{ dockerall.compose_files_path }}jellyfin"

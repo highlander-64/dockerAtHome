@@ -16,14 +16,21 @@ services:
     user:
       {{ dockerall.id }}:{{ dockerall.group }}
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.mealie.entrypoints=web
-      - traefik.http.routers.mealie.rule=host(`{{ main.hostname }}`) && PathPrefix(`/mealie`)
-      - traefik.http.routers.mealie.middlewares=mealie-stripprefix
-      - traefik.http.routers.mealie.service=mealie
-      - traefik.http.middlewares.mealie-stripprefix.stripprefix.prefixes="`/mealie`"
+# Mealie doesn't support subpath, therefore traefik is not working as expected
+#      - traefik.enable=true
+#      - traefik.http.routers.mealie.entrypoints=web
+#      - traefik.http.routers.mealie.rule=host(`{{ main.hostname }}`) && PathPrefix(`/mealie`)
+#      - traefik.http.routers.mealie.middlewares=mealie-stripprefix
+#      - traefik.http.routers.mealie.service=mealie
+#      - traefik.http.middlewares.mealie-stripprefix.stripprefix.prefixes="`/mealie`"
 #      - traefik.http.middlewares.mealie-stripprefix.stripprefix.forceslash="true"
-      - traefik.http.services.mealie.loadbalancer.server.port=9000
+#      - traefik.http.services.mealie.loadbalancer.server.port=9000
+      - homepage.group=Haus
+      - homepage.icon=mealie.png
+      - homepage.name=Mealie
+      - homepage.href=http://{{ main.hostname }}:9925
+      - homepage.description=Rezeptverwaltung
+      - homepage.showStats=false
     ports:
         - "9925:9000" # 
     deploy:

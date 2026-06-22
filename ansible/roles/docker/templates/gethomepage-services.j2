@@ -9,3 +9,24 @@
       widget:
         type: fritzbox
         url: http://192.168.10.1
+        highlight:
+          connectionStatus:
+            string:
+              - level: danger
+                when: equals
+                value: "Not connected"
+              - level: good
+                when: equals
+                value: "Connected"
+
+- Administration:
+  - Synology:
+      icon: synology.png
+      href: http://sol.fritz.box:5000
+      description: Admin console für die NAS
+
+- Unterhaltung:
+  - Plex:
+      icon: plex.png
+      href: http://sol.fritz.box:32400/web/index.html#!/
+      description: Filme und Serien
