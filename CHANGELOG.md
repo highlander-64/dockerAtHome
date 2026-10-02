@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/highlander-64/dockerAtHome/compare/v0.2.1...v0.2.2) (2026-10-02)
+
+
+### Bug Fixes
+
+* Update docker tags to get latest versions of applications ([#10](https://github.com/highlander-64/dockerAtHome/issues/10)) ([366c187](https://github.com/highlander-64/dockerAtHome/commit/366c1874c0f58d38bab1ca3ae4ceaaa98a1009e1))
+
 ## [0.2.1](https://github.com/highlander-64/dockerAtHome/compare/v0.2.0...v0.2.1) (2026-06-04)
 
 
