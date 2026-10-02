@@ -11,19 +11,19 @@ backup:
 
 # Set version for each docker compose file
 docker:
-  cops: version-4.3.3
-  fritzbox_exporter: 2589dd69e722ba2d0c6841e348bbc4b7bdb361d9
+  cops: version-4.5.4
+  fritzbox_exporter: 50ebd8ff4588208b46fe7caed312903e18f96d3b
   homeassistant: stable
-  mealie: v3.19.2
+  mealie: v3.28.0
   cadvisor: v0.55.1
-  node_exporter: v1.11.1
-  grafana: 13.1.0-25893932881-ubuntu
-  prometheus: v3.12.0
-  traefik: v3.7.1
-  wud: 8.2.2
-  socket_proxy: v0.4.2
-  gethomepage: v1.13.1
-  jellyfin: 10.11.11
+  node_exporter: v1.12.1
+  grafana: 13.2.3
+  prometheus: v3.15.0
+  traefik: v3.7.13
+  wud: 9.2.1
+  socket_proxy: v0.5.0
+  gethomepage: v2.4.0
+  jellyfin: 12.1
 
 fritzbox_exporter:
   user: monitor
