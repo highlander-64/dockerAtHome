@@ -21,7 +21,9 @@ services:
     environment:
       - WUD_WATCHER_LOCAL_DISABLE=true
       - WUD_WATCHER_PROXY_HOST=docker-socket-proxy
-      - WUD_WATCHER_PROXY_PORT=2375      
+      - WUD_WATCHER_PROXY_PORT=2375
+      - WUD_AUTH_ADMIN_USER={{ secret_wud.username }}
+      - WUD_AUTH_ADMIN_PASSWORD={{ secret_wud.password }}
 
 # Currently, wud doesn't support subpaths, traefik redirect is not working
     labels:
@@ -41,6 +43,8 @@ services:
       - homepage.showStats=true
       - homepage.widget.type=whatsupdocker
       - homepage.widget.url=http://{{ main.hostname }}:3000
+      - homepage.widget.username={{ secret_wud.username }}
+      - homepage.widget.password={{ secret_wud.password }}
 
     ports:
       - 3000:3000

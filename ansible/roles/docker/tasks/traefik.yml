@@ -5,6 +5,14 @@
     path: "{{ dockerall.compose_files_path }}traefik/docker-compose.yaml"
   register: docker_compose
 
+- name: Check, if one of the files will be changed
+  template:
+    src: "{{ item.src}}"
+    dest: "{{ item.dest }}"
+  check_mode: true
+  loop: "{{ traefik.template_check }}"
+  register: template_check_result
+  
 - name: Create traefik directory
   file:
     path: "{{ dockerall.compose_files_path }}traefik"
@@ -13,21 +21,25 @@
     group: docker
   when: not docker_compose.stat.exists
 
-- name: Stop traefik container
-  command: docker compose down
-  args:
-    chdir: "{{ dockerall.compose_files_path }}traefik"
-  when: docker_compose.stat.exists
-
-- name: Copy traefik compose file
-  template:
-    src: traefik.j2
-    dest: "{{ dockerall.compose_files_path }}traefik/docker-compose.yaml"
-    owner: docker
-    group: docker
-    mode: '0644'
-
-- name: Start traefik container
-  command: docker compose up -d
-  args:
-    chdir: "{{ dockerall.compose_files_path }}traefik"
+- name: Change docker configuration for traefik and restart container if needed
+  block:
+  - name: Stop traefik container
+    command: docker compose down
+    args:
+      chdir: "{{ dockerall.compose_files_path }}traefik"
+    when: docker_compose.stat.exists
+  
+  - name: Copy traefik compose file
+    template:
+      src: traefik.j2
+      dest: "{{ dockerall.compose_files_path }}traefik/docker-compose.yaml"
+      owner: docker
+      group: docker
+      mode: '0644'
+  
+  - name: Start traefik container
+    command: docker compose up -d
+    args:
+      chdir: "{{ dockerall.compose_files_path }}traefik"
+  
+  when: template_check_result.results | selectattr('changed') | list | length > 0

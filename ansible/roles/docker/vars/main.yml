@@ -25,17 +25,52 @@ docker:
   gethomepage: v2.4.0
   jellyfin: 12.1
 
+cops:
+  template_check:
+    - { src: cops.j2, dest: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml" }
+    - { src: cops_local_php.j2, dest: "{{ dockerall.compose_files_path }}cops/local.php" }
+
 fritzbox_exporter:
   user: monitor
   gateway: http://192.168.10.1:49000
+  template_check:
+    - { src: fritzbox_exporter.j2, dest: "{{ dockerall.compose_files_path }}fritzbox_exporter/docker-compose.yaml" }
 
 gethomepage:
-  config_files:
-    - template: gethomepage-settings.j2
-      dest: "{{ dockerall.data_path }}gethomepage-data/settings.yaml"
-    - template: gethomepage-docker.j2
-      dest: "{{ dockerall.data_path }}gethomepage-data/docker.yaml"
-    - template: gethomepage-services.j2
-      dest: "{{ dockerall.data_path }}gethomepage-data/services.yaml"
-    - template: gethomepage-widgets.j2
-      dest: "{{ dockerall.data_path }}gethomepage-data/widgets.yaml"
+  template_check:
+    - { src: gethomepage.j2, dest: "{{ dockerall.compose_files_path }}gethomepage/docker-compose.yaml" }
+    - { src: gethomepage-settings.j2, dest: "{{ dockerall.data_path }}gethomepage-data/settings.yaml" }
+    - { src: gethomepage-docker.j2, dest: "{{ dockerall.data_path }}gethomepage-data/docker.yaml" }
+    - { src: gethomepage-services.j2, dest: "{{ dockerall.data_path }}gethomepage-data/services.yaml" }
+    - { src: gethomepage-widgets.j2, dest: "{{ dockerall.data_path }}gethomepage-data/widgets.yaml" }
+    - { src: gethomepage-bookmarks.j2, dest: "{{ dockerall.data_path }}gethomepage-data/bookmarks.yaml" }
+
+homeassistant:
+  template_check:
+    - { src: homeassistant.j2, dest: "{{ dockerall.compose_files_path }}homeassistant/docker-compose.yaml" }
+
+jellyfin:
+  template_check:
+    - { src: jellyfin.j2, dest: "{{ dockerall.compose_files_path }}jellyfin/docker-compose.yaml" }
+
+mealie:
+  template_check:
+    - { src: mealie.j2, dest: "{{ dockerall.compose_files_path }}mealie/docker-compose.yaml" }
+
+monitor_clients:
+  template_check:
+    - { src: monitor_clients.j2, dest: "{{ dockerall.compose_files_path }}monitor_clients/docker-compose.yaml" }
+
+monitor:
+  template_check:
+    - { src: monitor.j2, dest: "{{ dockerall.compose_files_path }}monitor/docker-compose.yaml" }
+    - { src: prometheus.j2, dest: "{{ dockerall.data_path }}monitor/prometheus.yml" }
+
+traefik:
+  template_check:
+    - { src: traefik.j2, dest: "{{ dockerall.compose_files_path }}traefik/docker-compose.yaml" }
+
+wud:
+  template_check:
+    - { src: wud.j2, dest: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml" }
+

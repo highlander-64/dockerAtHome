@@ -52,8 +52,11 @@ services:
       # Unsecure configuration, don't use it in public environment
       - traefik.http.routers.dashboard.entryPoints=web
       - traefik.http.routers.dashboard.rule=Host(`{{ main.hostname }}`) && (PathPrefix(`/traefik/dashboard`) || PathPrefix(`/api`))
-      - traefik.http.routers.dashboard.middlewares=dashboard-stripprefix
+      - traefik.http.routers.dashboard.middlewares=dashboard-add-slash,dashboard-stripprefix
       - traefik.http.routers.dashboard.service=api@internal
+      - "traefik.http.middlewares.dashboard-add-slash.redirectregex.regex=^(https?://[^/]+/traefik/dashboard)(\\?.*)?$$"
+      - "traefik.http.middlewares.dashboard-add-slash.redirectregex.replacement=$${1}/$${2}"
+      - traefik.http.middlewares.dashboard-add-slash.redirectregex.permanent=true
       - traefik.http.middlewares.dashboard-stripprefix.stripprefix.prefixes=/traefik
       - homepage.group=Administration
       - homepage.icon=traefik.png
@@ -61,6 +64,8 @@ services:
       - homepage.href=http://{{ main.hostname }}/traefik/dashboard/
       - homepage.description=Reverse proxy
       - homepage.showStats=false
+      - homepage.widget.type=traefik
+      - homepage.widget.url=http://jarvis.fritz.box
     command:
       - --api=true
       - --api.dashboard=true

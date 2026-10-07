@@ -5,6 +5,14 @@
     path: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml"
   register: docker_compose
 
+- name: Check, if one of the files will be changed
+  template:
+    src: "{{ item.src}}"
+    dest: "{{ item.dest }}"
+  check_mode: true
+  loop: "{{ wud.template_check }}"
+  register: template_check_result
+  
 - name: Create wud directory
   file:
     path: "{{ dockerall.compose_files_path }}wud"
@@ -13,21 +21,25 @@
     group: docker
   when: not docker_compose.stat.exists
 
-- name: Stop wud container
-  command: docker compose down
-  args:
-    chdir: "{{ dockerall.compose_files_path }}wud"
-  when: docker_compose.stat.exists
+- name: Change docker configuration for wud and restart container if needed
+  block:
+  - name: Stop wud container
+    command: docker compose down
+    args:
+      chdir: "{{ dockerall.compose_files_path }}wud"
+    when: docker_compose.stat.exists
+  
+  - name: Copy wud compose file
+    template:
+      src: wud.j2
+      dest: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml"
+      owner: docker
+      group: docker
+      mode: '0644'
+  
+  - name: Start wud container
+    command: docker compose up -d
+    args:
+      chdir: "{{ dockerall.compose_files_path }}wud"
 
-- name: Copy wud compose file
-  template:
-    src: wud.j2
-    dest: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml"
-    owner: docker
-    group: docker
-    mode: '0644'
-
-- name: Start wud container
-  command: docker compose up -d
-  args:
-    chdir: "{{ dockerall.compose_files_path }}wud"
+  when: template_check_result.results | selectattr('changed') | list | length > 0
