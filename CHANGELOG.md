@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/highlander-64/dockerAtHome/compare/v0.2.2...v0.2.3) (2026-10-07)
+
+
+### Bug Fixes
+
+* adding check, if ansible will change files and if not, skip task. Adding some homepage widgets, add user and password for wud, which is mandatory now ([#12](https://github.com/highlander-64/dockerAtHome/issues/12)) ([a2588b3](https://github.com/highlander-64/dockerAtHome/commit/a2588b3e7af2e5fca34227cb9ccc0adfdff07977))
+
 ## [0.2.2](https://github.com/highlander-64/dockerAtHome/compare/v0.2.1...v0.2.2) (2026-10-02)
 
 
