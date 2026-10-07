@@ -1,6 +1,5 @@
 #######################################
 # jellyfin - media server
-# installed via ansible {{ ansible_date_time['date'] }}
 #######################################
 
 networks:
@@ -10,7 +9,7 @@ networks:
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin  #:{{ docker.jellyfin }}
+    image: jellyfin/jellyfin:{{ docker.jellyfin }}
     container_name: jellyfin
     environment:
       - PUID=1027
@@ -37,6 +36,12 @@ services:
       - homepage.href=http://{{ main.hostname }}:8096
       - homepage.description=Die Mediathek
       - homepage.showStats=false
+      - homepage.widget.type=jellyfin
+      - homepage.widget.version=2
+      - homepage.widget.url=http://{{ main.hostname }}:8096
+      - homepage.widget.enableBlocks=true
+      - homepage.widget.key={{ secret_gethomepage.jellyfinapikey }}
+      - homepage.widget.fields=["movies", "series", "episodes"]
     ports:
       - 8096:8096
       - 8920:8920        # optional

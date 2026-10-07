@@ -1,3 +1,7 @@
+#######################################
+# Homapage - default page for internal net
+#######################################
+
 networks:
   {{ dockerall.external_network }}:
     name: {{ dockerall.external_network }}
@@ -8,7 +12,7 @@ networks:
 
 services:
   homepage:
-    image: ghcr.io/gethomepage/homepage:latest
+    image: ghcr.io/gethomepage/homepage:{{ docker.gethomepage }}
     container_name: homepage
     ports:
       - 3030:3000

@@ -10,6 +10,7 @@ Ansible is installed on a Raspberry Pi. Secrets are encrypted with Ansible Vault
 
 ## Role Variables
 
+Variables, which are used for all playbooks, are stored in group_vars/all/all.yml
 main:  
 
     hostname:                  - name of target host, e. g. jarvis.fritz.box  
@@ -17,11 +18,42 @@ main:
     docker-compose-files-path: - base path of docker compose files, for each application, the subfolder will be created in this directory, e. g. /srv/docker/docker/  
     docker-data-path:          - path of your data directory for mounted docker volumes, e. g. /srv/docker/data/
 
+Dedicated variables for this role are:
+
 fritzbox_exporter:  
 
     user:                      - username of fritzbox user to gather metrics, e.g .monitor  
-    password:                  - password of fritzbox user, encrypted with Ansible Vault  
     gateway:                   - FritzBox gateway URL, e. g. http://192.168.10.1:49000
+
+backup:
+  backup_path: path to backup storage
+  backup_filename: name of the backup file
+  restore_filename: name of the restore file
+  control_filename: name of the control file
+  systemd_name: systemd name for systemctl
+  systemd_time: time to run backup
+
+Set version for each docker compose file
+
+docker:
+  cops:
+  fritzbox_exporter:
+  homeassistant:
+  mealie:
+  cadvisor:
+  node_exporter:
+  grafana:
+  prometheus:
+  traefik:
+  wud:
+  socket_proxy:
+  gethomepage:
+  jellyfin:
+
+Set the config files for gethomepage:
+
+gethomepage:
+  config_files:
 
 ## Example Playbook
 

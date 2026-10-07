@@ -1,6 +1,5 @@
 #######################################
 # cops - small calibre server
-# installed via ansible {{ ansible_date_time['date'] }}
 #######################################
 
 networks:
@@ -26,7 +25,6 @@ services:
       - traefik.http.routers.cops.service=cops
       - traefik.http.routers.cops.middlewares=cops-stripprefix
       - traefik.http.middlewares.cops-stripprefix.stripprefix.prefixes=/cops
-#      - traefik.http.middlewares.cops-stripprefix.stripprefix.forceslash=true
       - traefik.http.services.cops.loadbalancer.server.port=80
       - homepage.group=Haus
       - homepage.icon=calibre.png 

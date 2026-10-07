@@ -1,9 +1,17 @@
 ---
 # task to setup cops
-- name: Check, if docker-compose file exists
+- name: Check, if docker-compose file exists and cops is installed
   stat:
     path: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml"
   register: docker_compose
+
+- name: Check, if one of the files will be changed
+  template:
+    src: "{{ item.src}}"
+    dest: "{{ item.dest }}"
+  check_mode: true
+  loop: "{{ cops.template_check }}"
+  register: template_check_result
 
 - name: Create cops directory
   file:
@@ -13,29 +21,26 @@
     group: docker
   when: not docker_compose.stat.exists
 
-- name: Stop cops container
-  command: docker compose down
-  args:
-    chdir: "{{ dockerall.compose_files_path }}cops"
-  when: docker_compose.stat.exists
+- name: Change docker configuration for cops and restart container if needed
+  block:
+    - name: Stop cops container
+      command: docker compose down
+      args:
+        chdir: "{{ dockerall.compose_files_path }}cops"
+      when: docker_compose.stat.exists
 
-- name: Copy cops compose file
-  template:
-    src: cops.j2
-    dest: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml"
-    owner: docker
-    group: docker
-    mode: '0644'
+    - name: Copy cops compose file
+      template:
+        src: "{{ item.src}}"
+        dest: "{{ item.dest }}"
+        owner: docker
+        group: docker
+        mode: '0644'
+      loop: "{{ cops.template_check }}"
 
-- name: Copy cops local.php file
-  template:
-    src: cops_local_php.j2
-    dest: "{{ dockerall.compose_files_path }}cops/local.php"
-    owner: docker
-    group: docker
-    mode: '0644'
+    - name: Start cops container
+      command: docker compose up -d
+      args:
+        chdir: "{{ dockerall.compose_files_path }}cops"
 
-- name: Start cops container
-  command: docker compose up -d
-  args:
-    chdir: "{{ dockerall.compose_files_path }}cops"
+  when: template_check_result.results | selectattr('changed') | list | length > 0

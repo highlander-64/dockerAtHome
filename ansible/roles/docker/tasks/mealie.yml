@@ -5,6 +5,14 @@
     path: "{{ dockerall.compose_files_path }}mealie/docker-compose.yaml"
   register: docker_compose
 
+- name: Check, if one of the files will be changed
+  template:
+    src: "{{ item.src}}"
+    dest: "{{ item.dest }}"
+  check_mode: true
+  loop: "{{ mealie.template_check }}"
+  register: template_check_result
+  
 - name: Create mealie directory
   file:
     path: "{{ dockerall.compose_files_path }}mealie"
@@ -26,21 +34,25 @@
     group: docker
   when: not mealie_data.stat.exists
 
-- name: Stop mealie container
-  command: docker compose down
-  args:
-    chdir: "{{ dockerall.compose_files_path }}mealie"
-  when: docker_compose.stat.exists
+- name: Change docker configuration for mealie and restart container if needed
+  block:
+  - name: Stop mealie container
+    command: docker compose down
+    args:
+      chdir: "{{ dockerall.compose_files_path }}mealie"
+    when: docker_compose.stat.exists
+  
+  - name: Copy mealie compose file
+    template:
+      src: mealie.j2
+      dest: "{{ dockerall.compose_files_path }}mealie/docker-compose.yaml"
+      owner: docker
+      group: docker
+      mode: '0644'
+  
+  - name: Start mealie container
+    command: docker compose up -d
+    args:
+      chdir: "{{ dockerall.compose_files_path }}mealie"
 
-- name: Copy mealie compose file
-  template:
-    src: mealie.j2
-    dest: "{{ dockerall.compose_files_path }}mealie/docker-compose.yaml"
-    owner: docker
-    group: docker
-    mode: '0644'
-
-- name: Start mealie container
-  command: docker compose up -d
-  args:
-    chdir: "{{ dockerall.compose_files_path }}mealie"
+  when: template_check_result.results | selectattr('changed') | list | length > 0
