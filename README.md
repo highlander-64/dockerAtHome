@@ -32,8 +32,11 @@ A Raspberry Pi acts as the Ansible control node. The primary Docker host (`jarvi
 | Service | Description |
 | --- | --- |
 | [Traefik](https://traefik.io/) | Reverse proxy and ingress controller |
+| [Home Assistant](https://www.home-assistant.io/) | Ultimate smart home manager |
 | [Mealie](https://mealie.io/) | Self-hosted recipe manager |
+| [Jellyfin](https://jellyfin.org/) | Media manager |
 | [COPS](https://github.com/mikespub-org/seblucas-cops) | Calibre OPDS/HTML e-book server |
+| [homepage](https://gethomepage.dev/) | Dashboard for all services |
 | [WUD](https://fmartinou.github.io/whats-up-docker/) | Docker image update notifier |
 | [Prometheus](https://prometheus.io/) | Metrics collection and storage |
 | [Grafana](https://grafana.com/) | Monitoring dashboards |
