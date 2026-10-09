@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/highlander-64/dockerAtHome/compare/v0.2.3...v0.3.0) (2026-10-09)
+
+
+### Features
+
+* Add paperless ngx ([#15](https://github.com/highlander-64/dockerAtHome/issues/15)) ([c7c6e76](https://github.com/highlander-64/dockerAtHome/commit/c7c6e766629ac8a144783e546bdd4f4b8162e1d4))
+
 ## [0.2.3](https://github.com/highlander-64/dockerAtHome/compare/v0.2.2...v0.2.3) (2026-10-07)
 
 
