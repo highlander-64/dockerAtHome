@@ -1,0 +1,58 @@
+#######################################
+# paperless-ngx - paperless office
+#######################################
+
+networks:
+  {{ dockerall.external_network }}:
+    name: {{ dockerall.external_network }}
+    external: true
+
+services:
+  broker:
+    image: docker.io/valkey/valkey:{{ docker.valkey }}
+    restart: unless-stopped
+    volumes:
+      - {{ dockerall.data_path }}paperless-ngx-data/redis:/data
+    networks:
+      - {{ dockerall.external_network }}
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:{{ docker.paperless_ngx }}
+    restart: unless-stopped
+    depends_on:
+      - broker
+#    ports:
+#      - "8000:8000"
+    volumes:
+      - {{ dockerall.data_path }}paperless-ngx-data/sqlite:/usr/src/paperless/data
+      - {{ paperless_ngx.mediafolder }}:/usr/src/paperless/media
+      - {{ paperless_ngx.exportfolder }}:/usr/src/paperless/export
+      - {{ paperless_ngx.consumefolder }}:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBENGINE: sqlite
+      COMPOSE_PROJECT_NAME: paperless
+      PAPERLESS_TIME_ZONE: Europe/Berlin
+      PAPERLESS_SECRET_KEY: {{ secret_paperless_ngx.secret_key }}
+      PAPERLESS_ADMIN_USER: {{ secret_paperless_ngx.admin_user }}
+      PAPERLESS_ADMIN_PASSWORD: {{ secret_paperless_ngx.admin_password }}
+      PAPERLESS_OCR_LANGUAGE: deu
+      PAPERLESS_FORCE_SCRIPT_NAME: /paperless
+      PAPERLESS_STATIC_URL: /paperless/static/
+      USERMAP_UID: {{ nas.userid }}
+      USERMAP_GID: {{ nas.groupid }}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.paperless.entryPoints=web
+      - traefik.http.routers.paperless.rule=host(`{{ main.hostname }}`) && PathPrefix(`/paperless`)
+      - traefik.http.services.paperless.loadbalancer.server.port=8000
+      - homepage.group=Haus
+      - homepage.icon=paperless-ngx.png
+      - homepage.name=Paperless-ngx
+      - homepage.href=http://{{ main.hostname }}/paperless
+      - homepage.description=Aktenschrank
+      - homepage.showStats=false
+      - homepage.widget.type=paperlessngx
+      - homepage.widget.url=http://{{ main.hostname }}/paperless
+      - homepage.widget.key={{ secret_paperless_ngx.token }}
+    networks:
+      - traefik_external

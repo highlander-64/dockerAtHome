@@ -19,11 +19,13 @@ docker:
   node_exporter: v1.12.1
   grafana: 13.2.3
   prometheus: v3.15.0
-  traefik: v3.7.13
-  wud: 9.2.1
+  traefik: v3.7.14
+  wud: 9.3.0
   socket_proxy: v0.5.0
   gethomepage: v2.4.0
-  jellyfin: 12.1
+  jellyfin: 12.2
+  valkey: 9-alpine
+  paperless_ngx: 3.3.0
 
 cops:
   template_check:
@@ -74,3 +76,9 @@ wud:
   template_check:
     - { src: wud.j2, dest: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml" }
 
+paperless_ngx:
+  template_check:
+    - { src: paperless-ngx.j2, dest: "{{ dockerall.compose_files_path }}paperless-ngx/docker-compose.yaml" }
+  mediafolder: /mnt/Aktenschrank/Ablage
+  consumefolder: /mnt/Aktenschrank/Eingang
+  exportfolder: /mnt/Aktenschrank/Ausgang

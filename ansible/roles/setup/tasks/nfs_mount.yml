@@ -10,6 +10,9 @@
   - name: Ensure calibre directory exists
     file:
       dest: "/mnt/calibre"
+      mode: 0775
+      owner: "{{ nas.userid }}"
+      group: "{{ nas.groupid }}"
       state: directory
 # Mount calibre directory from Synology
   - name: Mount share from nfs server
@@ -59,5 +62,21 @@
     ansible.posix.mount:
       src: "{{ nfs_server }}:/volume1/music"
       path: /mnt/media/music
+      state: mounted
+      fstype: nfs
+# Create mount directory for paperless-ngx
+  - name: Ensure paperless-ngx directory exists
+    file:
+      dest: "/mnt/Aktenschrank"
+      mode: 0775
+      owner: "{{ nas.userid }}"
+      group: "{{ nas.groupid }}"
+      state: directory
+# Mount paperless-ngx directory from Synology
+  - name: Mount share from nfs server
+#    become: yes
+    ansible.posix.mount:
+      src: "{{ nfs_server }}:/volume1/Aktenschrank"
+      path: /mnt/Aktenschrank
       state: mounted
       fstype: nfs

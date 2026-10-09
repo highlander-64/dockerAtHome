@@ -1,6 +1,5 @@
 #######################################
 # wud - Whats up Docker
-# installed via ansible {{ ansible_date_time['date'] }}
 #######################################
 
 networks:
@@ -40,7 +39,7 @@ services:
       - homepage.icon=whats-up-docker.png
       - homepage.href=http://{{ main.hostname }}:3000
       - homepage.description=Der Docker Wächter
-      - homepage.showStats=true
+      - homepage.showStats=false
       - homepage.widget.type=whatsupdocker
       - homepage.widget.url=http://{{ main.hostname }}:3000
       - homepage.widget.username={{ secret_wud.username }}
