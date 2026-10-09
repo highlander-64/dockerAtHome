@@ -10,7 +10,7 @@
     src: "{{ item.src}}"
     dest: "{{ item.dest }}"
   check_mode: true
-  loop: "{{ paperless-ngx.template_check }}"
+  loop: "{{ paperless_ngx.template_check }}"
   register: template_check_result
 
 - name: Create paperless-ngx directory
@@ -49,7 +49,7 @@
       owner: docker
       group: docker
       mode: '0644'
-    loop: "{{ paperless_data.template_check }}"
+    loop: "{{ paperless_ngx.template_check }}"
 
   - name: Start paperless-ngx container
     command: docker compose up -d

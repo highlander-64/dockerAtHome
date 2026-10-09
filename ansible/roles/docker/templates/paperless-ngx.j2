@@ -16,7 +16,7 @@ services:
     networks:
       - {{ dockerall.external_network }}
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:{{ docker.paperless-ngx }}
+    image: ghcr.io/paperless-ngx/paperless-ngx:{{ docker.paperless_ngx }}
     restart: unless-stopped
     user: '{{ nas.userid }}:{{ nas.groupid }}'
     depends_on:
