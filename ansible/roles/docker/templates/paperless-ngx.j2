@@ -18,7 +18,7 @@ services:
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:{{ docker.paperless_ngx }}
     restart: unless-stopped
-    user: '{{ nas.userid }}:{{ nas.groupid }}'
+#    user: '{{ nas.userid }}:{{ nas.groupid }}'
     depends_on:
       - broker
 #    ports:
@@ -39,7 +39,7 @@ services:
       PAPERLESS_OCR_LANGUAGE: deu
       PAPERLESS_FORCE_SCRIPT_NAME: /paperless
       PAPERLESS_STATIC_URL: /paperless/static/
-      USERMAP_ID: {{ nas.userid }}
+      USERMAP_UID: {{ nas.userid }}
       USERMAP_GID: {{ nas.groupid }}
     labels:
       - traefik.enable=true
