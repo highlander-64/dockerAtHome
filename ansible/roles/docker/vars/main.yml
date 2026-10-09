@@ -25,7 +25,7 @@ docker:
   gethomepage: v2.4.0
   jellyfin: 12.2
   valkey: 9-alpine
-  paperless_ngx: v3.3.0
+  paperless_ngx: 3.3.0
 
 cops:
   template_check:
