@@ -46,7 +46,7 @@ services:
       - traefik.http.routers.paperless.rule=host(`{{ main.hostname }}`) && PathPrefix(`/paperless`)
       - traefik.http.services.paperless.loadbalancer.server.port=8000
       - homepage.group=Haus
-#      - homepage.icon=calibre.png 
+      - homepage.icon=paperless-ngx.png
       - homepage.name=Paperless-ngx
       - homepage.href=http://{{ main.hostname }}/paperless
       - homepage.description=Aktenschrank
