@@ -10,6 +10,9 @@
   - name: Ensure calibre directory exists
     file:
       dest: "/mnt/calibre"
+      mode: 0775
+      owner: "{{ nas.userid }}"
+      group: "{{ nas.groupid }}"
       state: directory
 # Mount calibre directory from Synology
   - name: Mount share from nfs server
@@ -66,6 +69,8 @@
     file:
       dest: "/mnt/Aktenschrank"
       mode: 0775
+      owner: "{{ nas.userid }}"
+      group: "{{ nas.groupid }}"
       state: directory
 # Mount paperless-ngx directory from Synology
   - name: Mount share from nfs server

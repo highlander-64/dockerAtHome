@@ -11,3 +11,7 @@ dockerall:
   data_path: /srv/docker/data/
   internal_network: traefik_internal
   external_network: traefik_external
+
+nas:
+  userid: 1027
+  groupid: 100

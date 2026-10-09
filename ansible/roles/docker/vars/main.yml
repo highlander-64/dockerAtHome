@@ -24,6 +24,8 @@ docker:
   socket_proxy: v0.5.0
   gethomepage: v2.4.0
   jellyfin: 12.1
+  valkey: 9-alpine
+  paperless-ngx: v3.3.0
 
 cops:
   template_check:
@@ -74,3 +76,6 @@ wud:
   template_check:
     - { src: wud.j2, dest: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml" }
 
+paperless-ngx:
+  template_check:
+    - { src: paperless-ngx.j2, dest: "{{ dockerall.compose_files_path }}paperless-ngx/docker-compose.yaml" }
