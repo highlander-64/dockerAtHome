@@ -33,9 +33,9 @@ services:
       PAPERLESS_DBENGINE: sqlite
       COMPOSE_PROJECT_NAME: paperless
       PAPERLESS_TIME_ZONE: Europe/Berlin
-      PAPERLESS_SECRET_KEY: {{ secret_paperless-ngx.secret_key }}
-      PAPERLESS_ADMIN_USER: {{ secret_paperless-ngx.admin_user }}
-      PAPERLESS_ADMIN_PASSWORD: {{ secret_paperless-ngx.admin_password }}
+      PAPERLESS_SECRET_KEY: {{ secret_paperless_ngx.secret_key }}
+      PAPERLESS_ADMIN_USER: {{ secret_paperless_ngx.admin_user }}
+      PAPERLESS_ADMIN_PASSWORD: {{ secret_paperless_ngx.admin_password }}
       PAPERLESS_OCR_LANGUAGE: deu
       PAPERLESS_FORCE_SCRIPT_NAME: /paperless
       PAPERLESS_STATIC_URL: /paperless/static/
@@ -54,6 +54,6 @@ services:
       - homepage.showStats=false
       - homepage.widget.type=paperlessngx
       - homepage.widget.url={{ main.hostname }}/paperless
-      - homepage.widget.key={{ secret_paperless-ngx.token }}
+      - homepage.widget.key={{ secret_paperless_ngx.token }}
     networks:
       - traefik_external
