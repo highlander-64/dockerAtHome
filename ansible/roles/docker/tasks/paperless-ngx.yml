@@ -26,7 +26,7 @@
     path: "{{ dockerall.data_path }}paperless-ngx-data"
   register: paperless_data
 
-- name: Create paperless-ngx data for redis directory
+- name: Create paperless-ngx data directories
   file:
     path: "{{ item }}"
     state: directory
