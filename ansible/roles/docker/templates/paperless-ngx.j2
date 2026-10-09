@@ -18,7 +18,6 @@ services:
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:{{ docker.paperless_ngx }}
     restart: unless-stopped
-#    user: '{{ nas.userid }}:{{ nas.groupid }}'
     depends_on:
       - broker
 #    ports:
@@ -53,7 +52,7 @@ services:
       - homepage.description=Aktenschrank
       - homepage.showStats=false
       - homepage.widget.type=paperlessngx
-      - homepage.widget.url={{ main.hostname }}/paperless
+      - homepage.widget.url=http://{{ main.hostname }}/paperless
       - homepage.widget.key={{ secret_paperless_ngx.token }}
     networks:
       - traefik_external
