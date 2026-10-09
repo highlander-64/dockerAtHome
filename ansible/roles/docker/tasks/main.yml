@@ -36,3 +36,6 @@
 
 - name: Install jellyfin
   include_tasks: jellyfin.yml
+
+- name: Install paperless-ngx
+  include_tasks: paperless-ngx.yml
