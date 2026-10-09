@@ -25,9 +25,9 @@ services:
 #      - "8000:8000"
     volumes:
       - {{ dockerall.data_path }}paperless-ngx-data/sqlite:/usr/src/paperless/data
-      - /mnt/Aktenschrank/Ablage:/usr/src/paperless/media
-      - /mnt/Aktenschrank/Ausgang:/usr/src/paperless/export
-      - /mnt/Aktenschrank/Eingang:/usr/src/paperless/consume
+      - {{ paperless_ngx.mediafolder }}:/usr/src/paperless/media
+      - {{ paperless_ngx.exportfolder }}:/usr/src/paperless/export
+      - {{ paperless_ngx_consumefolder }}:/usr/src/paperless/consume
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBENGINE: sqlite
@@ -50,7 +50,7 @@ services:
 #      - homepage.icon=calibre.png 
       - homepage.name=Paperless-ngx
       - homepage.href=http://{{ main.hostname }}/paperless
-      - homepage.description=Aktenschranj
+      - homepage.description=Aktenschrank
       - homepage.showStats=false
       - homepage.widget.type=paperlessngx
       - homepage.widget.url={{ main.hostname }}/paperless

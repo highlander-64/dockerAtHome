@@ -79,3 +79,6 @@ wud:
 paperless_ngx:
   template_check:
     - { src: paperless-ngx.j2, dest: "{{ dockerall.compose_files_path }}paperless-ngx/docker-compose.yaml" }
+  mediafolder: /mnt/Aktenschrank/Ablage
+  consumefolder: /mnt/Aktenschrank/Eingang
+  exportfolder: /mnt/Aktenschrank/Ausgang

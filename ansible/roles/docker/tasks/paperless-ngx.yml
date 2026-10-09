@@ -28,11 +28,28 @@
 
 - name: Create paperless-ngx data for redis directory
   file:
-    path: "{{ dockerall.data_path }}paperless-ngx-data"
+    path: "{{ item }}"
     state: directory
-    owner: docker
-    group: docker
+    owner: {{ nas.userid }}
+    group: {{ nas.groupid }}
+  loop:
+    - "{{ dockerall.data_path }}paperless-ngx-data"
+    - "{{ paperless_ngx.mediafolder }}"
+    - "{{ paperless_ngx.consumefolder }}"
+    - "{{ paperless_ngx.exportfolder }}"
   when: not paperless_data.stat.exists
+
+  - name: Create gethomepage data directory
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: docker
+      group: docker
+    loop:
+      - "{{ dockerall.data_path }}gethomepage-data"
+      - "{{ dockerall.data_path }}gethomepage-data/images"
+      - "{{ dockerall.data_path }}gethomepage-data/icons"
+    when: not gethomepage_data.stat.exists
 
 - name: Change docker configuration for paperless-ngx and restart container if needed
   block:
