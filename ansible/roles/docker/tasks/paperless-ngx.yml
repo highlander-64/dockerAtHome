@@ -30,8 +30,8 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: {{ nas.userid }}
-    group: {{ nas.groupid }}
+    owner: "{{ nas.userid }}"
+    group: "{{ nas.groupid }}"
   loop:
     - "{{ dockerall.data_path }}paperless-ngx-data"
     - "{{ paperless_ngx.mediafolder }}"
