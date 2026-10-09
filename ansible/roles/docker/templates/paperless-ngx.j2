@@ -27,7 +27,7 @@ services:
       - {{ dockerall.data_path }}paperless-ngx-data/sqlite:/usr/src/paperless/data
       - {{ paperless_ngx.mediafolder }}:/usr/src/paperless/media
       - {{ paperless_ngx.exportfolder }}:/usr/src/paperless/export
-      - {{ paperless_ngx_consumefolder }}:/usr/src/paperless/consume
+      - {{ paperless_ngx.consumefolder }}:/usr/src/paperless/consume
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBENGINE: sqlite
