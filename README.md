@@ -157,7 +157,7 @@ The playbook safely stops the existing container, applies the new compose file, 
 
 ### Automated image updates with Renovate
 
-Renovate checks the image versions in `ansible/roles/docker/vars/main.yml` and opens pull requests for available updates. Its configuration is in `renovate.json`; patch updates are configured for auto-merge, while minor and major updates remain open for manual review.
+Renovate checks the image versions in `ansible/roles/docker/vars/main.yml` and opens pull requests for available updates. Its configuration is in `renovate.json`; patch and minor updates are configured for auto-merge only when Renovate explicitly marks them as non-breaking (`isBreaking: false`). Major updates and updates without that explicit assessment remain open for manual review.
 
 To enable Renovate on GitHub:
 
@@ -169,7 +169,7 @@ To enable Renovate on GitHub:
 6. Require pull requests for changes to `main` and add these required status checks:
    - `yaml-lint`
    - `ansible-validate`
-7. Prevent force pushes to `main`. For automatic patch merges, do not require a human approval; the required checks provide the merge gate. If approvals are required, someone must approve Renovate's pull requests before they can merge.
+7. Prevent force pushes to `main`. For automatic patch and minor merges, do not require a human approval; the required checks provide the merge gate. If approvals are required, someone must approve Renovate's pull requests before they can merge.
 
 The required check names become available for selection after the `Validate` workflow in `.github/workflows/validate.yml` has run on a pull request. It runs YAML linting and Ansible playbook syntax checks; it does not deploy or test upgraded containers on the Docker host. For the syntax check, Ansible uses a local inventory and an isolated configuration, so it does not load the local `ansible.cfg`, require a Vault password, or contact production hosts. Renovate updates and merges version changes in Git, but deployment still requires running `ansible-playbook ansible/playbooks/docker.yml` (or configuring a separate deployment workflow).
 
