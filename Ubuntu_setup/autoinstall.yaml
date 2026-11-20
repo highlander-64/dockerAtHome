@@ -2,14 +2,26 @@
 autoinstall:
   version: 1
 
+  early-commands:
+    # Disable active swap so existing partitions do not block disk repartitioning.
+    - swapoff --all
+
   refresh-installer:
     update: true
-    channel: latest/edge
+# Removed, because it is not needed for the autoinstallation and can cause issues with the installation process.
+#    channel: latest/edge
 
   updates: all 
 
   source:
     id: ubuntu-server-minimal
+
+  # Select and repartition the largest disk for the Ubuntu installation.
+  storage:
+    layout:
+      name: lvm
+      match:
+        size: largest
 
   keyboard:
     layout: de
@@ -19,6 +31,9 @@ autoinstall:
   ssh:
     install-server: true
     allow-pw: false
+
+  late-commands:
+    - curtin in-target --target=/target -- systemctl enable ssh.service
 
   user-data:
     users:

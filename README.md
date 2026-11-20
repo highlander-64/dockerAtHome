@@ -6,7 +6,7 @@ Automated setup and maintenance of a self-hosted Docker environment on a home ne
 
 The project automates the full lifecycle of a home server:
 
-1. **Bare-metal OS installation** – Ubuntu 24.04 LTS via an unattended autoinstall (cloud-init)
+1. **Bare-metal OS installation** – Ubuntu 24.04 LTS or 26.04 LTS via an unattended autoinstall (cloud-init)
 2. **Base system provisioning** – Docker installation, NFS mounts, hostname, SSH banner, and git setup via Ansible
 3. **Service deployment** – All Docker services are deployed through Ansible templates and `docker compose`
 4. **OS maintenance** – Unattended system updates via a dedicated Ansible playbook
@@ -88,11 +88,13 @@ A Raspberry Pi acts as the Ansible control node. The primary Docker host (`jarvi
 
 ### 1. Prepare the Docker host
 
-1. Download the latest [Ubuntu Server 24.04 LTS](https://ubuntu.com/download/server) ISO.
+1. Download the [Ubuntu Server 24.04 LTS or 26.04 LTS](https://ubuntu.com/download/server) ISO.
 2. Create a bootable USB drive (e.g. with [Rufus](https://rufus.ie/)).
 ![Rufus](./pictures/Rufus.png)
 3. Copy `Ubuntu_setup/autoinstall.yaml`, `user-data`, `meta-data`, and `boot/grub/grub.cfg` to the USB drive root.
 4. Boot the target machine from USB – the installation runs fully unattended.
+
+**Disk selection:** The autoinstall selects the largest disk and repartitions it, deleting its existing data. To install on a different disk, adjust `storage.layout.match`; keeping the intended target disk free of partitions is recommended, but does not change the largest-disk selection by itself.
 
 > **Note:** `autoinstall.yaml` and `user-data` must be in Unix line endings (`LF`). Use `dos2unix` if needed.
 
