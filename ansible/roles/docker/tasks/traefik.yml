@@ -12,7 +12,7 @@
   check_mode: true
   loop: "{{ traefik.template_check }}"
   register: template_check_result
-  
+
 - name: Create traefik directory
   file:
     path: "{{ dockerall.compose_files_path }}traefik"
@@ -28,7 +28,7 @@
     args:
       chdir: "{{ dockerall.compose_files_path }}traefik"
     when: docker_compose.stat.exists
-  
+
   - name: Copy traefik compose file
     template:
       src: traefik.j2
@@ -36,10 +36,10 @@
       owner: docker
       group: docker
       mode: '0644'
-  
+
   - name: Start traefik container
     command: docker compose up -d
     args:
       chdir: "{{ dockerall.compose_files_path }}traefik"
-  
+
   when: template_check_result.results | selectattr('changed') | list | length > 0

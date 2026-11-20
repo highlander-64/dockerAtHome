@@ -41,7 +41,7 @@
     args:
       chdir: "{{ dockerall.compose_files_path }}jellyfin"
     when: docker_compose.stat.exists
-  
+
   - name: Copy jellyfin compose file
     template:
       src: "{{ item.src}}"
@@ -50,7 +50,7 @@
       group: docker
       mode: '0644'
     loop: "{{ jellyfin.template_check }}"
-  
+
   - name: Start jellyfin container
     command: docker compose up -d
     args:

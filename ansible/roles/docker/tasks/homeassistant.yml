@@ -12,7 +12,7 @@
   check_mode: true
   loop: "{{ homeassistant.template_check }}"
   register: template_check_result
-  
+
 - name: Create homeassistant directory
   file:
     path: "{{ dockerall.compose_files_path }}homeassistant"
@@ -36,25 +36,24 @@
 
 - name: Change docker configuration for homeassistant and restart container if needed
   block:
+    - name: Stop homeassistant container
+      command: docker compose down
+      args:
+        chdir: "{{ dockerall.compose_files_path }}homeassistant"
+      when: docker_compose.stat.exists
 
-  - name: Stop homeassistant container
-    command: docker compose down
-    args:
-      chdir: "{{ dockerall.compose_files_path }}homeassistant"
-    when: docker_compose.stat.exists
-  
-  - name: Copy homeassistant compose file
-    template:
-      src: homeassistant.j2
-      dest: "{{ dockerall.compose_files_path }}homeassistant/docker-compose.yaml"
-      owner: docker
-      group: docker
-      mode: '0644'
-  
-  - name: Start homeassistant container
-    command: docker compose up -d
-    args:
-      chdir: "{{ dockerall.compose_files_path }}homeassistant"
+    - name: Copy homeassistant compose file
+      template:
+        src: homeassistant.j2
+        dest: "{{ dockerall.compose_files_path }}homeassistant/docker-compose.yaml"
+        owner: docker
+        group: docker
+        mode: '0644'
+
+    - name: Start homeassistant container
+      command: docker compose up -d
+      args:
+        chdir: "{{ dockerall.compose_files_path }}homeassistant"
 
   when: template_check_result.results | selectattr('changed') | list | length > 0
 
@@ -66,29 +65,28 @@
 - name: Install hacs
   when: not hacs_data.stat.exists
   block:
+    - name: Copy install script
+      ansible.builtin.copy:
+        src: "{{ role_path }}/files/hacs/hacs_install.sh"
+        dest: "{{ dockerall.data_path }}homeassistant/hacs_install.sh"
+        owner: root
+        group: root
+        mode: '0775'
 
-  - name: Copy install script
-    ansible.builtin.copy:
-      src: "{{ role_path }}/files/hacs/hacs_install.sh"
-      dest: "{{ dockerall.data_path }}homeassistant/hacs_install.sh"
-      owner: root
-      group: root
-      mode: '0775'
-  
-  - name: Run hacs install script within container
-    community.docker.docker_container_exec:
-      container: homeassistant
-      command: /bin/bash /config/hacs_install.sh
-    register: script_output
-  
-  - name: Show script output
-    ansible.builtin.debug:
-      var: script_output.stdout
+    - name: Run hacs install script within container
+      community.docker.docker_container_exec:
+        container: homeassistant
+        command: /bin/bash /config/hacs_install.sh
+      register: script_output
 
-  - name: Restart home assistant container
-    command: "{{ item }}"
-    args:
-      chdir: "{{ dockerall.compose_files_path }}homeassistant"
-    with_items:
-      - "docker compose down"
-      - "docker compose up -d"
+    - name: Show script output
+      ansible.builtin.debug:
+        var: script_output.stdout
+
+    - name: Restart home assistant container
+      command: "{{ item }}"
+      args:
+        chdir: "{{ dockerall.compose_files_path }}homeassistant"
+      with_items:
+        - "docker compose down"
+        - "docker compose up -d"

@@ -1,82 +1,82 @@
 ---
 # task for nfs mount
-  - name: install nfs tools
-    apt:
-      name: nfs-common
-      state: present
-      force_apt_get: yes
-      update_cache: yes
+- name: install nfs tools
+  apt:
+    name: nfs-common
+    state: present
+    force_apt_get: yes
+    update_cache: yes
 # Create mount directory for calibre
-  - name: Ensure calibre directory exists
-    file:
-      dest: "/mnt/calibre"
-      mode: 0775
-      owner: "{{ nas.userid }}"
-      group: "{{ nas.groupid }}"
-      state: directory
+- name: Ensure calibre directory exists
+  file:
+    dest: "/mnt/calibre"
+    mode: 0775
+    owner: "{{ nas.userid }}"
+    group: "{{ nas.groupid }}"
+    state: directory
 # Mount calibre directory from Synology
-  - name: Mount share from nfs server
+- name: Mount share from nfs server
 #    become: yes
-    ansible.posix.mount:
-      src: "{{ nfs_server }}:/volume1/calibre"
-      path: /mnt/calibre
-      state: mounted
-      fstype: nfs
+  ansible.posix.mount:
+    src: "{{ nfs_server }}:/volume1/calibre"
+    path: /mnt/calibre
+    state: mounted
+    fstype: nfs
 # Create mount directory for backup
-  - name: Ensure backup directory exists
-    file:
-      dest: "/mnt/backup"
-      mode: 0775
-      state: directory
+- name: Ensure backup directory exists
+  file:
+    dest: "/mnt/backup"
+    mode: 0775
+    state: directory
 # Mount backup directory from Synology
-  - name: Mount share from nfs server
+- name: Mount share from nfs server
 #    become: yes
-    ansible.posix.mount:
-      src: "{{ nfs_server }}:/volume1/backup"
-      path: /mnt/backup
-      state: mounted
-      fstype: nfs
+  ansible.posix.mount:
+    src: "{{ nfs_server }}:/volume1/backup"
+    path: /mnt/backup
+    state: mounted
+    fstype: nfs
 # Create mount directory for video
-  - name: Ensure video directory exists
-    file:
-      dest: "/mnt/media/video"
-      mode: 0775
-      state: directory
+- name: Ensure video directory exists
+  file:
+    dest: "/mnt/media/video"
+    mode: 0775
+    state: directory
 # Mount video directory from Synology
-  - name: Mount share from nfs server
+- name: Mount share from nfs server
 #    become: yes
-    ansible.posix.mount:
-      src: "{{ nfs_server }}:/volume1/video"
-      path: /mnt/media/video
-      state: mounted
-      fstype: nfs
+  ansible.posix.mount:
+    src: "{{ nfs_server }}:/volume1/video"
+    path: /mnt/media/video
+    state: mounted
+    fstype: nfs
 # Create mount directory for music
-  - name: Ensure music directory exists
-    file:
-      dest: "/mnt/media/music"
-      mode: 0775
-      state: directory
+- name: Ensure music directory exists
+  file:
+    dest: "/mnt/media/music"
+    mode: 0775
+    state: directory
 # Mount music directory from Synology
-  - name: Mount share from nfs server
+- name: Mount share from nfs server
 #    become: yes
-    ansible.posix.mount:
-      src: "{{ nfs_server }}:/volume1/music"
-      path: /mnt/media/music
-      state: mounted
-      fstype: nfs
+  ansible.posix.mount:
+    src: "{{ nfs_server }}:/volume1/music"
+    path: /mnt/media/music
+    state: mounted
+    fstype: nfs
 # Create mount directory for paperless-ngx
-  - name: Ensure paperless-ngx directory exists
-    file:
-      dest: "/mnt/Aktenschrank"
-      mode: 0775
-      owner: "{{ nas.userid }}"
-      group: "{{ nas.groupid }}"
-      state: directory
+- name: Ensure paperless-ngx directory exists
+  file:
+    dest: "/mnt/Aktenschrank"
+    mode: 0775
+    owner: "{{ nas.userid }}"
+    group: "{{ nas.groupid }}"
+    state: directory
 # Mount paperless-ngx directory from Synology
-  - name: Mount share from nfs server
+- name: Mount share from nfs server
 #    become: yes
-    ansible.posix.mount:
-      src: "{{ nfs_server }}:/volume1/Aktenschrank"
-      path: /mnt/Aktenschrank
-      state: mounted
-      fstype: nfs
+  ansible.posix.mount:
+    src: "{{ nfs_server }}:/volume1/Aktenschrank"
+    path: /mnt/Aktenschrank
+    state: mounted
+    fstype: nfs

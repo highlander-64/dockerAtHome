@@ -36,7 +36,7 @@
         owner: docker
         group: docker
         mode: '0644'
-    
+
     - name: Start fritzbox_exporter container
       command: docker compose up -d
       args:
