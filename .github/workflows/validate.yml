@@ -47,6 +47,8 @@ jobs:
 
       - name: Check Ansible playbook syntax
         shell: bash
+        env:
+          ANSIBLE_VAULT_PASSWORD_FILE: /dev/null
         run: |
           set -euo pipefail
           for playbook in playbooks/*.yml; do

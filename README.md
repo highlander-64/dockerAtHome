@@ -170,7 +170,7 @@ To enable Renovate on GitHub:
    - `ansible-validate`
 6. Prevent force pushes to `main`. For automatic patch merges, do not require a human approval; the required checks provide the merge gate. If approvals are required, someone must approve Renovate's pull requests before they can merge.
 
-The required check names become available for selection after the `Validate` workflow in `.github/workflows/validate.yml` has run on a pull request. It runs YAML linting and Ansible playbook syntax checks; it does not deploy or test upgraded containers on the Docker host. Renovate updates and merges version changes in Git, but deployment still requires running `ansible-playbook ansible/playbooks/docker.yml` (or configuring a separate deployment workflow).
+The required check names become available for selection after the `Validate` workflow in `.github/workflows/validate.yml` has run on a pull request. It runs YAML linting and Ansible playbook syntax checks; it does not deploy or test upgraded containers on the Docker host. The syntax check uses a local inventory and overrides the Vault password-file setting with `/dev/null`, so no Vault password or production inventory is needed. Renovate updates and merges version changes in Git, but deployment still requires running `ansible-playbook ansible/playbooks/docker.yml` (or configuring a separate deployment workflow).
 
 ## Security Notes
 
