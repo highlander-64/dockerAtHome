@@ -48,10 +48,11 @@ jobs:
       - name: Check Ansible playbook syntax
         shell: bash
         env:
-          ANSIBLE_CONFIG: /dev/null
+          ANSIBLE_CONFIG: ${{ runner.temp }}/ansible-ci.cfg
           ANSIBLE_ROLES_PATH: roles
         run: |
           set -euo pipefail
+          printf '[defaults]\n' > "$ANSIBLE_CONFIG"
           for playbook in playbooks/*.yml; do
             ansible-playbook --syntax-check --inventory 'localhost,' "$playbook"
           done
