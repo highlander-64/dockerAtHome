@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/highlander-64/dockerAtHome/compare/v0.4.0...v0.4.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* Enable automated status checks for release workflow. ([#21](https://github.com/highlander-64/dockerAtHome/issues/21)) ([7589915](https://github.com/highlander-64/dockerAtHome/commit/7589915b53804c69212840167329163274e4e559))
+
 ## [0.4.0](https://github.com/highlander-64/dockerAtHome/compare/v0.3.1...v0.4.0) (2026-11-20)
 
 
