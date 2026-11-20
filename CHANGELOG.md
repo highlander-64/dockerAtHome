@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/highlander-64/dockerAtHome/compare/v0.4.1...v0.4.2) (2026-11-20)
+
+
+### Bug Fixes
+
+* Extend Renovate automerge ruleset ([#39](https://github.com/highlander-64/dockerAtHome/issues/39)) ([3234b3c](https://github.com/highlander-64/dockerAtHome/commit/3234b3ca2f19eaad143756c04f1869d46c6ff4b8))
+
 ## [0.4.1](https://github.com/highlander-64/dockerAtHome/compare/v0.4.0...v0.4.1) (2026-11-20)
 
 
