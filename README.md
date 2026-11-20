@@ -162,13 +162,14 @@ Renovate checks the image versions in `ansible/roles/docker/vars/main.yml` and o
 To enable Renovate on GitHub:
 
 1. Install the [Mend Renovate GitHub App](https://github.com/marketplace/renovate) and grant it access to this repository.
-2. Keep `renovate.json` in the repository root. Renovate will open an onboarding pull request the first time it runs; review and merge it to activate the repository configuration.
-3. In **Settings → General → Pull Requests**, enable **Allow auto-merge**.
-4. In **Settings → Rules → Rulesets**, create a ruleset targeting the `main` branch. Alternatively, configure a branch protection rule under **Settings → Branches**.
-5. Require pull requests for changes to `main` and add these required status checks:
+2. In Mend, open the repository's **Settings → Dependencies** page. Make sure **Dependency Updates** is enabled, turn **Silent mode** off, and turn **Renovate → Automated PRs** on. Otherwise Renovate may detect updates but not create branches or pull requests.
+3. Keep `renovate.json` in the repository root. If **Require config file** is enabled in Mend, ensure the file is present on the default branch. The **Create onboarding PRs** option is currently off, so do not expect an onboarding PR.
+4. In **Settings → General → Pull Requests**, enable **Allow auto-merge**.
+5. In **Settings → Rules → Rulesets**, create a ruleset targeting the `main` branch. Alternatively, configure a branch protection rule under **Settings → Branches**.
+6. Require pull requests for changes to `main` and add these required status checks:
    - `yaml-lint`
    - `ansible-validate`
-6. Prevent force pushes to `main`. For automatic patch merges, do not require a human approval; the required checks provide the merge gate. If approvals are required, someone must approve Renovate's pull requests before they can merge.
+7. Prevent force pushes to `main`. For automatic patch merges, do not require a human approval; the required checks provide the merge gate. If approvals are required, someone must approve Renovate's pull requests before they can merge.
 
 The required check names become available for selection after the `Validate` workflow in `.github/workflows/validate.yml` has run on a pull request. It runs YAML linting and Ansible playbook syntax checks; it does not deploy or test upgraded containers on the Docker host. For the syntax check, Ansible uses a local inventory and an isolated configuration, so it does not load the local `ansible.cfg`, require a Vault password, or contact production hosts. Renovate updates and merges version changes in Git, but deployment still requires running `ansible-playbook ansible/playbooks/docker.yml` (or configuring a separate deployment workflow).
 
