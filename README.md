@@ -172,6 +172,17 @@ To enable Renovate on GitHub:
 
 The required check names become available for selection after the `Validate` workflow in `.github/workflows/validate.yml` has run on a pull request. It runs YAML linting and Ansible playbook syntax checks; it does not deploy or test upgraded containers on the Docker host. For the syntax check, Ansible uses a local inventory and an isolated configuration, so it does not load the local `ansible.cfg`, require a Vault password, or contact production hosts. Renovate updates and merges version changes in Git, but deployment still requires running `ansible-playbook ansible/playbooks/docker.yml` (or configuring a separate deployment workflow).
 
+### Automated releases with Release Please
+
+The workflow `.github/workflows/release.yml` runs Release Please when changes are pushed to `main`. It creates or updates a release pull request; merging that PR creates the GitHub release and tag. The PR is not automatically merged.
+
+The workflow authenticates with a GitHub App and creates a short-lived installation token for each run. The App must be installed for this repository and have **Contents**, **Issues**, and **Pull requests** set to **Read and write**. The workflow uses these repository-level Actions entries under **Settings → Secrets and variables → Actions**:
+
+- Variable `RELEASE_APP_CLIENT_ID`: the GitHub App's Client ID.
+- Secret `RELEASE_APP_PRIVATE_KEY`: the complete contents of a private key generated in the GitHub App settings.
+
+Keep the private key in GitHub Actions secrets only; do not commit it to the repository or print it in workflow logs. GitHub generates and expires the installation token automatically, so no token needs to be stored or rotated manually.
+
 ## Security Notes
 
 - The environment is **not exposed to the internet**. All services are only reachable within the local home network via Traefik.
