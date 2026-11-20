@@ -1,0 +1,54 @@
+name: Validate
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  yaml-lint:
+    name: yaml-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install yamllint
+        run: python -m pip install yamllint
+
+      - name: Lint YAML files
+        run: yamllint -d relaxed .github ansible Ubuntu_setup
+
+  ansible-validate:
+    name: ansible-validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ansible
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Ansible
+        run: python -m pip install ansible-core
+
+      - name: Check Ansible playbook syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for playbook in playbooks/*.yml; do
+            ansible-playbook --syntax-check --inventory 'localhost,' "$playbook"
+          done

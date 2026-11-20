@@ -1,0 +1,124 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*cops:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "linuxserver/cops",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "regex:^version-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*mealie:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "ghcr.io/mealie-recipes/mealie",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*cadvisor:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "gcr.io/cadvisor/cadvisor",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*node_exporter:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "prom/node-exporter",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*grafana:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "grafana/grafana",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*prometheus:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "prom/prometheus",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*traefik:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "traefik",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*wud:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "getwud/wud",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*socket_proxy:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "tecnativa/docker-socket-proxy",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*gethomepage:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "ghcr.io/gethomepage/homepage",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*jellyfin:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "jellyfin/jellyfin",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*paperless_ngx:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "ghcr.io/paperless-ngx/paperless-ngx",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^\\s*valkey:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "depNameTemplate": "valkey/valkey",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["minor", "major"],
+      "automerge": false
+    }
+  ]
+}
