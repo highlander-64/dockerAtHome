@@ -12,7 +12,7 @@
   check_mode: true
   loop: "{{ mealie.template_check }}"
   register: template_check_result
-  
+
 - name: Create mealie directory
   file:
     path: "{{ dockerall.compose_files_path }}mealie"
@@ -41,7 +41,7 @@
     args:
       chdir: "{{ dockerall.compose_files_path }}mealie"
     when: docker_compose.stat.exists
-  
+
   - name: Copy mealie compose file
     template:
       src: mealie.j2
@@ -49,7 +49,7 @@
       owner: docker
       group: docker
       mode: '0644'
-  
+
   - name: Start mealie container
     command: docker compose up -d
     args:

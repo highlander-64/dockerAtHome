@@ -12,7 +12,7 @@
   check_mode: true
   loop: "{{ monitor_clients.template_check }}"
   register: template_check_result
-  
+
 - name: Create monitor_clients directory
   file:
     path: "{{ dockerall.compose_files_path }}monitor_clients"
@@ -28,7 +28,7 @@
     args:
       chdir: "{{ dockerall.compose_files_path }}monitor_clients"
     when: docker_compose.stat.exists
-  
+
   - name: Copy monitor_clients compose file
     template:
       src: monitor_clients.j2
@@ -36,7 +36,7 @@
       owner: docker
       group: docker
       mode: '0644'
-  
+
   - name: Start monitor_clients container
     command: docker compose up -d
     args:

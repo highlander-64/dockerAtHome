@@ -33,7 +33,7 @@
       stat:
         path: "{{ dockerall.data_path }}gethomepage-data"
       register: gethomepage_data
-    
+
     - name: Create gethomepage data directory
       file:
         path: "{{ item }}"
@@ -61,4 +61,3 @@
         chdir: "{{ dockerall.compose_files_path }}gethomepage"
 
   when: template_check_result.results | selectattr('changed') | list | length > 0
-

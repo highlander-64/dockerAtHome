@@ -1,50 +1,47 @@
 ---
-  - name: Copy docker control script file
-    template:
-      src: docker_control.j2
-      dest: "{{ dockerall.path }}{{ backup.control_filename }}"
-      owner: docker
-      group: docker
-      mode: '0775'  
-  
-  - name: Copy backup script file
-    template:
-      src: docker_backup.j2
-      dest: "{{ dockerall.path }}{{ backup.backup_filename }}"
-      owner: docker
-      group: docker
-      mode: '0775'
-      
-  - name: Copy restore script file
-    template:
-      src: docker_restore.j2
-      dest: "{{ dockerall.path }}{{ backup.restore_filename}}"
-      owner: docker
-      group: docker
-      mode: '0775'
+- name: Copy docker control script file
+  template:
+    src: docker_control.j2
+    dest: "{{ dockerall.path }}{{ backup.control_filename }}"
+    owner: docker
+    group: docker
+    mode: '0775'
 
-  - name: Create systemd service unit for backup
-    template:
-      src: systemd-service.j2
-      dest: "/etc/systemd/system/{{ backup.systemd_name }}.service"
-      owner: root
-      group: root
-      mode: "0644"
-    notify: Reload systemd
+- name: Copy backup script file
+  template:
+    src: docker_backup.j2
+    dest: "{{ dockerall.path }}{{ backup.backup_filename }}"
+    owner: docker
+    group: docker
+    mode: '0775'
 
-  - name: Create systemd timer unit for backup
-    template:
-      src: systemd-timer.j2
-      dest: "/etc/systemd/system/{{ backup.systemd_name }}.timer"
-      owner: root
-      group: root
-      mode: "0644"
-    notify: Reload systemd
-
-  - name: Enable and start timer for backup
-    ansible.builtin.systemd:
-      name: "{{ backup.systemd_name }}.timer"
-      enabled: true
-      state: started
-      daemon_reload: true
-    ignore_errors: "{{ ansible_check_mode }}"
+- name: Copy restore script file
+  template:
+    src: docker_restore.j2
+    dest: "{{ dockerall.path }}{{ backup.restore_filename}}"
+    owner: docker
+    group: docker
+    mode: '0775'
+- name: Create systemd service unit for backup
+  template:
+    src: systemd-service.j2
+    dest: "/etc/systemd/system/{{ backup.systemd_name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload systemd
+- name: Create systemd timer unit for backup
+  template:
+    src: systemd-timer.j2
+    dest: "/etc/systemd/system/{{ backup.systemd_name }}.timer"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload systemd
+- name: Enable and start timer for backup
+  ansible.builtin.systemd:
+    name: "{{ backup.systemd_name }}.timer"
+    enabled: true
+    state: started
+    daemon_reload: true
+  ignore_errors: "{{ ansible_check_mode }}"

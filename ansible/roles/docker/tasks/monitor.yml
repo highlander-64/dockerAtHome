@@ -12,7 +12,7 @@
   check_mode: true
   loop: "{{ monitor.template_check }}"
   register: template_check_result
-  
+
 - name: Create monitor directory
   file:
     path: "{{ dockerall.compose_files_path }}monitor"
@@ -40,24 +40,24 @@
 
 - name: Change docker configuration for monitor and restart container if needed
   block:
-  - name: Stop monitor container
-    command: docker compose down
-    args:
-      chdir: "{{ dockerall.compose_files_path }}monitor"
-    when: docker_compose.stat.exists
+    - name: Stop monitor container
+      command: docker compose down
+      args:
+        chdir: "{{ dockerall.compose_files_path }}monitor"
+      when: docker_compose.stat.exists
 
-  - name: Copy monitor compose file
-    template:
-      src: "{{ item.src}}"
-      dest: "{{ item.dest }}"
-      owner: docker
-      group: docker
-      mode: '0644'
-    loop: "{{ monitor.template_check }}"
-  
-  - name: Start monitor container
-    command: docker compose up -d
-    args:
-      chdir: "{{ dockerall.compose_files_path }}monitor"
+    - name: Copy monitor compose file
+      template:
+        src: "{{ item.src}}"
+        dest: "{{ item.dest }}"
+        owner: docker
+        group: docker
+        mode: '0644'
+      loop: "{{ monitor.template_check }}"
+
+    - name: Start monitor container
+      command: docker compose up -d
+      args:
+        chdir: "{{ dockerall.compose_files_path }}monitor"
 
   when: template_check_result.results | selectattr('changed') | list | length > 0

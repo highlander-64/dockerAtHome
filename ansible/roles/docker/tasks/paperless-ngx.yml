@@ -41,24 +41,24 @@
 
 - name: Change docker configuration for paperless-ngx and restart container if needed
   block:
-  - name: Stop paperless-ngx container
-    command: docker compose down
-    args:
-      chdir: "{{ dockerall.compose_files_path }}paperless-ngx"
-    when: docker_compose.stat.exists
+    - name: Stop paperless-ngx container
+      command: docker compose down
+      args:
+        chdir: "{{ dockerall.compose_files_path }}paperless-ngx"
+      when: docker_compose.stat.exists
 
-  - name: Copy paperless-ngx compose file
-    template:
-      src: "{{ item.src}}"
-      dest: "{{ item.dest }}"
-      owner: docker
-      group: docker
-      mode: '0644'
-    loop: "{{ paperless_ngx.template_check }}"
+    - name: Copy paperless-ngx compose file
+      template:
+        src: "{{ item.src}}"
+        dest: "{{ item.dest }}"
+        owner: docker
+        group: docker
+        mode: '0644'
+      loop: "{{ paperless_ngx.template_check }}"
 
-  - name: Start paperless-ngx container
-    command: docker compose up -d
-    args:
-      chdir: "{{ dockerall.compose_files_path }}paperless-ngx"
+    - name: Start paperless-ngx container
+      command: docker compose up -d
+      args:
+        chdir: "{{ dockerall.compose_files_path }}paperless-ngx"
 
   when: template_check_result.results | selectattr('changed') | list | length > 0

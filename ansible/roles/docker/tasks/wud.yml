@@ -12,7 +12,7 @@
   check_mode: true
   loop: "{{ wud.template_check }}"
   register: template_check_result
-  
+
 - name: Create wud directory
   file:
     path: "{{ dockerall.compose_files_path }}wud"
@@ -28,7 +28,7 @@
     args:
       chdir: "{{ dockerall.compose_files_path }}wud"
     when: docker_compose.stat.exists
-  
+
   - name: Copy wud compose file
     template:
       src: wud.j2
@@ -36,7 +36,7 @@
       owner: docker
       group: docker
       mode: '0644'
-  
+
   - name: Start wud container
     command: docker compose up -d
     args:
