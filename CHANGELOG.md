@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/highlander-64/dockerAtHome/compare/v0.3.0...v0.3.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* Fine tuning automated Linux setup ([#17](https://github.com/highlander-64/dockerAtHome/issues/17)) ([cc5e3f9](https://github.com/highlander-64/dockerAtHome/commit/cc5e3f9e7241a1e600fcd35aea2e92ad0feda7ec))
+
 ## [0.3.0](https://github.com/highlander-64/dockerAtHome/compare/v0.2.3...v0.3.0) (2026-10-09)
 
 
