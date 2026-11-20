@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/highlander-64/dockerAtHome/compare/v0.3.1...v0.4.0) (2026-11-20)
+
+
+### Features
+
+* Adding configuration for auto-update of docker versions ([#19](https://github.com/highlander-64/dockerAtHome/issues/19)) ([155799e](https://github.com/highlander-64/dockerAtHome/commit/155799e84112a2b301f534ca44061dc8c2e56de8))
+
 ## [0.3.1](https://github.com/highlander-64/dockerAtHome/compare/v0.3.0...v0.3.1) (2026-11-20)
 
 
