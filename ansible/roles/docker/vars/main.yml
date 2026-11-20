@@ -14,7 +14,7 @@ docker:
   cops: version-4.5.4
   fritzbox_exporter: 50ebd8ff4588208b46fe7caed312903e18f96d3b
   homeassistant: stable
-  mealie: v3.28.0
+  mealie: v3.31.0
   cadvisor: v0.55.1
   node_exporter: v1.12.1
   grafana: 13.2.3
