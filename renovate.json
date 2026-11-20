@@ -5,7 +5,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*cops:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*cops:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "linuxserver/cops",
       "datasourceTemplate": "docker",
       "versioningTemplate": "regex:^version-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
@@ -13,7 +13,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*mealie:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*mealie:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "ghcr.io/mealie-recipes/mealie",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -21,7 +21,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*cadvisor:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*cadvisor:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "gcr.io/cadvisor/cadvisor",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -29,7 +29,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*node_exporter:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*node_exporter:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "prom/node-exporter",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -37,7 +37,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*grafana:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*grafana:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "grafana/grafana",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -45,7 +45,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*prometheus:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*prometheus:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "prom/prometheus",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -53,7 +53,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*traefik:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*traefik:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "traefik",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -61,7 +61,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*wud:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*wud:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "getwud/wud",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -69,7 +69,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*socket_proxy:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*socket_proxy:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "tecnativa/docker-socket-proxy",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -77,7 +77,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*gethomepage:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*gethomepage:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "ghcr.io/gethomepage/homepage",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -85,7 +85,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*jellyfin:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*jellyfin:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "jellyfin/jellyfin",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -93,7 +93,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*paperless_ngx:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*paperless_ngx:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "ghcr.io/paperless-ngx/paperless-ngx",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
@@ -101,7 +101,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
-      "matchStrings": ["(?m)^\\s*valkey:\\s*(?<currentValue>[^\\s#]+)\\s*$"],
+      "matchStrings": ["(?m)^[ \\t]*valkey:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "valkey/valkey",
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
