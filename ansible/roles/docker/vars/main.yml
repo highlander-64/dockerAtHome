@@ -18,7 +18,7 @@ docker:
   cadvisor: v0.55.1
   node_exporter: v1.13.1
   grafana: 13.3.1
-  prometheus: v3.15.0
+  prometheus: v3.16.0
   traefik: v3.7.19
   wud: 9.8.0
   socket_proxy: v0.5.0
