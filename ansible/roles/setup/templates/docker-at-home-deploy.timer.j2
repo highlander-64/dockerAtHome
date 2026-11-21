@@ -1,0 +1,12 @@
+[Unit]
+Description=Run dockerAtHome deployment weekly
+
+[Timer]
+{% for calendar in setup_git.timer_calendar %}
+OnCalendar={{ calendar }}
+{% endfor %}
+RandomizedDelaySec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

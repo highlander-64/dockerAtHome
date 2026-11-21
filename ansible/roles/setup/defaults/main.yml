@@ -1,2 +1,13 @@
 ---
 # defaults file for setup
+
+setup_git:
+  repo_path: /home/ansible/dockerAtHome
+  repo_url: git@github.com:highlander-64/dockerAtHome.git
+  branch: main
+  marker_path: /var/lib/docker-at-home/deployed-commit
+  deploy_script: /usr/local/bin/docker-at-home-deploy
+  timer_name: docker-at-home-deploy
+  timer_calendar:
+    - "Sat *-*-* 08:00:00"
+    - "Sun *-*-* 06:00:00"

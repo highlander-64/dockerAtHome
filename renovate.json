@@ -1,6 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
+  "timezone": "Europe/Berlin",
+  "schedule": ["before 5am on Saturday"],
+  "minimumReleaseAge": "3 days",
   "customManagers": [
     {
       "customType": "regex",

@@ -1,0 +1,33 @@
+#!/bin/bash
+set -euo pipefail
+
+repo={{ setup_git.repo_path | quote }}
+branch={{ setup_git.branch | quote }}
+marker={{ setup_git.marker_path | quote }}
+
+cd "$repo"
+git fetch --prune origin
+git checkout -q "$branch"
+git merge --ff-only "origin/$branch"
+
+if [[ -n "$(git status --porcelain)" ]]; then
+    echo "Repository has local changes; refusing deployment" >&2
+    exit 1
+fi
+
+target=$(git rev-parse HEAD)
+deployed=""
+if [[ -f "$marker" ]]; then
+    deployed=$(cat "$marker")
+fi
+
+if [[ "$target" == "$deployed" ]]; then
+    exit 0
+fi
+
+cd "$repo/ansible"
+ansible-playbook playbooks/docker.yml --vault-password-file ~/.password-store/ansible-vault-password
+
+install -m 0644 /dev/null "${marker}.tmp"
+printf '%s\n' "$target" > "${marker}.tmp"
+mv "${marker}.tmp" "$marker"

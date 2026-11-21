@@ -1,0 +1,11 @@
+[Unit]
+Description=Deploy dockerAtHome after Renovate updates
+
+[Service]
+Type=oneshot
+User=ansible
+Group=ansible
+ExecStart={{ setup_git.deploy_script }}
+WorkingDirectory={{ setup_git.repo_path }}
+StandardOutput=journal
+StandardError=journal

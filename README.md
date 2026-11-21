@@ -171,7 +171,9 @@ To enable Renovate on GitHub:
    - `ansible-validate`
 7. Prevent force pushes to `main`. For automatic patch and minor merges, do not require a human approval; the required checks provide the merge gate. If approvals are required, someone must approve Renovate's pull requests before they can merge.
 
-The required check names become available for selection after the `Validate` workflow in `.github/workflows/validate.yml` has run on a pull request. It runs YAML linting and Ansible playbook syntax checks; it does not deploy or test upgraded containers on the Docker host. For the syntax check, Ansible uses a local inventory and an isolated configuration, so it does not load the local `ansible.cfg`, require a Vault password, or contact production hosts. Renovate updates and merges version changes in Git, but deployment still requires running `ansible-playbook ansible/playbooks/docker.yml` (or configuring a separate deployment workflow).
+The required check names become available for selection after the `Validate` workflow in `.github/workflows/validate.yml` has run on a pull request. It runs YAML linting and Ansible playbook syntax checks; it does not deploy or test upgraded containers on the Docker host. For the syntax check, Ansible uses a local inventory and an isolated configuration, so it does not load the local `ansible.cfg`, require a Vault password, or contact production hosts.
+
+Renovate updates and merges version changes in Git. The setup role also configures the Ansible control host to pull the repository and deploy the Docker playbook automatically. The repository location is configurable with `setup_git.repo_path` and defaults to `/home/ansible/dockerAtHome`. The timer runs on Saturday at 08:00 and Sunday at 06:00 in the system timezone, and retries are persistent after missed runs. GitHub does not receive any access to the Raspberry Pi.
 
 ### Automated releases with Release Please
 
