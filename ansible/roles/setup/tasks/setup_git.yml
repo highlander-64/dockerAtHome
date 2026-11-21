@@ -1,15 +1,87 @@
 ---
-- name: copy ssh config file for git
-  copy:
+- name: Copy SSH config file for git
+  ansible.builtin.copy:
     src: config
     dest: /home/ansible/.ssh/config
     owner: ansible
     group: ansible
-    mode: '0600'
-- name: copy gitconfig file
-  copy:
+    mode: "0600"
+
+- name: Copy gitconfig file
+  ansible.builtin.copy:
     src: .gitconfig
     dest: /home/ansible/.gitconfig
     owner: ansible
     group: ansible
-    mode: '0644'
+    mode: "0644"
+
+- name: Ensure repository parent directory exists
+  ansible.builtin.file:
+    path: "{{ setup_git.repo_path | dirname }}"
+    state: directory
+    owner: ansible
+    group: ansible
+    mode: "0755"
+
+- name: Check whether repository is already initialized
+  ansible.builtin.stat:
+    path: "{{ setup_git.repo_path }}/.git"
+  register: docker_at_home_git
+
+- name: Clone dockerAtHome repository
+  become: true
+  become_user: ansible
+  ansible.builtin.git:
+    repo: "{{ setup_git.repo_url }}"
+    dest: "{{ setup_git.repo_path }}"
+    version: "{{ setup_git.branch }}"
+    accept_hostkey: true
+    update: false
+  when: not docker_at_home_git.stat.exists
+
+- name: Ensure repository directory is owned by the ansible user
+  ansible.builtin.file:
+    path: "{{ setup_git.repo_path }}"
+    state: directory
+    owner: ansible
+    group: ansible
+    recurse: true
+
+- name: Ensure deployed commit marker directory exists
+  ansible.builtin.file:
+    path: "{{ setup_git.marker_path | dirname }}"
+    state: directory
+    owner: ansible
+    group: ansible
+    mode: "0755"
+
+- name: Install dockerAtHome deployment script
+  ansible.builtin.template:
+    src: docker-at-home-deploy.j2
+    dest: "{{ setup_git.deploy_script }}"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install dockerAtHome systemd service
+  ansible.builtin.template:
+    src: docker-at-home-deploy.service.j2
+    dest: "/etc/systemd/system/{{ setup_git.timer_name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install dockerAtHome systemd timer
+  ansible.builtin.template:
+    src: docker-at-home-deploy.timer.j2
+    dest: "/etc/systemd/system/{{ setup_git.timer_name }}.timer"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Enable and start dockerAtHome deployment timer
+  ansible.builtin.systemd:
+    name: "{{ setup_git.timer_name }}.timer"
+    enabled: true
+    state: started
+    daemon_reload: true
