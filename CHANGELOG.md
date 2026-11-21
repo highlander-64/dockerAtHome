@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/highlander-64/dockerAtHome/compare/v0.4.2...v0.4.3) (2026-11-21)
+
+
+### Bug Fixes
+
+* Add scheduler for renovate and a systemctl job to automatize the deployment ([#41](https://github.com/highlander-64/dockerAtHome/issues/41)) ([82df520](https://github.com/highlander-64/dockerAtHome/commit/82df520523113e037598675e70610a367abcd537))
+
 ## [0.4.2](https://github.com/highlander-64/dockerAtHome/compare/v0.4.1...v0.4.2) (2026-11-20)
 
 
