@@ -12,7 +12,7 @@ services:
     image: linuxserver/cops:{{ docker.cops }}
     container_name: cops
     environment:
-      - PUID=1027
+      - PUID={{ nas.userid }}
       - PGID={{ dockerall.group }}
       - TZ=Europe/London
     volumes:
