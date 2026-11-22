@@ -13,8 +13,8 @@
       template:
         src: "{{ item.src}}"
         dest: "{{ item.dest }}"
-        owner: "{{ nas.userid }}"
-        group: users
+        owner: "{{ item.user }}"
+        group: "{{ item.group }}"
         mode: '0644'
       loop: "{{ cops.templates }}"
 
