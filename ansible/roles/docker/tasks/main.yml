@@ -1,41 +1,81 @@
 ---
-# Create docker networks
-- name: Create docker external network
-  include_tasks: docker_network.yml
+- name: Initialize Docker role failure list
+  ansible.builtin.set_fact:
+    docker_role_failures: []
 
-# tasks file for setup
+- name: Create Docker networks
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: docker_network.yml
+
 - name: Install scripts and systemd for backup
-  include_tasks: backup.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: backup.yml
 
 - name: Install traefik
-  include_tasks: traefik.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: traefik.yml
 
 - name: Install fritzbox exporter
-  include_tasks: fritzbox_exporter.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: fritzbox_exporter.yml
 
 - name: Install monitor clients
-  include_tasks: monitor_clients.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: monitor_clients.yml
 
 - name: Install monitor toolset
-  include_tasks: monitor.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: monitor.yml
 
 - name: Install mealie
-  include_tasks: mealie.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: mealie.yml
 
 - name: Install cops
-  include_tasks: cops.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: cops.yml
 
 - name: Install wud
-  include_tasks: wud.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: wud.yml
 
 - name: Install homeassistant
-  include_tasks: homeassistant.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: homeassistant.yml
 
 - name: Install gethomepage
-  include_tasks: gethomepage.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: gethomepage.yml
 
 - name: Install jellyfin
-  include_tasks: jellyfin.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: jellyfin.yml
 
 - name: Install paperless-ngx
-  include_tasks: paperless-ngx.yml
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: paperless-ngx.yml
+
+- name: Prune unused Docker resources
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: prune.yml
+
+- name: Fail after all Docker tasks if any task failed
+  ansible.builtin.fail:
+    msg: >-
+      {{ docker_role_failures | length }} Docker task section(s) failed:
+      {{ docker_role_failures | join('; ') }}
+  when: docker_role_failures | length > 0

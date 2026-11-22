@@ -1,47 +1,21 @@
 ---
 # task to setup homeassistant
-- name: Check, if docker-compose file exists
-  stat:
-    path: "{{ dockerall.compose_files_path }}homeassistant/docker-compose.yaml"
-  register: docker_compose
-
-- name: Check, if one of the files will be changed
-  template:
-    src: "{{ item.src}}"
-    dest: "{{ item.dest }}"
-  check_mode: true
-  loop: "{{ homeassistant.template_check }}"
-  register: template_check_result
-
 - name: Create homeassistant directory
-  file:
+  ansible.builtin.file:
     path: "{{ dockerall.compose_files_path }}homeassistant"
     state: directory
     owner: docker
     group: docker
-  when: not docker_compose.stat.exists
-
-- name: Check, if homeassistant data folder exists
-  stat:
-    path: "{{ dockerall.data_path }}homeassistant"
-  register: homeassistant_data
 
 - name: Create homeassistant data directory
-  file:
+  ansible.builtin.file:
     path: "{{ dockerall.data_path }}homeassistant"
     state: directory
     owner: docker
     group: docker
-  when: not homeassistant_data.stat.exists
 
-- name: Change docker configuration for homeassistant and restart container if needed
+- name: Configure homeassistant and ensure its containers are running
   block:
-    - name: Stop homeassistant container
-      command: docker compose down
-      args:
-        chdir: "{{ dockerall.compose_files_path }}homeassistant"
-      when: docker_compose.stat.exists
-
     - name: Copy homeassistant compose file
       template:
         src: homeassistant.j2
@@ -50,43 +24,7 @@
         group: docker
         mode: '0644'
 
-    - name: Start homeassistant container
-      command: docker compose up -d
-      args:
-        chdir: "{{ dockerall.compose_files_path }}homeassistant"
-
-  when: template_check_result.results | selectattr('changed') | list | length > 0
-
-- name: Check, if hacs for home assistant is installed.
-  stat:
-    path: "{{ dockerall.data_path }}homeassistant/custom_components/hacs"
-  register: hacs_data
-
-- name: Install hacs
-  when: not hacs_data.stat.exists
-  block:
-    - name: Copy install script
-      ansible.builtin.copy:
-        src: "{{ role_path }}/files/hacs/hacs_install.sh"
-        dest: "{{ dockerall.data_path }}homeassistant/hacs_install.sh"
-        owner: root
-        group: root
-        mode: '0775'
-
-    - name: Run hacs install script within container
-      community.docker.docker_container_exec:
-        container: homeassistant
-        command: /bin/bash /config/hacs_install.sh
-      register: script_output
-
-    - name: Show script output
-      ansible.builtin.debug:
-        var: script_output.stdout
-
-    - name: Restart home assistant container
-      command: "{{ item }}"
-      args:
-        chdir: "{{ dockerall.compose_files_path }}homeassistant"
-      with_items:
-        - "docker compose down"
-        - "docker compose up -d"
+    - name: Ensure homeassistant containers are running
+      community.docker.docker_compose_v2:
+        project_src: "{{ dockerall.compose_files_path }}homeassistant"
+        state: present

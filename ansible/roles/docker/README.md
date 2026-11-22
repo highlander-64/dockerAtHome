@@ -8,6 +8,16 @@ Installation and update of different applications based on docker using docker c
 
 Ansible is installed on a Raspberry Pi. Secrets are encrypted with Ansible Vault using a password file. This is not recommended, if you are running your environment not on a trusted local network!
 
+Install the required Docker collection on the Ansible control node:
+
+    ansible-galaxy collection install -r requirements.yml
+
+The target host must have Docker Compose v2 available. Failed Docker task sections are recorded while the remaining services are processed; the role then exits with a failure so scheduled systemd jobs report the run as unsuccessful.
+
+Each Compose project is reconciled on every run with `community.docker.docker_compose_v2`; Compose recreates containers when the project configuration requires it. Prometheus is explicitly recreated when its separately mounted configuration file changes.
+
+At the end of each run, the role prunes stopped containers, unused images older than seven days, unused networks, unused anonymous volumes, and Docker build cache. Named volumes are not removed by this prune task.
+
 ## Role Variables
 
 Variables, which are used for all playbooks, are stored in group_vars/all/all.yml

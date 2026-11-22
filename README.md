@@ -80,9 +80,14 @@ A Raspberry Pi acts as the Ansible control node. The primary Docker host (`jarvi
 
   ```bash
   sudo apt install ansible
+  ansible-galaxy collection install -r ansible/requirements.yml
   ```
 
 - Ansible Vault for secret management (FritzBox credentials are vault-encrypted)
+
+### NFS ownership and Ansible warnings
+
+The Paperless-ngx directories on the NFS share are assigned the numeric owner ID `1027` (`nas.userid` in `ansible/inventory/group_vars/all/all.yml`). If that UID has no matching user account on the Docker host, Ansible may warn that it could not look up UID 1027. This is expected: the numeric ownership is intentional so it matches the user on the NFS server, and the warning does not prevent the permissions from being applied. There is no need to create a local account solely to silence this warning. Avoid disabling Ansible action warnings globally, as that would also hide unrelated warnings.
 
 ## Getting Started
 
@@ -131,7 +136,7 @@ This installs Docker, configures NFS mounts, sets hostnames, and prepares the gi
 ansible-playbook ansible/playbooks/docker.yml
 ```
 
-This deploys all containers defined in the `docker` role using individual `docker compose` stacks.
+This deploys all containers defined in the `docker` role using the `community.docker` Ansible collection. Failed service deployments do not prevent the remaining services from being processed, but the playbook exits with a failure if any Docker task fails.
 
 ## Maintenance
 
@@ -153,7 +158,7 @@ Image versions are centrally managed in `ansible/roles/docker/vars/main.yml`. Up
 ansible-playbook ansible/playbooks/docker.yml
 ```
 
-The playbook safely stops the existing container, applies the new compose file, and starts it again.
+The playbook applies the new compose configuration with the `community.docker` collection, which recreates services when required.
 
 ### Automated image updates with Renovate
 

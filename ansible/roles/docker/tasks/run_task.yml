@@ -1,0 +1,9 @@
+- name: Run Docker task file {{ docker_task_file }}
+  block:
+    - name: Include Docker task file {{ docker_task_file }}
+      ansible.builtin.include_tasks: "{{ docker_task_file }}"
+  rescue:
+    - name: Record failure and continue with the remaining Docker tasks
+      ansible.builtin.set_fact:
+        docker_role_failures: >-
+          {{ docker_role_failures + [docker_task_file ~ ': ' ~ ansible_failed_task.name ~ ': ' ~ (ansible_failed_result.msg | default('task failed without an error message'))] }}

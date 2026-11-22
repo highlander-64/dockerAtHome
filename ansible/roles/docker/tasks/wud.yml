@@ -1,34 +1,14 @@
 ---
 # task to setup cops
-- name: Check, if docker-compose file exists
-  stat:
-    path: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml"
-  register: docker_compose
-
-- name: Check, if one of the files will be changed
-  template:
-    src: "{{ item.src}}"
-    dest: "{{ item.dest }}"
-  check_mode: true
-  loop: "{{ wud.template_check }}"
-  register: template_check_result
-
 - name: Create wud directory
-  file:
+  ansible.builtin.file:
     path: "{{ dockerall.compose_files_path }}wud"
     state: directory
     owner: docker
     group: docker
-  when: not docker_compose.stat.exists
 
-- name: Change docker configuration for wud and restart container if needed
+- name: Configure wud and ensure its containers are running
   block:
-  - name: Stop wud container
-    command: docker compose down
-    args:
-      chdir: "{{ dockerall.compose_files_path }}wud"
-    when: docker_compose.stat.exists
-
   - name: Copy wud compose file
     template:
       src: wud.j2
@@ -37,9 +17,7 @@
       group: docker
       mode: '0644'
 
-  - name: Start wud container
-    command: docker compose up -d
-    args:
-      chdir: "{{ dockerall.compose_files_path }}wud"
-
-  when: template_check_result.results | selectattr('changed') | list | length > 0
+  - name: Ensure wud containers are running
+    community.docker.docker_compose_v2:
+      project_src: "{{ dockerall.compose_files_path }}wud"
+      state: present
