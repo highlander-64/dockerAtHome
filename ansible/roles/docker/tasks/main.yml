@@ -68,6 +68,11 @@
   vars:
     docker_task_file: paperless-ngx.yml
 
+- name: Prune unused Docker resources
+  ansible.builtin.include_tasks: run_task.yml
+  vars:
+    docker_task_file: prune.yml
+
 - name: Fail after all Docker tasks if any task failed
   ansible.builtin.fail:
     msg: >-
