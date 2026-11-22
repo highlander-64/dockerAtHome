@@ -14,7 +14,7 @@
         path: "{{ item }}"
         state: directory
         owner: docker
-        group: docker
+        group: users
       loop:
         - "{{ dockerall.data_path }}gethomepage-data"
         - "{{ dockerall.data_path }}gethomepage-data/images"
@@ -25,7 +25,7 @@
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
         owner: docker
-        group: docker
+        group: users
         mode: '0644'
       loop: "{{ gethomepage.templates }}"
 
