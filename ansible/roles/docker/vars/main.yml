@@ -29,7 +29,7 @@ docker:
 
 cops:
   templates:
-    - { src: cops.j2, dest: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml", user: docker", group: docker }
+    - { src: cops.j2, dest: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml", user: docker, group: docker }
     - { src: cops_local_php.j2, dest: "{{ dockerall.compose_files_path }}cops/local.php", user: "{{ nas.userid }}", group: "{{ dockerall.group }}" }
 
 fritzbox_exporter:
