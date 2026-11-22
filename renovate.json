@@ -24,6 +24,14 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
+      "matchStrings": ["(?m)^[ \\t]*homeassistant:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
+      "depNameTemplate": "ghcr.io/home-assistant/home-assistant",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^ansible\\/roles\\/docker\\/vars\\/main\\.yml$/"],
       "matchStrings": ["(?m)^[ \\t]*cadvisor:[ \\t]*(?<currentValue>[^\\s#]+)[ \\t\\r]*$"],
       "depNameTemplate": "gcr.io/cadvisor/cadvisor",
       "datasourceTemplate": "docker",
@@ -122,6 +130,16 @@
     {
       "matchManagers": ["custom.regex"],
       "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "matchDepNames": ["ghcr.io/home-assistant/home-assistant"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "matchDepNames": ["ghcr.io/home-assistant/home-assistant"],
+      "matchUpdateTypes": ["minor", "major"],
       "automerge": false
     }
   ]

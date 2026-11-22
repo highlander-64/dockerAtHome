@@ -13,7 +13,7 @@ backup:
 docker:
   cops: version-4.6.1
   fritzbox_exporter: 50ebd8ff4588208b46fe7caed312903e18f96d3b
-  homeassistant: stable
+  homeassistant: 2026.11.2
   mealie: v3.31.0
   cadvisor: v0.55.1
   node_exporter: v1.13.1
@@ -28,18 +28,18 @@ docker:
   paperless_ngx: 3.5.1
 
 cops:
-  template_check:
+  templates:
     - { src: cops.j2, dest: "{{ dockerall.compose_files_path }}cops/docker-compose.yaml" }
     - { src: cops_local_php.j2, dest: "{{ dockerall.compose_files_path }}cops/local.php" }
 
 fritzbox_exporter:
   user: monitor
   gateway: http://192.168.10.1:49000
-  template_check:
+  templates:
     - { src: fritzbox_exporter.j2, dest: "{{ dockerall.compose_files_path }}fritzbox_exporter/docker-compose.yaml" }
 
 gethomepage:
-  template_check:
+  templates:
     - { src: gethomepage.j2, dest: "{{ dockerall.compose_files_path }}gethomepage/docker-compose.yaml" }
     - { src: gethomepage-settings.j2, dest: "{{ dockerall.data_path }}gethomepage-data/settings.yaml" }
     - { src: gethomepage-docker.j2, dest: "{{ dockerall.data_path }}gethomepage-data/docker.yaml" }
@@ -48,36 +48,36 @@ gethomepage:
     - { src: gethomepage-bookmarks.j2, dest: "{{ dockerall.data_path }}gethomepage-data/bookmarks.yaml" }
 
 homeassistant:
-  template_check:
+  templates:
     - { src: homeassistant.j2, dest: "{{ dockerall.compose_files_path }}homeassistant/docker-compose.yaml" }
 
 jellyfin:
-  template_check:
+  templates:
     - { src: jellyfin.j2, dest: "{{ dockerall.compose_files_path }}jellyfin/docker-compose.yaml" }
 
 mealie:
-  template_check:
+  templates:
     - { src: mealie.j2, dest: "{{ dockerall.compose_files_path }}mealie/docker-compose.yaml" }
 
 monitor_clients:
-  template_check:
+  templates:
     - { src: monitor_clients.j2, dest: "{{ dockerall.compose_files_path }}monitor_clients/docker-compose.yaml" }
 
 monitor:
-  template_check:
+  templates:
     - { src: monitor.j2, dest: "{{ dockerall.compose_files_path }}monitor/docker-compose.yaml" }
     - { src: prometheus.j2, dest: "{{ dockerall.data_path }}monitor/prometheus.yml" }
 
 traefik:
-  template_check:
+  templates:
     - { src: traefik.j2, dest: "{{ dockerall.compose_files_path }}traefik/docker-compose.yaml" }
 
 wud:
-  template_check:
+  templates:
     - { src: wud.j2, dest: "{{ dockerall.compose_files_path }}wud/docker-compose.yaml" }
 
 paperless_ngx:
-  template_check:
+  templates:
     - { src: paperless-ngx.j2, dest: "{{ dockerall.compose_files_path }}paperless-ngx/docker-compose.yaml" }
   mediafolder: /mnt/Aktenschrank/Ablage
   consumefolder: /mnt/Aktenschrank/Eingang
