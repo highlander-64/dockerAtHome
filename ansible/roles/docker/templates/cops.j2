@@ -35,5 +35,11 @@ services:
     ports:
       - 8081:80
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     networks:
       - {{ dockerall.external_network }}
