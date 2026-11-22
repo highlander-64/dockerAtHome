@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.5](https://github.com/highlander-64/dockerAtHome/compare/v0.4.4...v0.4.5) (2026-11-22)
+
+
+### Bug Fixes
+
+* Set cops user settings ([#47](https://github.com/highlander-64/dockerAtHome/issues/47)) ([3a97d3d](https://github.com/highlander-64/dockerAtHome/commit/3a97d3d351c89b2b04705232df8bf7c1fde7f9c0))
+
 ## [0.4.4](https://github.com/highlander-64/dockerAtHome/compare/v0.4.3...v0.4.4) (2026-11-22)
 
 
