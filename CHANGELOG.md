@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.4](https://github.com/highlander-64/dockerAtHome/compare/v0.4.3...v0.4.4) (2026-11-22)
+
+
+### Bug Fixes
+
+* Fix homeassistant and some minor changes ([#43](https://github.com/highlander-64/dockerAtHome/issues/43)) ([0f00da5](https://github.com/highlander-64/dockerAtHome/commit/0f00da5644bb801669fc74e4cdd54e7d1b0bf204))
+
 ## [0.4.3](https://github.com/highlander-64/dockerAtHome/compare/v0.4.2...v0.4.3) (2026-11-21)
 
 
