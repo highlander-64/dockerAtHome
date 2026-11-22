@@ -2,7 +2,7 @@
 # tasks file for setup
 - name: Install Docker
   include_tasks: setup_docker.yml
-  when: "'docker' in group_names"
+  when: "'docker' in group_names or 'playgrounds' in group_names"
 - name: Set banner
   include_tasks: set_banner.yml
 - name: Set hostnames
