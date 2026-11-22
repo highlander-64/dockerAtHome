@@ -85,6 +85,10 @@ A Raspberry Pi acts as the Ansible control node. The primary Docker host (`jarvi
 
 - Ansible Vault for secret management (FritzBox credentials are vault-encrypted)
 
+### NFS ownership and Ansible warnings
+
+The Paperless-ngx directories on the NFS share are assigned the numeric owner ID `1027` (`nas.userid` in `ansible/inventory/group_vars/all/all.yml`). If that UID has no matching user account on the Docker host, Ansible may warn that it could not look up UID 1027. This is expected: the numeric ownership is intentional so it matches the user on the NFS server, and the warning does not prevent the permissions from being applied. There is no need to create a local account solely to silence this warning. Avoid disabling Ansible action warnings globally, as that would also hide unrelated warnings.
+
 ## Getting Started
 
 ### 1. Prepare the Docker host
