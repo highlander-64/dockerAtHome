@@ -20,7 +20,7 @@ docker:
   grafana: 13.3.1
   prometheus: v3.16.0
   traefik: v3.7.19
-  wud: 9.8.0
+  wud: 9.9.0
   socket_proxy: v0.5.0
   gethomepage: v2.8.0
   jellyfin: 12.2
